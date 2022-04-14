@@ -1,0 +1,597 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="俄乌网络战中出现的四种数据擦除器：     发现时间    WhisperGate 2022年1月13日   HermeticWiper 2022年2月24日   IsaacWiper 2022年2月24日   CaddyWiper 2022年3月14日   样本信息2022年2月24日，俄乌冲突逐渐升级。一款名为“ HermeticWiper”（又名KillDisk.NCV）的新型数据擦除恶意软">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HermeticWiper病毒分析">
+<meta property="og:url" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Demo">
+<meta property="og:description" content="俄乌网络战中出现的四种数据擦除器：     发现时间    WhisperGate 2022年1月13日   HermeticWiper 2022年2月24日   IsaacWiper 2022年2月24日   CaddyWiper 2022年3月14日   样本信息2022年2月24日，俄乌冲突逐渐升级。一款名为“ HermeticWiper”（又名KillDisk.NCV）的新型数据擦除恶意软">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414093929205.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094020626.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094031703.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094100796.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094143835.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094228752.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094238939.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094247118.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414110431872.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094359696.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094416604.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094441573.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094501429.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094508536.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094528656.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094543758.png">
+<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414105723656.png">
+<meta property="article:published_time" content="2022-04-14T03:18:31.000Z">
+<meta property="article:modified_time" content="2022-04-14T03:20:15.015Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="HermeticWiper">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414093929205.png">
+  
+  
+  <title>HermeticWiper病毒分析 - Demo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="HermeticWiper病毒分析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-14 11:18" pubdate>
+        2022年4月14日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">HermeticWiper病毒分析</h1>
+            
+            <div class="markdown-body">
+              <p>俄乌网络战中出现的四种数据擦除器：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">发现时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">WhisperGate</td>
+<td align="center">2022年1月13日</td>
+</tr>
+<tr>
+<td align="center"><em><strong>HermeticWiper</strong></em></td>
+<td align="center"><em><strong>2022年2月24日</strong></em></td>
+</tr>
+<tr>
+<td align="center">IsaacWiper</td>
+<td align="center">2022年2月24日</td>
+</tr>
+<tr>
+<td align="center">CaddyWiper</td>
+<td align="center">2022年3月14日</td>
+</tr>
+</tbody></table>
+<h2 id="样本信息"><a href="#样本信息" class="headerlink" title="样本信息"></a>样本信息</h2><p>2022年2月24日，俄乌冲突逐渐升级。一款名为“ HermeticWiper”（又名KillDisk.NCV）的新型数据擦除恶意软件在乌克兰的数百台重要的计算机上被发现，涉及乌克兰的金融和政府承包商，导致相关组织的系统设备数据遭到摧毁，其中一次入侵涉及直接从Windows域控制器部署恶意软件。此次攻击还包括HermeticWizard（横向移动）、HermeticRansom（加密勒索）两个组件，但是样本质量不高，影响不大，真正构成威胁的仍是“HermeticWiper”。对于“HermeticWiper”恶意软件，详情如下：</p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>HermeticWiper.exe</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MD5</td>
+<td>3F4A16B29F2F0532B7CE3E7656799125</td>
+</tr>
+<tr>
+<td>SHA1</td>
+<td>61B25D11392172E587D8DA3045812A66C3385451</td>
+</tr>
+<tr>
+<td>CRC32</td>
+<td>4D4E5EAD</td>
+</tr>
+<tr>
+<td>文件大小</td>
+<td>117,000 字节</td>
+</tr>
+<tr>
+<td>数字签名</td>
+<td>Hermetica Digital Ltd</td>
+</tr>
+<tr>
+<td>病毒类型</td>
+<td>Trojan.Win32.HermeticWiper.a</td>
+</tr>
+</tbody></table>
+<h2 id="样本分析"><a href="#样本分析" class="headerlink" title="样本分析"></a>样本分析</h2><h3 id="样本基本信息"><a href="#样本基本信息" class="headerlink" title="样本基本信息"></a>样本基本信息</h3><p>样本使用了由“Hermetica Digital Ltd”进行的数字签名(证书目前已被吊销)，通过这种方式来逃避基于WindowsAPI的检测。</p>
+<img src="image-20220414093929205.png" srcset="/img/loading.gif" lazyload alt="image-20220414093929205" style="zoom: 80%;" />
+
+<p>获取样本基本信息，可以发现程序未加壳，版本信息为VC++7.10，由Visual Studio 2017编译，2022年2月23日编译成功。</p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094020626.png" srcset="/img/loading.gif" lazyload alt="image-20220414094020626"></p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094031703.png" srcset="/img/loading.gif" lazyload alt="image-20220414094031703"></p>
+<p>样本包含了四个资源。通过SZDD头部信息可知均为微软自带的压缩格式，使用了微软的压缩命令工具“compress.exe”进行了压缩。使用expand命令解压后，通过文件签名和hash比对，发现这些驱动程序是商用数据恢复和磁盘管理软件“EaseUS Partition Master”的多个系统版本，包括x86和x64架构。</p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094100796.png" srcset="/img/loading.gif" lazyload alt="image-20220414094100796"></p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094143835.png" srcset="/img/loading.gif" lazyload alt="image-20220414094143835"></p>
+<h3 id="动态运行分析"><a href="#动态运行分析" class="headerlink" title="动态运行分析"></a>动态运行分析</h3><p>虚拟机及沙箱运行样本后发现，样本会释放驱动程序，并进行安装，修改注册表，并大量枚举文件和目录，访问硬盘引导扇区，导致系统重启后显示“Missing operating system”。</p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094228752.png" srcset="/img/loading.gif" lazyload alt="image-20220414094228752"></p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094238939.png" srcset="/img/loading.gif" lazyload alt="image-20220414094238939"></p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094247118.png" srcset="/img/loading.gif" lazyload alt="image-20220414094247118"></p>
+<p>初步怀疑该样本通过利用驱动程序与存储设备进行交互，获取底层磁盘访问及检索分区信息的能力，进而修改硬盘存储的主引导记录、文件等信息，达到恶意擦除、摧毁数据的目的。</p>
+<h3 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h3><p>首先样本会进行提权操作，为下一步枚举文件及目录做准备。</p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414110431872.png" srcset="/img/loading.gif" lazyload alt="image-20220414110431872"></p>
+<p>禁用卷影拷贝服务(vss)来禁用故障转储，破坏系统的备份。</p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094359696.png" srcset="/img/loading.gif" lazyload alt="image-20220414094359696"></p>
+<p>判断操作系统的版本和系统位数，根据结果加载四个资源文件中的其中一个资源文件。</p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094416604.png" srcset="/img/loading.gif" lazyload alt="image-20220414094416604"></p>
+<p>将注册表<em>HKLM\System\CurrentControlSet\Control\CrashControl\CrashDumpEnabled</em>键值设置为0，并获取所有物理磁盘的编号。</p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094441573.png" srcset="/img/loading.gif" lazyload alt="image-20220414094441573"></p>
+<p>将解压出的资源文件释放至*C:\Windows\System32\drivers*目录下并安装。安装成功后，与服务相关的注册表项以及删除的文件都将被删除，以使新驱动程序更难被发现。</p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094501429.png" srcset="/img/loading.gif" lazyload alt="image-20220414094501429"></p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094508536.png" srcset="/img/loading.gif" lazyload alt="image-20220414094508536"></p>
+<p>最后进行数据删除。枚举0-100一系列物理驱动器，对于每个物理驱动器，.\PhysicalDrive%u都会调用设备以获取设备编号，并删除从0-100序号的所有物理驱动器中的C:\SystemVolume Information文件夹，防止系统通过还原点及备份恢复数据。</p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094528656.png" srcset="/img/loading.gif" lazyload alt="image-20220414094528656"></p>
+<p>对NTFS和FAT驱动器类型分别进行数据擦除处理。</p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094543758.png" srcset="/img/loading.gif" lazyload alt="image-20220414094543758"></p>
+<p>擦除<em>C:&#x2F;Documents and settings</em>文件夹中的内容，并销毁系统日志。</p>
+<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414105723656.png" srcset="/img/loading.gif" lazyload alt="image-20220414105723656"></p>
+<h2 id="IOCs"><a href="#IOCs" class="headerlink" title="IOCs"></a>IOCs</h2><p><strong>MD5：</strong></p>
+<p>3F4A16B29F2F0532B7CE3E7656799125</p>
+<p>6106653B08F4F72EEAA7F099E7C408A4</p>
+<p>093CEE3B45F0954DCE6CB891F6A920F7</p>
+<p>BDF30ADB4E19AFF249E7DA26B7F33EAD</p>
+<p>D57F1811D8258D8D277CD9F53657EEF9</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>HermeticWiper 病毒利用合法驱动程序的数字签名，绕过某些Windows安全机制，同时利用驱动程序与存储设备进行交互，获取底层磁盘访问及检索分区信息的能力，进而对磁盘上的 MBR 和分区进行覆盖，使得数据几乎不可能恢复。并且该病毒对于隐匿痕迹以及阻止系统恢复的模块很有参考价值，增加了取证分析人员的工作难度。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://blog.malwarebytes.com/threat-intelligence/2022/03/hermeticwiper-a-detailed-analysis-of-the-destructive-malware-that-targeted-ukraine/">https://blog.malwarebytes.com/threat-intelligence/2022/03/hermeticwiper-a-detailed-analysis-of-the-destructive-malware-that-targeted-ukraine/</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/">样本分析</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/HermeticWiper/">HermeticWiper</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/12/ESP%E5%AE%9A%E5%BE%8B%E6%89%8B%E5%8A%A8%E8%84%B1%E5%A3%B3/">
+                        <span class="hidden-mobile">ESP定律手动脱壳</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
