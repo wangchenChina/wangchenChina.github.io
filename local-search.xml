@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>CaddyWiper病毒分析</title>
+    <link href="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/"/>
+    <url>/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<h2 id="样本信息"><a href="#样本信息" class="headerlink" title="样本信息"></a>样本信息</h2><p>3月14日，研究人员在针对乌克兰组织的攻击中观察到新的数据擦除恶意软件CaddyWiper，这种恶意软件会从连接的驱动器中删除用户数据和分区信息，目前已在少数组织的几十个系统上观察到了该恶意软件。该恶意软件是通过组策略对象( GPO )部署的，这表明攻击者事先已经控制了目标的网络。这是自 2022 年初以来在乌克兰攻击中部署的第四种数据擦除恶意软件。对此次新出现的“CaddyWiper”恶意软件，基本信息如下：</p><table><thead><tr><th>文件名</th><th>CaddyWiper.exe</th></tr></thead><tbody><tr><td>MD5</td><td>42E52B8DAF63E6E26C3AA91E7E971492</td></tr><tr><td>SHA1</td><td>98B3FB74B3E8B3F9B05A82473551C5A77B576D54</td></tr><tr><td>CRC32</td><td>11A104D8</td></tr><tr><td>文件大小</td><td>9,216字节</td></tr><tr><td>病毒类型</td><td>HEUR:Trojan.Win32.Generic</td></tr></tbody></table><h2 id="样本分析"><a href="#样本分析" class="headerlink" title="样本分析"></a>样本分析</h2><h3 id="样本基本信息"><a href="#样本基本信息" class="headerlink" title="样本基本信息"></a>样本基本信息</h3><p>获取样本基本信息，可以发现程序没有经过数字签名、未加壳，版本信息为VC++，2022年3月14日编译成功。</p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164220671.png" alt="image-20220414164220671"></p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164231056.png" alt="image-20220414164231056"></p><p>样本没有资源，没有图标，导入函数及字符串都极其简单。</p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164250657.png" alt="image-20220414164250657"></p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164304236.png" alt="image-20220414164304236"></p><h3 id="动态运行分析"><a href="#动态运行分析" class="headerlink" title="动态运行分析"></a>动态运行分析</h3><p>虚拟机运行样本后发现，样本会在运行后极短时间内引起系统蓝屏，自动重启后找不到系统，显示“Operating System not found”。</p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164447838.png" alt="image-20220414164447838"></p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164457760.png" alt="image-20220414164457760"></p><h3 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h3><p>通过拼接字符串调用kernel32.dll。</p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164529634.png" alt="image-20220414164529634"></p><p>主函数首先通过首先执行“DsRoleGetPrimaryDomainInformation”获取域数据，以确定样本正在运行的系统的机器角色。</p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164547711.png" alt="image-20220414164547711"></p><p>如果域角色是等于5，即为“DsRole_RolePrimaryDomainController”域控制器，样本将终止并且不会继续执行任何破坏性功能。</p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164616417.png" alt="image-20220414164616417"></p><p>如果目标系统不是域控制器，样本开始递归擦除“C:&#x2F;&#x2F;Users”中的所有数据，包括隐藏文件和操作系统文件。如果文件大于 10 兆字节，擦除器只会破坏前 10 兆字节。</p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164631323.png" alt="image-20220414164631323"></p><p>如果文件当前被另一个进程锁定，样本首先尝试通过“SeTakeOwnershipPrivilege”获取文件的所有权，然后继续擦除文件。</p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164646211.png" alt="image-20220414164646211"></p><p>在“C:\Users”之后，对从“D:\ ”到“Z:\ ”的所有可用驱动器重复相同的过程。</p><p>当所有可用的驱动器都被擦除后，通过用 NULL 覆盖前 1920 个字节来擦除从“\.\PHYSICALDRIVE9”到“\.\PHYSICALDRIVE0”的磁盘分区。</p><p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164730916.png" alt="image-20220414164730916"></p><h2 id="IOCs"><a href="#IOCs" class="headerlink" title="IOCs"></a>IOCs</h2><p><strong>MD5</strong>:</p><p>42E52B8DAF63E6E26C3AA91E7E971492</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>样本分析</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>CaddyWiper</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>HermeticWiper病毒分析</title>
     <link href="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/"/>
     <url>/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/</url>

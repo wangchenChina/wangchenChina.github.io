@@ -16,39 +16,34 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="俄乌网络战中出现的四种数据擦除器：     发现时间    WhisperGate 2022年1月13日   HermeticWiper 2022年2月24日   IsaacWiper 2022年2月24日   CaddyWiper 2022年3月14日   样本信息2022年2月24日，俄乌冲突逐渐升级。一款名为“ HermeticWiper”（又名KillDisk.NCV）的新型数据擦除恶意软">
+    <meta name="description" content="样本信息3月14日，研究人员在针对乌克兰组织的攻击中观察到新的数据擦除恶意软件CaddyWiper，这种恶意软件会从连接的驱动器中删除用户数据和分区信息，目前已在少数组织的几十个系统上观察到了该恶意软件。该恶意软件是通过组策略对象( GPO )部署的，这表明攻击者事先已经控制了目标的网络。这是自 2022 年初以来在乌克兰攻击中部署的第四种数据擦除恶意软件。对此次新出现的“CaddyWiper”恶">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HermeticWiper病毒分析">
-<meta property="og:url" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/index.html">
+<meta property="og:title" content="CaddyWiper病毒分析">
+<meta property="og:url" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="Demo">
-<meta property="og:description" content="俄乌网络战中出现的四种数据擦除器：     发现时间    WhisperGate 2022年1月13日   HermeticWiper 2022年2月24日   IsaacWiper 2022年2月24日   CaddyWiper 2022年3月14日   样本信息2022年2月24日，俄乌冲突逐渐升级。一款名为“ HermeticWiper”（又名KillDisk.NCV）的新型数据擦除恶意软">
+<meta property="og:description" content="样本信息3月14日，研究人员在针对乌克兰组织的攻击中观察到新的数据擦除恶意软件CaddyWiper，这种恶意软件会从连接的驱动器中删除用户数据和分区信息，目前已在少数组织的几十个系统上观察到了该恶意软件。该恶意软件是通过组策略对象( GPO )部署的，这表明攻击者事先已经控制了目标的网络。这是自 2022 年初以来在乌克兰攻击中部署的第四种数据擦除恶意软件。对此次新出现的“CaddyWiper”恶">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414093929205.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094020626.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094031703.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094100796.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094143835.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094228752.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094238939.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094247118.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414110431872.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094359696.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094416604.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094441573.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094501429.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094508536.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094528656.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094543758.png">
-<meta property="og:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414105723656.png">
-<meta property="article:published_time" content="2022-04-14T03:18:31.000Z">
-<meta property="article:modified_time" content="2022-04-14T03:20:15.015Z">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164220671.png">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164231056.png">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164250657.png">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164304236.png">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164447838.png">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164457760.png">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164529634.png">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164547711.png">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164616417.png">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164631323.png">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164646211.png">
+<meta property="og:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164730916.png">
+<meta property="article:published_time" content="2022-04-15T01:20:34.000Z">
+<meta property="article:modified_time" content="2022-04-15T01:22:02.819Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="HermeticWiper">
+<meta property="article:tag" content="CaddyWiper">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414093929205.png">
+<meta name="twitter:image" content="http://example.com/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164220671.png">
   
   
-  <title>HermeticWiper病毒分析 - Demo</title>
+  <title>CaddyWiper病毒分析 - Demo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -206,7 +201,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="HermeticWiper病毒分析">
+            <span class="h2" id="subtitle" title="CaddyWiper病毒分析">
               
             </span>
 
@@ -216,8 +211,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-04-14 11:18" pubdate>
-        2022年4月14日 上午
+      <time datetime="2022-04-15 09:20" pubdate>
+        2022年4月15日 上午
       </time>
     </span>
   
@@ -227,7 +222,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2k 字
+      1k 字
     </span>
   
 
@@ -236,7 +231,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17 分钟
+      9 分钟
     </span>
   
 
@@ -265,106 +260,62 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">HermeticWiper病毒分析</h1>
+            <h1 style="display: none">CaddyWiper病毒分析</h1>
             
             <div class="markdown-body">
-              <p>俄乌网络战中出现的四种数据擦除器：</p>
-<table>
-<thead>
-<tr>
-<th align="center"></th>
-<th align="center">发现时间</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">WhisperGate</td>
-<td align="center">2022年1月13日</td>
-</tr>
-<tr>
-<td align="center"><em><strong>HermeticWiper</strong></em></td>
-<td align="center"><em><strong>2022年2月24日</strong></em></td>
-</tr>
-<tr>
-<td align="center">IsaacWiper</td>
-<td align="center">2022年2月24日</td>
-</tr>
-<tr>
-<td align="center">CaddyWiper</td>
-<td align="center">2022年3月14日</td>
-</tr>
-</tbody></table>
-<h2 id="样本信息"><a href="#样本信息" class="headerlink" title="样本信息"></a>样本信息</h2><p>2022年2月24日，俄乌冲突逐渐升级。一款名为“ HermeticWiper”（又名KillDisk.NCV）的新型数据擦除恶意软件在乌克兰的数百台重要的计算机上被发现，涉及乌克兰的金融和政府承包商，导致相关组织的系统设备数据遭到摧毁，其中一次入侵涉及直接从Windows域控制器部署恶意软件。此次攻击还包括HermeticWizard（横向移动）、HermeticRansom（加密勒索）两个组件，但是样本质量不高，影响不大，真正构成威胁的仍是“HermeticWiper”。对于“HermeticWiper”恶意软件，详情如下：</p>
+              <h2 id="样本信息"><a href="#样本信息" class="headerlink" title="样本信息"></a>样本信息</h2><p>3月14日，研究人员在针对乌克兰组织的攻击中观察到新的数据擦除恶意软件CaddyWiper，这种恶意软件会从连接的驱动器中删除用户数据和分区信息，目前已在少数组织的几十个系统上观察到了该恶意软件。该恶意软件是通过组策略对象( GPO )部署的，这表明攻击者事先已经控制了目标的网络。这是自 2022 年初以来在乌克兰攻击中部署的第四种数据擦除恶意软件。对此次新出现的“CaddyWiper”恶意软件，基本信息如下：</p>
 <table>
 <thead>
 <tr>
 <th>文件名</th>
-<th>HermeticWiper.exe</th>
+<th>CaddyWiper.exe</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>MD5</td>
-<td>3F4A16B29F2F0532B7CE3E7656799125</td>
+<td>42E52B8DAF63E6E26C3AA91E7E971492</td>
 </tr>
 <tr>
 <td>SHA1</td>
-<td>61B25D11392172E587D8DA3045812A66C3385451</td>
+<td>98B3FB74B3E8B3F9B05A82473551C5A77B576D54</td>
 </tr>
 <tr>
 <td>CRC32</td>
-<td>4D4E5EAD</td>
+<td>11A104D8</td>
 </tr>
 <tr>
 <td>文件大小</td>
-<td>117,000 字节</td>
-</tr>
-<tr>
-<td>数字签名</td>
-<td>Hermetica Digital Ltd</td>
+<td>9,216字节</td>
 </tr>
 <tr>
 <td>病毒类型</td>
-<td>Trojan.Win32.HermeticWiper.a</td>
+<td>HEUR:Trojan.Win32.Generic</td>
 </tr>
 </tbody></table>
-<h2 id="样本分析"><a href="#样本分析" class="headerlink" title="样本分析"></a>样本分析</h2><h3 id="样本基本信息"><a href="#样本基本信息" class="headerlink" title="样本基本信息"></a>样本基本信息</h3><p>样本使用了由“Hermetica Digital Ltd”进行的数字签名(证书目前已被吊销)，通过这种方式来逃避基于WindowsAPI的检测。</p>
-<img src="image-20220414093929205.png" srcset="/img/loading.gif" lazyload alt="image-20220414093929205" style="zoom: 80%;" />
-
-<p>获取样本基本信息，可以发现程序未加壳，版本信息为VC++7.10，由Visual Studio 2017编译，2022年2月23日编译成功。</p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094020626.png" srcset="/img/loading.gif" lazyload alt="image-20220414094020626"></p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094031703.png" srcset="/img/loading.gif" lazyload alt="image-20220414094031703"></p>
-<p>样本包含了四个资源。通过SZDD头部信息可知均为微软自带的压缩格式，使用了微软的压缩命令工具“compress.exe”进行了压缩。使用expand命令解压后，通过文件签名和hash比对，发现这些驱动程序是商用数据恢复和磁盘管理软件“EaseUS Partition Master”的多个系统版本，包括x86和x64架构。</p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094100796.png" srcset="/img/loading.gif" lazyload alt="image-20220414094100796"></p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094143835.png" srcset="/img/loading.gif" lazyload alt="image-20220414094143835"></p>
-<h3 id="动态运行分析"><a href="#动态运行分析" class="headerlink" title="动态运行分析"></a>动态运行分析</h3><p>虚拟机及沙箱运行样本后发现，样本会释放驱动程序，并进行安装，修改注册表，并大量枚举文件和目录，访问硬盘引导扇区，导致系统重启后显示“Missing operating system”。</p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094228752.png" srcset="/img/loading.gif" lazyload alt="image-20220414094228752"></p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094238939.png" srcset="/img/loading.gif" lazyload alt="image-20220414094238939"></p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094247118.png" srcset="/img/loading.gif" lazyload alt="image-20220414094247118"></p>
-<p>初步怀疑该样本通过利用驱动程序与存储设备进行交互，获取底层磁盘访问及检索分区信息的能力，进而修改硬盘存储的主引导记录、文件等信息，达到恶意擦除、摧毁数据的目的。</p>
-<h3 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h3><p>首先样本会进行提权操作，为下一步枚举文件及目录做准备。</p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414110431872.png" srcset="/img/loading.gif" lazyload alt="image-20220414110431872"></p>
-<p>禁用卷影拷贝服务(vss)来禁用故障转储，破坏系统的备份。</p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094359696.png" srcset="/img/loading.gif" lazyload alt="image-20220414094359696"></p>
-<p>判断操作系统的版本和系统位数，根据结果加载四个资源文件中的其中一个资源文件。</p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094416604.png" srcset="/img/loading.gif" lazyload alt="image-20220414094416604"></p>
-<p>将注册表<em>HKLM\System\CurrentControlSet\Control\CrashControl\CrashDumpEnabled</em>键值设置为0，并获取所有物理磁盘的编号。</p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094441573.png" srcset="/img/loading.gif" lazyload alt="image-20220414094441573"></p>
-<p>将解压出的资源文件释放至*C:\Windows\System32\drivers*目录下并安装。安装成功后，与服务相关的注册表项以及删除的文件都将被删除，以使新驱动程序更难被发现。</p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094501429.png" srcset="/img/loading.gif" lazyload alt="image-20220414094501429"></p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094508536.png" srcset="/img/loading.gif" lazyload alt="image-20220414094508536"></p>
-<p>最后进行数据删除。枚举0-100一系列物理驱动器，对于每个物理驱动器，.\PhysicalDrive%u都会调用设备以获取设备编号，并删除从0-100序号的所有物理驱动器中的C:\SystemVolume Information文件夹，防止系统通过还原点及备份恢复数据。</p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094528656.png" srcset="/img/loading.gif" lazyload alt="image-20220414094528656"></p>
-<p>对NTFS和FAT驱动器类型分别进行数据擦除处理。</p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414094543758.png" srcset="/img/loading.gif" lazyload alt="image-20220414094543758"></p>
-<p>擦除<em>C:&#x2F;Documents and settings</em>文件夹中的内容，并销毁系统日志。</p>
-<p><img src="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414105723656.png" srcset="/img/loading.gif" lazyload alt="image-20220414105723656"></p>
-<h2 id="IOCs"><a href="#IOCs" class="headerlink" title="IOCs"></a>IOCs</h2><p><strong>MD5：</strong></p>
-<p>3F4A16B29F2F0532B7CE3E7656799125</p>
-<p>6106653B08F4F72EEAA7F099E7C408A4</p>
-<p>093CEE3B45F0954DCE6CB891F6A920F7</p>
-<p>BDF30ADB4E19AFF249E7DA26B7F33EAD</p>
-<p>D57F1811D8258D8D277CD9F53657EEF9</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>HermeticWiper 病毒利用合法驱动程序的数字签名，绕过某些Windows安全机制，同时利用驱动程序与存储设备进行交互，获取底层磁盘访问及检索分区信息的能力，进而对磁盘上的 MBR 和分区进行覆盖，使得数据几乎不可能恢复。并且该病毒对于隐匿痕迹以及阻止系统恢复的模块很有参考价值，增加了取证分析人员的工作难度。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://blog.malwarebytes.com/threat-intelligence/2022/03/hermeticwiper-a-detailed-analysis-of-the-destructive-malware-that-targeted-ukraine/">https://blog.malwarebytes.com/threat-intelligence/2022/03/hermeticwiper-a-detailed-analysis-of-the-destructive-malware-that-targeted-ukraine/</a></p>
+<h2 id="样本分析"><a href="#样本分析" class="headerlink" title="样本分析"></a>样本分析</h2><h3 id="样本基本信息"><a href="#样本基本信息" class="headerlink" title="样本基本信息"></a>样本基本信息</h3><p>获取样本基本信息，可以发现程序没有经过数字签名、未加壳，版本信息为VC++，2022年3月14日编译成功。</p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164220671.png" srcset="/img/loading.gif" lazyload alt="image-20220414164220671"></p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164231056.png" srcset="/img/loading.gif" lazyload alt="image-20220414164231056"></p>
+<p>样本没有资源，没有图标，导入函数及字符串都极其简单。</p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164250657.png" srcset="/img/loading.gif" lazyload alt="image-20220414164250657"></p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164304236.png" srcset="/img/loading.gif" lazyload alt="image-20220414164304236"></p>
+<h3 id="动态运行分析"><a href="#动态运行分析" class="headerlink" title="动态运行分析"></a>动态运行分析</h3><p>虚拟机运行样本后发现，样本会在运行后极短时间内引起系统蓝屏，自动重启后找不到系统，显示“Operating System not found”。</p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164447838.png" srcset="/img/loading.gif" lazyload alt="image-20220414164447838"></p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164457760.png" srcset="/img/loading.gif" lazyload alt="image-20220414164457760"></p>
+<h3 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h3><p>通过拼接字符串调用kernel32.dll。</p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164529634.png" srcset="/img/loading.gif" lazyload alt="image-20220414164529634"></p>
+<p>主函数首先通过首先执行“DsRoleGetPrimaryDomainInformation”获取域数据，以确定样本正在运行的系统的机器角色。</p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164547711.png" srcset="/img/loading.gif" lazyload alt="image-20220414164547711"></p>
+<p>如果域角色是等于5，即为“DsRole_RolePrimaryDomainController”域控制器，样本将终止并且不会继续执行任何破坏性功能。</p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164616417.png" srcset="/img/loading.gif" lazyload alt="image-20220414164616417"></p>
+<p>如果目标系统不是域控制器，样本开始递归擦除“C:&#x2F;&#x2F;Users”中的所有数据，包括隐藏文件和操作系统文件。如果文件大于 10 兆字节，擦除器只会破坏前 10 兆字节。</p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164631323.png" srcset="/img/loading.gif" lazyload alt="image-20220414164631323"></p>
+<p>如果文件当前被另一个进程锁定，样本首先尝试通过“SeTakeOwnershipPrivilege”获取文件的所有权，然后继续擦除文件。</p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164646211.png" srcset="/img/loading.gif" lazyload alt="image-20220414164646211"></p>
+<p>在“C:\Users”之后，对从“D:\ ”到“Z:\ ”的所有可用驱动器重复相同的过程。</p>
+<p>当所有可用的驱动器都被擦除后，通过用 NULL 覆盖前 1920 个字节来擦除从“\.\PHYSICALDRIVE9”到“\.\PHYSICALDRIVE0”的磁盘分区。</p>
+<p><img src="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220414164730916.png" srcset="/img/loading.gif" lazyload alt="image-20220414164730916"></p>
+<h2 id="IOCs"><a href="#IOCs" class="headerlink" title="IOCs"></a>IOCs</h2><p><strong>MD5</strong>:</p>
+<p>42E52B8DAF63E6E26C3AA91E7E971492</p>
 
             </div>
             <hr>
@@ -382,7 +333,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/HermeticWiper/">HermeticWiper</a>
+                      <a class="hover-with-bg" href="/tags/CaddyWiper/">CaddyWiper</a>
                     
                   </div>
                 
@@ -399,18 +350,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CaddyWiper病毒分析</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/04/12/ESP%E5%AE%9A%E5%BE%8B%E6%89%8B%E5%8A%A8%E8%84%B1%E5%A3%B3/">
-                        <span class="hidden-mobile">ESP定律手动脱壳</span>
+                      <a href="/2022/04/14/HermeticWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/">
+                        <span class="hidden-mobile">HermeticWiper病毒分析</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
