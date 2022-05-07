@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Wonbaful后门分析</title>
+    <link href="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/"/>
+    <url>/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一、样本信息"><a href="#一、样本信息" class="headerlink" title="一、样本信息"></a>一、样本信息</h2><table><thead><tr><th>文件名</th><th>beifen.bak</th></tr></thead><tbody><tr><td>MD5</td><td>EEAD5424C1738BD5061CF2455CEB45B7</td></tr><tr><td>SHA256</td><td>8fe4f4b4f7ea39f63465d1eff48a1079cbf0846fa27c00b45b596e898ae927b3</td></tr><tr><td>文件大小</td><td>151,440 字节</td></tr><tr><td>病毒类型</td><td>Backdoor:Win32&#x2F;Wonbaful.A</td></tr></tbody></table><p>经初步分析，上述恶意文件为PE文件格式的备份文件，修改后缀后实际为SFX自解压文件，可直接执行。</p><p>执行后会释放nsck.ocx（Microsoft Winsock Control DLL）和winmgmt.exe（后门程序主体）到“C:\Program Files\”，并执行winmgmt.exe。</p><p>winmgmt.exe主要功能为连接C&amp;C地址tyl007.3322.org，等待接受指令，指令包括获取受控主机名、执行DOS命令、弹窗、通过ftp获取文件等。</p><p>通过搜索相关特征值结合威胁情报，决定采用Microsoft的命名方式，将该恶意文件称为Wonbaful后门程序。详情如下：</p><img src="clip_image002.png" alt="img" style="zoom:80%;" /><center>beifen.bak实际为SFX自解压文件</center><img src="clip_image002-16519068197461.png" alt="img" style="zoom:80%;" /><center>beifen详情</center><h2 id="二、样本分析"><a href="#二、样本分析" class="headerlink" title="二、样本分析"></a>二、样本分析</h2><p>如上所示beifen.exe文件内包含两个PE文件，经分析nsck.ocx为微软官方的网络编程接口动态链接库文件，作用是为winmgmt.exe提供网络接口方法。</p><p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-16519068826252.png" alt="img"></p><center>数字签名</center><img src="clip_image002-16519069007603.png" alt="img" style="zoom:80%;" /><center>Virustotal详情</center><p>winmgmt.exe包含后门程序主体功能，使用Visual Basic编写，详细信息包含Autocad。</p><img src="clip_image002-16519069484734.png" alt="img" style="zoom:80%;" /><center>Visual Basic编写</center><img src="clip_image002-16519069713475.png" alt="img" style="zoom:67%;" /><center>详细信息</center><p>运行beifen.exe程序后,首先会释放上述两个文件（nsck.ocx、winmgmt.exe）到“C:\Program Files\”路径下，并启动winmgmt.exe。</p><img src="clip_image001.png" alt="img" style="zoom:67%;" /><center>释放文件</center><p>winmgmt.exe执行netsh命令，但命令格式有问题，sh应该为防火墙规则名，和指定端口之间应该有空格，不清楚原因。</p><img src="clip_image002-16519070330356.png" alt="img" style="zoom: 80%;" /><center>试图修改防火墙规则</center><p>通联C&amp;C地址tyl007.3322.org:9999,但TCP连接建立握手后被服务器关闭连接。经查域名tyl007.3322.org及DNS解析地址183.236.2.18均被标记恶意。初步认为tyl007.3322.org动态域名已被回收，解析地址为动态域名提供商网关地址。</p><img src="clip_image002-16519070801017.png" alt="img" style="zoom:80%;" /><img src="clip_image004.png" alt="img" style="zoom:80%;" /><center>尝试连接C&C地址</center><img src="clip_image002-16519071074718.png" alt="img" style="zoom:67%;" /><center>C2被标记为远控Wonbaful</center><img src="clip_image002-16519071261699.png" alt="img" style="zoom:67%;" /><center>疑似网关IP被大量标记</center><p>因为后门程序没有连接到远控端，很多功能看不到，只能对该程序进行静态反编译。</p><p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002.jpg" alt="img"></p><center>样本结构</center><p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-165190719453310.png" alt="img"></p><center>尝试修改防火墙规则</center><p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-165190721272111.png" alt="img"></p><center>“(@)”分割的字符串</center><p>执行远控端haoma命令，对受控主机进行备注</p><p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-165190724569512.png" alt="img"></p><p>执行DOS命令</p><p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image004-165190724569513.png" alt="img"></p><p>发起弹窗</p><p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image006.png" alt="img"></p><p>通过ftp协议窃取文件</p><p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image008.png" alt="img"></p><p>删除重启后门程序</p><p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image010.png" alt="img"></p><h2 id="三、IOCs"><a href="#三、IOCs" class="headerlink" title="三、IOCs"></a>三、IOCs</h2><p><strong>MD5</strong>:</p><p>EEAD5424C1738BD5061CF2455CEB45B7</p><p>6CDE9FDAF329997DFA266EC903B46EE0</p><p><strong>C&amp;C</strong>:</p><p>tyl007.3322.org </p><p>183.236.2.18</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>样本分析</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Wonbaful</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Cobalt Strike学习</title>
     <link href="/2022/04/29/Cobalt-Strike%E5%AD%A6%E4%B9%A0/"/>
     <url>/2022/04/29/Cobalt-Strike%E5%AD%A6%E4%B9%A0/</url>
