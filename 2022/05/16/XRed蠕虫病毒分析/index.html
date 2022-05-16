@@ -1,0 +1,604 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、样本信息恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：    文件名 000000.xlsm    MD5 e566fc53051035e1e6fd0ed1823de0f9   SHA256 8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XRed蠕虫病毒分析">
+<meta property="og:url" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Demo">
+<meta property="og:description" content="一、样本信息恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：    文件名 000000.xlsm    MD5 e566fc53051035e1e6fd0ed1823de0f9   SHA256 8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bb">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image002.png">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image004.png">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image006.png">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image008.png">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image010.png">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image012.png">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image014.png">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image016.png">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image017.png">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image019.png">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image021.png">
+<meta property="og:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image022.png">
+<meta property="article:published_time" content="2022-05-16T06:26:25.000Z">
+<meta property="article:modified_time" content="2022-05-16T06:30:05.348Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="XRed">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="e:/myblog/source_posts/XRed蠕虫病毒分析/clip_image002.png">
+  
+  
+  <title>XRed蠕虫病毒分析 - Demo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="XRed蠕虫病毒分析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-16 14:26" pubdate>
+        2022年5月16日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">XRed蠕虫病毒分析</h1>
+            
+            <div class="markdown-body">
+              <h2 id="一、样本信息"><a href="#一、样本信息" class="headerlink" title="一、样本信息"></a>一、样本信息</h2><p>恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：</p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>000000.xlsm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MD5</td>
+<td>e566fc53051035e1e6fd0ed1823de0f9</td>
+</tr>
+<tr>
+<td>SHA256</td>
+<td>8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bbfb731424d7952c15</td>
+</tr>
+<tr>
+<td>文件大小</td>
+<td>18,387 字节</td>
+</tr>
+<tr>
+<td>病毒类型</td>
+<td>HEUR:Trojan-Downloader.Script.Generic</td>
+</tr>
+</tbody></table>
+<p>经初步分析该文档属于伪装成“Synaptics触摸板驱动程序”的Xred蠕虫病毒产生的存在恶意宏代码的Excel传播文档。该病毒曾于2020年初较为活跃，是具备远程控制、信息窃取能力的感染型病毒，可以感染本地EXE文件及xlsx电子表格文件，病毒可通过文件分享和U盘、移动硬盘等媒介传播。据此，安全人员判定上述上传恶意文件的主机已经遭受感染，但在流量监控过程中并未发现该病毒主程序，因此从相关威胁情报中搜集到了源EXE格式病毒。Xred病毒详情如下：</p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>Synaptics.exe</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MD5</td>
+<td>13358cfb6040fd4b2dba262f209464de</td>
+</tr>
+<tr>
+<td>SHA256</td>
+<td>72daa031ce52468fce5cdab85b21b18f1211b8804bc23c6e6ae8c24e868c4866</td>
+</tr>
+<tr>
+<td>文件大小</td>
+<td>771,584 字节</td>
+</tr>
+<tr>
+<td>病毒类型</td>
+<td>Backdoor.Win32.DarkKomet.hqxy</td>
+</tr>
+</tbody></table>
+<h2 id="二、样本分析"><a href="#二、样本分析" class="headerlink" title="二、样本分析"></a>二、样本分析</h2><p>捕获的Excel文档内容均为空，包含恶意宏代码，打开后会自动运行。篡改Word和Excel组件的宏设置，启用所有宏，并通过公有云盘下载并执行Synaptics.exe病毒。目前所有的下载链接均已失效。</p>
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image002.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>修改宏设置</center>
+
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image004.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>远程下载并执行病毒</center>
+
+<p>Xred病毒由Delph编写，无壳，自身伪装成Synaptics触摸板驱动程序。</p>
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image006.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>PE详情</center>
+
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image008.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>伪装成驱动程序</center>
+
+<p>该病毒通过感染指定位置（Desktop、Documents、Downloads）的32位的“.exe”后缀文件与“.xlsx”后缀文件，使其恶意代码可以通过文件共享大量传播但不会导致系统明显卡顿。</p>
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image010.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>指定位置</center>
+
+<p>被感染的文件被执行时，会执行恶意逻辑，包括释放伪装名为“Synaptics.exe”的文件常驻系统，进行远程控制，回传窃取的敏感信息等恶意行为。主要功能逻辑如下图所示：</p>
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image012.png" srcset="/img/loading.gif" lazyload alt="https://pc1.gtimg.com/guanjia/images/9b/83/9b837e056017f499ccb79ef4daa6213d.png"></p>
+<center>主要功能逻辑</center>
+
+<p>被感染的可执行文件体积增量约为753KB，包含一个名为“EXERESX”的资源，该资源是原始正常的程序。“EXERESX”资源会在宿主文件运行时被释放到当前目录并设置隐藏属性后执行。添加“ ._cache_”前缀拼接文件名。如下图所示：</p>
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image014.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image016.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>被感染的文件与原文件对比</center>
+
+<p>该病毒释放并加载名为“KBHKS”的动态库资源，通过设置相关钩子消息以记录键盘输入信息及其窗口信息等， Hook代码关键逻辑如下：</p>
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image017.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>Hook钩子</center>
+
+<p>病毒使用“XLSM”资源感染xlsx后缀文件，并将“.xlsx”后缀改为“.xlsm”。修改office组件设置以及xlsm后缀目的为了能够自动静默启用宏。如下图所示：</p>
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image019.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>感染xlsx文件</center>
+
+<p>病毒回连地址，公有云盘下载地址及敏感信息接收邮箱见下图：</p>
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image021.png" srcset="/img/loading.gif" lazyload alt="img"> <center>回连字符串</center></p>
+<p>具有基础的远程控制功能，包括执行CMD命令、屏幕截图、打印目录、下载文件、删除文件等。功能代码如下图所示。</p>
+<p><img src="E:\myblog\source_posts\XRed蠕虫病毒分析\clip_image022.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>远控功能</center>
+
+
+
+<h2 id="三、IOCs"><a href="#三、IOCs" class="headerlink" title="三、IOCs"></a>三、IOCs</h2><p><strong>MD5：</strong></p>
+<p>e566fc53051035e1e6fd0ed1823de0f9</p>
+<p>13358cfb6040fd4b2dba262f209464de</p>
+<p>备注：因为被感染文件一直都是变化的，MD5值不确定，只列举了两个得到的样本</p>
+<p><strong>C2 &amp; URL：</strong></p>
+<p>xred.mooo.com</p>
+<p>freedns.afraid.org</p>
+<p>docs.google.com&#x2F;uc?id&#x3D;0BxsMXGfPIZfSVlVsOGlEVGxuZVk&amp;export&#x3D;download</p>
+<p><a target="_blank" rel="noopener" href="http://www.dropbox.com/s/zhp1b06imehwylq/Synaptics.rar?dl=1">www.dropbox.com/s/zhp1b06imehwylq/Synaptics.rar?dl=1</a></p>
+<p>xred.site50.net&#x2F;syn&#x2F;Synaptics.rar</p>
+<p><strong>邮箱地址：</strong></p>
+<p><a href="mailto:&#120;&#x72;&#101;&#x64;&#x6c;&#105;&#x6e;&#x65;&#x31;&#x40;&#103;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#120;&#x72;&#101;&#x64;&#x6c;&#105;&#x6e;&#x65;&#x31;&#x40;&#103;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a></p>
+<p><a href="mailto:&#x78;&#x72;&#x65;&#x64;&#x6c;&#105;&#110;&#101;&#x32;&#64;&#x67;&#x6d;&#x61;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#x78;&#x72;&#x65;&#x64;&#x6c;&#105;&#110;&#101;&#x32;&#64;&#x67;&#x6d;&#x61;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;</a></p>
+<p><a href="mailto:&#120;&#114;&#x65;&#x64;&#x6c;&#105;&#110;&#x65;&#51;&#64;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;">&#120;&#114;&#x65;&#x64;&#x6c;&#105;&#110;&#x65;&#51;&#64;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+<h2 id="四、处置建议"><a href="#四、处置建议" class="headerlink" title="四、处置建议"></a>四、处置建议</h2><p>（1）立即对感染病毒的机器进行断网处理，避免进一步扩散。</p>
+<p>（2）对已感染病毒的电脑，进行全盘查杀，修复被感染的文件。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/">样本分析</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/XRed/">XRed</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/13/VBE%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/">
+                        <span class="hidden-mobile">VBE、PowerShell和JavaScript木马</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
