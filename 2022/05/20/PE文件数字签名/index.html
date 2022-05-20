@@ -28,12 +28,12 @@
 <meta property="og:image" content="http://example.com/2022/05/20/PE%E6%96%87%E4%BB%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/v2-a23de788976665ae5b7599bd26771dbd_r.jpg">
 <meta property="og:image" content="http://example.com/2022/05/20/PE%E6%96%87%E4%BB%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE153059.png">
 <meta property="og:image" content="http://example.com/2022/05/20/PE%E6%96%87%E4%BB%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE152504.png">
-<meta property="og:image" content="http://example.com/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE161050-16529480118102.png">
+<meta property="og:image" content="http://example.com/2022/05/20/PE%E6%96%87%E4%BB%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE1652.png">
 <meta property="og:image" content="http://example.com/2022/05/20/PE%E6%96%87%E4%BB%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220520104829178.png">
 <meta property="og:image" content="http://example.com/2022/05/20/PE%E6%96%87%E4%BB%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220520105811145.png">
 <meta property="og:image" content="http://example.com/2022/05/20/PE%E6%96%87%E4%BB%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220519154725489.png">
 <meta property="article:published_time" content="2022-05-20T05:24:25.000Z">
-<meta property="article:modified_time" content="2022-05-20T08:58:49.351Z">
+<meta property="article:modified_time" content="2022-05-20T09:03:32.522Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数字签名">
 <meta name="twitter:card" content="summary_large_image">
@@ -289,7 +289,7 @@
 <p>如下图，PE头中的安全表(Certificate Table）信息</p>
 <p><img src="/2022/05/20/PE%E6%96%87%E4%BB%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE152504.png" srcset="/img/loading.gif" lazyload alt="屏幕截图"></p>
 <p>Certificate Table内容</p>
-<p><img src="/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE161050-16529480118102.png" srcset="/img/loading.gif" lazyload alt="屏幕截图"></p>
+<p><img src="/2022/05/20/PE%E6%96%87%E4%BB%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE1652.png" srcset="/img/loading.gif" lazyload alt="屏幕截图"></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">WIN_CERTIFICATE</span> &#123;<br>  DWORD dwLength;        <span class="hljs-comment">//指定属性证书条目的长度</span><br>  WORD wRevision;        <span class="hljs-comment">//包含证书版本号</span><br>  WORD wCertificateType;        <span class="hljs-comment">//指定 bCertificate 中内容类型</span><br>  BYTE bCertificate[];          <span class="hljs-comment">//包含证书，例如验证码签名</span><br>&#125; WIN_CERTIFICATE, *LPWIN_CERTIFICATE;<br></code></pre></td></tr></table></figure>
 
 <p>详见<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#the-attribute-certificate-table-image-only">https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#the-attribute-certificate-table-image-only</a></p>
