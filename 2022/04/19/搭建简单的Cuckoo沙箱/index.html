@@ -1,0 +1,581 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="碰见一个厂商的沙箱设备直接拿来cuckoo的web界面，明目张胆啊 虽然国内很多厂商的沙箱都是基于开源的cuckoo进行二次开发的 去年（21年）4月Cuckoo Sandbox 2.x已经不维护了，确实都这么多年了，各种包也老了，至今都不支持python3。说是要完全重写，也不知道要等到什么时候。 重温一下搭建过程吧 参考https:&#x2F;&#x2F;github.com&#x2F;cuckoosandbox&#x2F;cuck">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建简单的Cuckoo沙箱">
+<meta property="og:url" content="http://example.com/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="碰见一个厂商的沙箱设备直接拿来cuckoo的web界面，明目张胆啊 虽然国内很多厂商的沙箱都是基于开源的cuckoo进行二次开发的 去年（21年）4月Cuckoo Sandbox 2.x已经不维护了，确实都这么多年了，各种包也老了，至今都不支持python3。说是要完全重写，也不知道要等到什么时候。 重温一下搭建过程吧 参考https:&#x2F;&#x2F;github.com&#x2F;cuckoosandbox&#x2F;cuck">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419100554521.png">
+<meta property="og:image" content="http://example.com/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419101059442.png">
+<meta property="og:image" content="http://example.com/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419104409949.png">
+<meta property="og:image" content="http://example.com/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419130731226.png">
+<meta property="og:image" content="http://example.com/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419133842806.png">
+<meta property="og:image" content="http://example.com/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419134212728.png">
+<meta property="og:image" content="http://example.com/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419134720201.png">
+<meta property="og:image" content="http://example.com/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419145034415.png">
+<meta property="og:image" content="http://example.com/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419161131293.png">
+<meta property="article:published_time" content="2022-04-19T08:15:19.000Z">
+<meta property="article:modified_time" content="2022-04-19T08:17:39.410Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="cuckoo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419100554521.png">
+  
+  
+  <title>搭建简单的Cuckoo沙箱 - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://unpkg.com/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://unpkg.com/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://unpkg.com/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="搭建简单的Cuckoo沙箱">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-19 16:15" pubdate>
+        2022年4月19日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      17k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      140 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">搭建简单的Cuckoo沙箱</h1>
+            
+            <div class="markdown-body">
+              <p>碰见一个厂商的沙箱设备直接拿来cuckoo的web界面，明目张胆啊</p>
+<p>虽然国内很多厂商的沙箱都是基于开源的cuckoo进行二次开发的</p>
+<p>去年（21年）4月Cuckoo Sandbox 2.x已经不维护了，确实都这么多年了，各种包也老了，至今都不支持python3。说是要完全重写，也不知道要等到什么时候。</p>
+<p>重温一下搭建过程吧</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://github.com/cuckoosandbox/cuckoo">https://github.com/cuckoosandbox/cuckoo</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.cuckoosandbox.org/en/latest/">https://docs.cuckoosandbox.org/en/latest/</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38990949/article/details/103336089">https://blog.csdn.net/qq_38990949/article/details/103336089</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_46687377/article/details/122047047">https://blog.csdn.net/m0_46687377/article/details/122047047</a></p>
+<h2 id="Host配置"><a href="#Host配置" class="headerlink" title="Host配置"></a>Host配置</h2><h3 id="在Vmware中安装Ubuntu系统"><a href="#在Vmware中安装Ubuntu系统" class="headerlink" title="在Vmware中安装Ubuntu系统"></a>在Vmware中安装Ubuntu系统</h3><p><a target="_blank" rel="noopener" href="http://releases.ubuntu.com/16.04/">Ubuntu下载</a>推荐使用 16.04</p>
+<p>VMware安装Ubuntu时建议内存、处理器、硬盘设置大一点（尤其是硬盘，后期扩盘很麻烦）。</p>
+<h3 id="修改源"><a href="#修改源" class="headerlink" title="修改源"></a>修改源</h3><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell">sudo gedit /etc/apt/sources.list<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs awk">deb-src http:<span class="hljs-regexp">//</span>archive.ubuntu.com/ubuntu xenial main restricted<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial main restricted<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial main restricted multiverse universe<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial-updates main restricted<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial-updates main restricted multiverse universe<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial universe<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial-updates universe<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial-updates multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial-backports main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial-backports main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//</span>archive.canonical.com/ubuntu xenial partner<br>deb-src http:<span class="hljs-regexp">//</span>archive.canonical.com/ubuntu xenial partner<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial-security main restricted<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial-security main restricted multiverse universe<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial-security universe<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> xenial-security multiverse<br></code></pre></td></tr></table></figure>
+
+<p>然后更新</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt-get update &amp;&amp; apt-get upgrade<br></code></pre></td></tr></table></figure>
+
+<h3 id="依次获取软件包"><a href="#依次获取软件包" class="headerlink" title="依次获取软件包"></a>依次获取软件包</h3><figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs q">sudo apt-<span class="hljs-built_in">get</span> install python python-pip python-<span class="hljs-built_in">dev</span> libffi-<span class="hljs-built_in">dev</span> libssl-<span class="hljs-built_in">dev</span><br>sudo apt-<span class="hljs-built_in">get</span> install python-virtualenv python-setuptools<br>sudo apt-<span class="hljs-built_in">get</span> install libjpeg-<span class="hljs-built_in">dev</span> zlib1g-<span class="hljs-built_in">dev</span> swig<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装MongoDB"><a href="#安装MongoDB" class="headerlink" title="安装MongoDB"></a>安装MongoDB</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs anzhuang">sudo apt-get install mongodb<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装PostgreSQL"><a href="#安装PostgreSQL" class="headerlink" title="安装PostgreSQL"></a>安装PostgreSQL</h3><figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs q">sudo apt-<span class="hljs-built_in">get</span> install postgresql libpq-<span class="hljs-built_in">dev</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="下载VirtualBox，并安装"><a href="#下载VirtualBox，并安装" class="headerlink" title="下载VirtualBox，并安装"></a>下载<a target="_blank" rel="noopener" href="https://www.virtualbox.org/wiki/Download_Old_Builds_6_0">VirtualBox</a>，并安装</h3><p>注意：官方文档表示<strong>Cuckoo 支持 VirtualBox 4.3、5.0、5.1 和 5.2</strong>，作者使用的是6.0版本。<strong>VirtualBox位数要和Ubuntu保持一致</strong>。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">sudo</span> dpkg -i virtualbox-<span class="hljs-number">6</span>.<span class="hljs-number">0</span>_6.<span class="hljs-number">0</span>.<span class="hljs-number">8</span>-<span class="hljs-number">130520</span>~Ubuntu~xenial_amd64.deb<br></code></pre></td></tr></table></figure>
+
+<p>如果报错提示 Package libsdl1.2debian is not installed，如下图</p>
+<p><img src="/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419100554521.png" srcset="/img/loading.gif" lazyload alt="image-20220419100554521"></p>
+<p>安装libsdl1.2debian后，再次执行安装Virtualbox</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">sudo apt-<span class="hljs-built_in">get</span> install libsdl1.2debian<br></code></pre></td></tr></table></figure>
+
+<p>执行virtualbox弹出Virtualbox界面，安装成功</p>
+<p><img src="/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419101059442.png" srcset="/img/loading.gif" lazyload alt="image-20220419101059442"></p>
+<h3 id="安装Tcpdump"><a href="#安装Tcpdump" class="headerlink" title="安装Tcpdump"></a>安装Tcpdump</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">sudo apt-<span class="hljs-built_in">get</span> install tcpdump apparmor-utils<br>sudo aa-<span class="hljs-built_in">disable</span> /usr/sbin/tcpdump<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装-M2Crypto"><a href="#安装-M2Crypto" class="headerlink" title="安装 M2Crypto"></a>安装 M2Crypto</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">sudo</span> pip install m2crypto==<span class="hljs-number">0</span>.<span class="hljs-number">24</span>.<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="安装Cuckoo"><a href="#安装Cuckoo" class="headerlink" title="安装Cuckoo"></a>安装Cuckoo</h3><p>更新pip，然后安装Cuckoo（因为要下载很多包，所以时间会长一点）</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">python</span> -m pip install --user --upgrade pip==<span class="hljs-number">20</span>.<span class="hljs-number">2</span>.<span class="hljs-number">4</span><br><span class="hljs-attribute">pip</span> install -U cuckoo<br></code></pre></td></tr></table></figure>
+
+<p>执行cuckoo弹出Cuckoo界面，安装成功</p>
+<p><img src="/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419104409949.png" srcset="/img/loading.gif" lazyload alt="image-20220419104409949"></p>
+<h3 id="创建Cuckoo-Working-Directory"><a href="#创建Cuckoo-Working-Directory" class="headerlink" title="创建Cuckoo Working Directory"></a>创建Cuckoo Working Directory</h3><p>注：因为cuckoo用户创建虚拟机时就存在且设为sudo，官方文档中创建用户设置sudo权限没有必要了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo mkdir /opt/cuckoo<br>sudo chown cuckoo:cuckoo /opt/cuckoo<br><span class="hljs-meta prompt_"># </span><span class="language-bash">cuckoo -cwd 可以将工作路径切换到/opt/cuckoo这个目录下，这样在这个目录下就可以看到所有的配置文件</span><br>cuckoo --cwd /opt/cuckoo<br></code></pre></td></tr></table></figure>
+
+<h3 id="配置网卡以及IP转发"><a href="#配置网卡以及IP转发" class="headerlink" title="配置网卡以及IP转发"></a>配置网卡以及IP转发</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-comment"># 创建一张网卡</span><br>vboxmanage hostonlyif create<br>vboxmanage hostonlyif ipconfig vboxnet0 <span class="hljs-params">--ip</span> 192.168.56.1<br><br><span class="hljs-comment"># 设置host与guest的转发规则</span><br><span class="hljs-comment"># 注意网卡与你的电脑的网卡是否对应 ifconfig可查看对应网卡</span><br>iptables -A FORWARD -o ens32 -i vboxnet0 -s 192.168.56.0/24 -m conntrack <span class="hljs-params">--ctstate</span> NEW -j ACCEPT<br>iptables -A FORWARD -m conntrack <span class="hljs-params">--ctstate</span> ESTABLISHED,RELATED -j ACCEPT<br>iptables -A POSTROUTING -t nat -j MASQUERADE<br><br><span class="hljs-comment"># 开启转发</span><br><span class="hljs-keyword">echo</span> 1 &gt; <span class="hljs-string">/proc/sys/net/ipv4/ip_forward</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Guest配置"><a href="#Guest配置" class="headerlink" title="Guest配置"></a>Guest配置</h2><h3 id="VirtualBox新建windows-7虚拟机"><a href="#VirtualBox新建windows-7虚拟机" class="headerlink" title="VirtualBox新建windows 7虚拟机"></a>VirtualBox新建windows 7虚拟机</h3><p>安装增强工具，并安装python2.7</p>
+<p><img src="/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419130731226.png" srcset="/img/loading.gif" lazyload alt="image-20220419130731226"></p>
+<p>配置pip环境变量，安装Pillow</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip <span class="hljs-keyword">install</span> pillow<br></code></pre></td></tr></table></figure>
+
+<p>关闭防火墙和自动更新，设置共享文件夹</p>
+<p><img src="/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419133842806.png" srcset="/img/loading.gif" lazyload alt="image-20220419133842806"></p>
+<p>将Ubuntu中&#x2F;opt&#x2F;cuckoo&#x2F;agent&#x2F;agent.py重命名为agent.pyw放到C:\Users\[USER]\AppData\Roaming\MicroSoft\Windows\Start Menu\Programs\Startup\路径下</p>
+<p><img src="/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419134212728.png" srcset="/img/loading.gif" lazyload alt="image-20220419134212728"></p>
+<p>设置win7虚拟机网络为仅主机模式，设置ipv4属性，确定host和guest可以互相ping通</p>
+<p><img src="/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419134720201.png" srcset="/img/loading.gif" lazyload alt="image-20220419134720201"></p>
+<p>重启后（重启是为了让agent.pyw自启动，也可以手动启动，<strong>但是agent必须在管理员权限下运行</strong>，不然cuckoo会报错），拍设快照Snapshot 1</p>
+<h2 id="修改Cuckoo配置文件"><a href="#修改Cuckoo配置文件" class="headerlink" title="修改Cuckoo配置文件"></a>修改Cuckoo配置文件</h2><p>需要修改的包括&#x2F;home&#x2F;cuckoo{ubuntu用户名}&#x2F;.cuckoo&#x2F;conf 目录下的cuckoo.conf、auxiliary.conf、virtualbox.conf</p>
+<h3 id="cuckoo-conf"><a href="#cuckoo-conf" class="headerlink" title="cuckoo.conf"></a>cuckoo.conf</h3><p>基本不需要修改</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br></pre></td><td class="code"><pre><code class="hljs makefile">[cuckoo]<br><span class="hljs-comment"># Enable or disable startup version check. When enabled, Cuckoo will connect</span><br><span class="hljs-comment"># to a remote location to verify whether the running version is the latest</span><br><span class="hljs-comment"># one available.</span><br>version_check = yes<br><br><span class="hljs-comment"># Cuckoo will stop at startup if the version check reports vulnerabilities in</span><br><span class="hljs-comment"># one of Cuckoo&#x27;s dependencies. This setting ignores the vulnerabilities</span><br><span class="hljs-comment"># and starts anyway</span><br>ignore_vulnerabilities = no<br><br><span class="hljs-comment"># The authentication token that is required to access the Cuckoo API, using</span><br><span class="hljs-comment"># HTTP Bearer authentication. This will protect the API instance against</span><br><span class="hljs-comment"># unauthorized access and CSRF attacks. It is strongly recommended to set this</span><br><span class="hljs-comment"># to a secure value.</span><br>api_token = HGiyE0KMWo1-0FZpvRCZnw<br><br><span class="hljs-comment"># The Web secret is used as a very basic, but successful way to provide basic</span><br><span class="hljs-comment"># authentication to the Cuckoo Web Interface. This is a shared secret amongst</span><br><span class="hljs-comment"># all users of this Cuckoo instance and will &quot;protect&quot; usage from users outside</span><br><span class="hljs-comment"># of this instance. Therefore, if you&#x27;d like to share this Cuckoo instance with</span><br><span class="hljs-comment"># the outside world, then don&#x27;t use the Web secret functionality.</span><br>web_secret = <br><br><span class="hljs-comment"># If turned on, Cuckoo will delete the original file after its analysis</span><br><span class="hljs-comment"># has been completed.</span><br>delete_original = no<br><br><span class="hljs-comment"># If turned on, Cuckoo will delete the copy of the original file in the</span><br><span class="hljs-comment"># local binaries repository after the analysis has finished. (On *nix this</span><br><span class="hljs-comment"># will also invalidate the file called &quot;binary&quot; in each analysis directory,</span><br><span class="hljs-comment"># as this is a symlink.)</span><br>delete_bin_copy = no<br><br><span class="hljs-comment"># Specify the name of the machinery module to use, this module will</span><br><span class="hljs-comment"># define the interaction between Cuckoo and your virtualization software</span><br><span class="hljs-comment"># of choice.</span><br>machinery = virtualbox<br><br><span class="hljs-comment"># Enable creation of memory dump of the analysis machine before shutting</span><br><span class="hljs-comment"># down. Even if turned off, this functionality can also be enabled at</span><br><span class="hljs-comment"># submission. Currently available for: VirtualBox and libvirt modules (KVM).</span><br>memory_dump = no<br><br><span class="hljs-comment"># When the timeout of an analysis is hit, the VM is just killed by default.</span><br><span class="hljs-comment"># For some long-running setups it might be interesting to terminate the</span><br><span class="hljs-comment"># monitored processes before killing the VM so that connections are closed.</span><br>terminate_processes = no<br><br><span class="hljs-comment"># Enable automatically re-schedule of &quot;broken&quot; tasks each startup.</span><br><span class="hljs-comment"># Each task found in status &quot;processing&quot; is re-queued for analysis.</span><br>reschedule = no<br><br><span class="hljs-comment"># Enable processing of results within the main cuckoo process.</span><br><span class="hljs-comment"># This is the default behavior but can be switched off for setups that</span><br><span class="hljs-comment"># require high stability and process the results in a separate task.</span><br>process_results = yes<br><br><span class="hljs-comment"># Limit the amount of analysis jobs a Cuckoo process goes through.</span><br><span class="hljs-comment"># This can be used together with a watchdog to mitigate risk of memory leaks.</span><br>max_analysis_count = 0<br><br><span class="hljs-comment"># Limit the number of concurrently executing analysis machines.</span><br><span class="hljs-comment"># This may be useful on systems with limited resources.</span><br><span class="hljs-comment"># Set to 0 to disable any limits.</span><br>max_machines_count = 0<br><br><span class="hljs-comment"># Limit the amount of VMs that are allowed to start in parallel. Generally</span><br><span class="hljs-comment"># speaking starting the VMs is one of the more CPU intensive parts of the</span><br><span class="hljs-comment"># actual analysis. This option tries to avoid maxing out the CPU completely.</span><br>max_vmstartup_count = 10<br><br><span class="hljs-comment"># Minimum amount of free space (in MB) available before starting a new task.</span><br><span class="hljs-comment"># This tries to avoid failing an analysis because the reports can&#x27;t be written</span><br><span class="hljs-comment"># due out-of-diskspace errors. Setting this value to 0 disables the check.</span><br><span class="hljs-comment"># (Note: this feature is currently not supported under Windows.)</span><br>freespace = 1024<br><br><span class="hljs-comment"># Temporary directory containing the files uploaded through Cuckoo interfaces</span><br><span class="hljs-comment"># (api.py and Django web interface). Defaults to the default temporary</span><br><span class="hljs-comment"># directory of the operating system (e.g., /tmp on Linux). Overwrite the value</span><br><span class="hljs-comment"># if you&#x27;d like to specify an alternative path.</span><br>tmppath = <br><br><span class="hljs-comment"># Path to the unix socket for running root commands.</span><br>rooter = /tmp/cuckoo-rooter<br><br>[feedback]<br><span class="hljs-comment"># Cuckoo is capable of sending &quot;developer feedback&quot; to the developers so that</span><br><span class="hljs-comment"># they can more easily improve the project. This functionality also allows the</span><br><span class="hljs-comment"># user to quickly request new features, report bugs, and get in touch with</span><br><span class="hljs-comment"># support in general, etc.</span><br>enabled = no<br>name = <br>company = <br>email = <br><br>[resultserver]<br><span class="hljs-comment"># The Result Server is used to receive in real time the behavioral logs</span><br><span class="hljs-comment"># produced by the analyzer.</span><br><span class="hljs-comment"># Specify the IP address of the host. The analysis machines should be able</span><br><span class="hljs-comment"># to contact the host through such address, so make sure it&#x27;s valid.</span><br><span class="hljs-comment"># <span class="hljs-doctag">NOTE:</span> if you set resultserver IP to 0.0.0.0 you have to set the option</span><br><span class="hljs-comment"># `resultserver_ip` for all your virtual machines in machinery configuration.</span><br>ip = 192.168.56.1<br><br><span class="hljs-comment"># Specify a port number to bind the result server on. Set to 0 to use a random</span><br><span class="hljs-comment"># port.</span><br>port = 2042<br><br><span class="hljs-comment"># Maximum size of uploaded files from VM (screenshots, dropped files, log).</span><br><span class="hljs-comment"># The value is expressed in bytes, by default 128 MB.</span><br>upload_max_size = 134217728<br><br>[processing]<br><span class="hljs-comment"># Set the maximum size of analyses generated files to process. This is used</span><br><span class="hljs-comment"># to avoid the processing of big files which may take a lot of processing</span><br><span class="hljs-comment"># time. The value is expressed in bytes, by default 128 MB.</span><br>analysis_size_limit = 134217728<br><br><span class="hljs-comment"># Enable or disable DNS lookups.</span><br>resolve_dns = yes<br><br><span class="hljs-comment"># Enable PCAP sorting, needed for the connection content view in the web interface.</span><br>sort_pcap = yes<br><br>[database]<br><span class="hljs-comment"># Specify the database connection string.</span><br><span class="hljs-comment"># <span class="hljs-doctag">NOTE:</span> If you are using a custom database (different from sqlite), you have to</span><br><span class="hljs-comment"># use utf-8 encoding when issuing the SQL database creation statement.</span><br><span class="hljs-comment"># Examples, see documentation for more:</span><br><span class="hljs-comment"># sqlite:///foo.db</span><br><span class="hljs-comment"># postgresql://foo:bar@localhost:5432/mydatabase</span><br><span class="hljs-comment"># mysql://foo:bar@localhost/mydatabase</span><br><span class="hljs-comment"># If empty, defaults to a SQLite3 database at $CWD/cuckoo.db.</span><br>connection = <br><br><span class="hljs-comment"># Database connection timeout in seconds.</span><br><span class="hljs-comment"># If empty, default is set to 60 seconds.</span><br>timeout = 60<br><br>[timeouts]<br><span class="hljs-comment"># Set the default analysis timeout expressed in seconds. This value will be</span><br><span class="hljs-comment"># used to define after how many seconds the analysis will terminate unless</span><br><span class="hljs-comment"># otherwise specified at submission.</span><br>default = 120<br><br><span class="hljs-comment"># Set the critical timeout expressed in (relative!) seconds. It will be added</span><br><span class="hljs-comment"># to the default timeout above and after this timeout is hit</span><br><span class="hljs-comment"># Cuckoo will consider the analysis failed and it will shutdown the machine</span><br><span class="hljs-comment"># no matter what. When this happens the analysis results will most likely</span><br><span class="hljs-comment"># be lost.</span><br>critical = 60<br><br><span class="hljs-comment"># Maximum time to wait for virtual machine status change. For example when</span><br><span class="hljs-comment"># shutting down a vm. Default is 60 seconds.</span><br>vm_state = 60<br><br>[remotecontrol]<br><span class="hljs-comment"># Enable for remote control of analysis machines inside the web interface.</span><br>enabled = no<br><br><span class="hljs-comment"># Set host of the running guacd service.</span><br>guacd_host = localhost<br><br><span class="hljs-comment"># Set port of the running guacd service.</span><br>guacd_port = 4822<br></code></pre></td></tr></table></figure>
+
+<h3 id="auxiliary-conf"><a href="#auxiliary-conf" class="headerlink" title="auxiliary.conf"></a>auxiliary.conf</h3><p>sniffer enabled &#x3D;yes</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[sniffer]</span><br><span class="hljs-comment"># Enable or disable the use of an external sniffer (tcpdump) [yes/no].</span><br><span class="hljs-attr">enabled</span> = <span class="hljs-literal">yes</span><br><br><span class="hljs-comment"># Specify the path to your local installation of tcpdump. Make sure this</span><br><span class="hljs-comment"># path is correct.</span><br><span class="hljs-attr">tcpdump</span> = /usr/sbin/tcpdump<br><br><span class="hljs-comment"># We used to define the network interface to capture on in auxiliary.conf, but</span><br><span class="hljs-comment"># this has been moved to the &quot;interface&quot; field of each Virtual Machinery</span><br><span class="hljs-comment"># configuration.</span><br><br><span class="hljs-comment"># Specify a Berkeley packet filter to pass to tcpdump.</span><br><span class="hljs-comment"># <span class="hljs-doctag">Note:</span> packer filtering is not possible when using &quot;nictrace&quot; functionality</span><br><span class="hljs-comment"># from VirtualBox (for example dumping inter-VM traffic).</span><br><span class="hljs-attr">bpf</span> = <br><br><span class="hljs-section">[mitm]</span><br><span class="hljs-comment"># Enable man in the middle proxying (mitmdump) [yes/no].</span><br><span class="hljs-attr">enabled</span> = <span class="hljs-literal">no</span><br><br><span class="hljs-comment"># Specify the path to your local installation of mitmdump. Make sure this</span><br><span class="hljs-comment"># path is correct.</span><br><span class="hljs-attr">mitmdump</span> = /usr/local/bin/mitmdump<br><br><span class="hljs-comment"># Listen port base. Each virtual machine will use its own port to be</span><br><span class="hljs-comment"># able to make a good distinction between the various running analyses.</span><br><span class="hljs-comment"># Generally port 50000 should be fine, in this case port 50001, 50002, etc</span><br><span class="hljs-comment"># will also be used - again, one port per analyses.</span><br><span class="hljs-attr">port_base</span> = <span class="hljs-number">50000</span><br><br><span class="hljs-comment"># Script file to interact with the network traffic. Please refer to the</span><br><span class="hljs-comment"># documentation of mitmproxy/mitmdump to get an understand of their internal</span><br><span class="hljs-comment"># workings. (https://mitmproxy.org/doc/scripting/inlinescripts.html)</span><br><span class="hljs-attr">script</span> = stuff/mitm.py<br><br><span class="hljs-comment"># Path to the certificate to be used by mitmdump. This file will be</span><br><span class="hljs-comment"># automatically generated for you if you run mitmdump once. It&#x27;s just that</span><br><span class="hljs-comment"># you have to copy it from ~/.mitmproxy/mitmproxy-ca-cert.p12 to somewhere</span><br><span class="hljs-comment"># in the analyzer/windows/ directory. Recommended is to write the certificate</span><br><span class="hljs-comment"># to analyzer/windows/bin/cert.p12, in that case the following option should</span><br><span class="hljs-comment"># be set to bin/cert.p12.</span><br><span class="hljs-attr">certificate</span> = bin/cert.p12<br><br><span class="hljs-section">[replay]</span><br><span class="hljs-comment"># Enable PCAP replay capabilities.</span><br><span class="hljs-attr">enabled</span> = <span class="hljs-literal">yes</span><br><br><span class="hljs-comment"># Specify the path to your local installation of mitmdump. Make sure this</span><br><span class="hljs-comment"># path is correct. Note that this should be mitmproxy 3.0.5 or higher,</span><br><span class="hljs-comment"># installed in a separate virtualenv (or similar).</span><br><span class="hljs-attr">mitmdump</span> = /usr/local/bin/mitmdump<br><br><span class="hljs-comment"># Listen port base. Each virtual machine will use its own port to be</span><br><span class="hljs-comment"># able to make a good distinction between the various running analyses.</span><br><span class="hljs-comment"># Generally port 51000 should be fine, in this case port 51001, 51002, etc</span><br><span class="hljs-comment"># will also be used - again, one port per analyses.</span><br><span class="hljs-attr">port_base</span> = <span class="hljs-number">51000</span><br><br><span class="hljs-comment"># Path to the certificate to be used by mitmdump. This file will be</span><br><span class="hljs-comment"># automatically generated for you if you run mitmdump once. It&#x27;s just that</span><br><span class="hljs-comment"># you have to copy it from ~/.mitmproxy/mitmproxy-ca-cert.p12 to somewhere</span><br><span class="hljs-comment"># in the analyzer/windows/ directory. Recommended is to write the certificate</span><br><span class="hljs-comment"># to analyzer/windows/bin/cert.p12, in that case the following option should</span><br><span class="hljs-comment"># be set to bin/cert.p12.</span><br><span class="hljs-attr">certificate</span> = bin/cert.p12<br><br><span class="hljs-section">[services]</span><br><span class="hljs-comment"># Provide extra services accessible through the network of the analysis VM</span><br><span class="hljs-comment"># provided in separate, standalone, Virtual Machines [yes/no].</span><br><span class="hljs-attr">enabled</span> = <span class="hljs-literal">no</span><br><br><span class="hljs-comment"># Comma-separated list with each Virtual Machine containing said service(s).</span><br><span class="hljs-attr">services</span> = honeyd<br><br><span class="hljs-comment"># Time in seconds required to boot these virtual machines. E.g., some services</span><br><span class="hljs-comment"># will only get online after a minute because initialization takes a while.</span><br><span class="hljs-attr">timeout</span> = <span class="hljs-number">0</span><br><br><span class="hljs-section">[reboot]</span><br><span class="hljs-comment"># This auxiliary module should be enabled for reboot analysis support.</span><br><span class="hljs-attr">enabled</span> = <span class="hljs-literal">yes</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="virtualbox-conf"><a href="#virtualbox-conf" class="headerlink" title="virtualbox.conf"></a>virtualbox.conf</h3><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><code class="hljs makefile">[virtualbox]<br><span class="hljs-comment"># Specify which VirtualBox mode you want to run your machines on.</span><br><span class="hljs-comment"># Can be &quot;gui&quot; or &quot;headless&quot;. Please refer to VirtualBox&#x27;s official</span><br><span class="hljs-comment"># documentation to understand the differences.</span><br>mode = headless<br><br><span class="hljs-comment"># Path to the local installation of the VBoxManage utility.</span><br>path = /usr/bin/VBoxManage<br><span class="hljs-comment"># If you are running Cuckoo on Mac OS X you have to change the path as follows:</span><br><span class="hljs-comment"># path = /Applications/VirtualBox.app/Contents/MacOS/VBoxManage</span><br><br><span class="hljs-comment"># Default network interface.</span><br>interface = vboxnet0   <span class="hljs-comment">#//网卡名称</span><br><br><span class="hljs-comment"># Specify a comma-separated list of available machines to be used. For each</span><br><span class="hljs-comment"># specified ID you have to define a dedicated section containing the details</span><br><span class="hljs-comment"># on the respective machine. (E.g. cuckoo1,cuckoo2,cuckoo3)</span><br>machines = win7     <span class="hljs-comment">#//guest虚拟机机名称</span><br><br><span class="hljs-comment"># If remote control is enabled in cuckoo.conf, specify a port range to use.</span><br><span class="hljs-comment"># Virtualbox will bind the VRDP interface to the first available port.</span><br>controlports = 5000-5050<br><br><br>[win7]<br><span class="hljs-comment"># Specify the label name of the current machine as specified in your</span><br><span class="hljs-comment"># VirtualBox configuration.</span><br>label = win7    <br><br><span class="hljs-comment"># Specify the operating system platform used by current machine</span><br><span class="hljs-comment"># [windows/darwin/linux].</span><br>platform = windows  <br><br><span class="hljs-comment"># Specify the IP address of the current virtual machine. Make sure that the</span><br><span class="hljs-comment"># IP address is valid and that the host machine is able to reach it. If not,</span><br><span class="hljs-comment"># the analysis will fail.</span><br>ip = 192.168.56.101   <span class="hljs-comment">#//guest IP</span><br><br><span class="hljs-comment"># (Optional) Specify the snapshot name to use. If you do not specify a snapshot</span><br><span class="hljs-comment"># name, the VirtualBox MachineManager will use the current snapshot.</span><br><span class="hljs-comment"># Example (Snapshot1 is the snapshot name):</span><br>snapshot = Snapshot 1    <span class="hljs-comment">#//快照名</span><br><br><span class="hljs-comment"># (Optional) Specify the name of the network interface that should be used</span><br><span class="hljs-comment"># when dumping network traffic from this machine with tcpdump. If specified,</span><br><span class="hljs-comment"># overrides the default interface specified in auxiliary.conf</span><br><span class="hljs-comment"># Example (vboxnet0 is the interface name):</span><br>interface = vboxnet0<br><br><span class="hljs-comment"># (Optional) Specify the IP of the Result Server, as your virtual machine sees it.</span><br><span class="hljs-comment"># The Result Server will always bind to the address and port specified in cuckoo.conf,</span><br><span class="hljs-comment"># however you could set up your virtual network to use NAT/PAT, so you can specify here</span><br><span class="hljs-comment"># the IP address for the Result Server as your machine sees it. If you don&#x27;t specify an</span><br><span class="hljs-comment"># address here, the machine will use the default value from cuckoo.conf.</span><br><span class="hljs-comment"># <span class="hljs-doctag">NOTE:</span> if you set this option you have to set result server IP to 0.0.0.0 in cuckoo.conf.</span><br><span class="hljs-comment"># Example:</span><br>resultserver_ip = <br><br><span class="hljs-comment"># (Optional) Specify the port for the Result Server, as your virtual machine sees it.</span><br><span class="hljs-comment"># The Result Server will always bind to the address and port specified in cuckoo.conf,</span><br><span class="hljs-comment"># however you could set up your virtual network to use NAT/PAT, so you can specify here</span><br><span class="hljs-comment"># the port for the Result Server as your machine sees it. If you don&#x27;t specify a port</span><br><span class="hljs-comment"># here, the machine will use the default value from cuckoo.conf.</span><br><span class="hljs-comment"># Example:</span><br>resultserver_port = <br><br><span class="hljs-comment"># (Optional) Set your own tags. These are comma separated and help to identify</span><br><span class="hljs-comment"># specific VMs. You can run samples on VMs with tag you require.</span><br>tags = <br><br><span class="hljs-comment"># Mostly unused for now. Please don&#x27;t fill it out.</span><br>options = <br><br><span class="hljs-comment"># (Optional) Specify the OS profile to be used by volatility for this</span><br><span class="hljs-comment"># virtual machine. This will override the guest_profile variable in</span><br><span class="hljs-comment"># memory.conf which solves the problem of having multiple types of VMs</span><br><span class="hljs-comment"># and properly determining which profile to use.</span><br>osprofile = <br><br><br>[honeyd]<br><span class="hljs-comment"># For more information on this VM please refer to the &quot;services&quot; section of</span><br><span class="hljs-comment"># the conf/auxiliary.conf configuration file. This machine is a bit special</span><br><span class="hljs-comment"># in the way that its used as an additional VM for an analysis.</span><br><span class="hljs-comment"># *NOTE* that if this functionality is used, the VM should be registered in</span><br><span class="hljs-comment"># the &quot;machines&quot; list in the beginning of this file.</span><br>label = honeyd<br>platform = linux<br>ip = 192.168.56.102<br><span class="hljs-comment"># The tags should at least contain &quot;service&quot; and the name of this service.</span><br><span class="hljs-comment"># This way the services auxiliary module knows how to find this particular VM.</span><br>tags = service, honeyd<br><span class="hljs-comment"># Not all services actually have a Cuckoo Agent running in the VM, for those</span><br><span class="hljs-comment"># services one can specify the &quot;noagent&quot; option so Cuckoo will just wait until</span><br><span class="hljs-comment"># the end of the analysis instead of trying to connect to the non-existing</span><br><span class="hljs-comment"># Cuckoo Agent. We can&#x27;t really intercept any inter-VM communication from the</span><br><span class="hljs-comment"># host / gateway so in order to dump traffic between VMs we have to use a</span><br><span class="hljs-comment"># different network dumping approach. For this machine we use the &quot;nictrace&quot;</span><br><span class="hljs-comment"># functionality from VirtualBox (which is basically their internal tcpdump)</span><br><span class="hljs-comment"># and thus properly dumps inter-VM traffic.</span><br>options = nictrace noagent<br></code></pre></td></tr></table></figure>
+
+<h2 id="运行Cuckoo"><a href="#运行Cuckoo" class="headerlink" title="运行Cuckoo"></a>运行Cuckoo</h2><p>执行</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">cuckoo -d</span><br></code></pre></td></tr></table></figure>
+
+<p>观察是否存在报错</p>
+<p>没有报错执行</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">cuckoo</span> web runserver <span class="hljs-number">0.0.0.0:8000</span><br></code></pre></td></tr></table></figure>
+
+<p>启动cuckoo web界面</p>
+<p>访问127.0.0.0:8000</p>
+<p><img src="/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419145034415.png" srcset="/img/loading.gif" lazyload alt="image-20220419145034415"></p>
+<p>上传一个文件，观察cuckoo -d控制台输出以及文件报告是否正常，存在异常进行排错</p>
+<p><img src="/2022/04/19/%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84Cuckoo%E6%B2%99%E7%AE%B1/image-20220419161131293.png" srcset="/img/loading.gif" lazyload alt="image-20220419161131293"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>东西太老了对于新人各种坑，各种不适配</p>
+<p>而且简单搭建的cuckoo其实作用不大，也就是一个简单的框架，还是需要二次开发的</p>
+<p>在文件支持格式、反沙箱、反逃逸、多文件多guest并发等方面都需要厂商去完善</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/cuckoo/">cuckoo</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关于邮件的那点事</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/15/CaddyWiper%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/">
+                        <span class="hidden-mobile">CaddyWiper病毒分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://unpkg.com/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://unpkg.com/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://unpkg.com/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://unpkg.com/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://unpkg.com/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://unpkg.com/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://unpkg.com/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://unpkg.com/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

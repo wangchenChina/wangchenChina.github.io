@@ -1,0 +1,613 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、样本信息   文件名 beifen.bak    MD5 EEAD5424C1738BD5061CF2455CEB45B7   SHA256 8fe4f4b4f7ea39f63465d1eff48a1079cbf0846fa27c00b45b596e898ae927b3   文件大小 151,440 字节   病毒类型 Backdoor:Win32&#x2F;Wonbaful.A   经初步分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wonbaful后门分析">
+<meta property="og:url" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="一、样本信息   文件名 beifen.bak    MD5 EEAD5424C1738BD5061CF2455CEB45B7   SHA256 8fe4f4b4f7ea39f63465d1eff48a1079cbf0846fa27c00b45b596e898ae927b3   文件大小 151,440 字节   病毒类型 Backdoor:Win32&#x2F;Wonbaful.A   经初步分">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-16519068197461.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-16519068826252.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-16519069007603.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-16519069484734.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-16519069713475.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image001.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-16519070330356.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-16519070801017.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image004.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-16519071074718.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-16519071261699.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002.jpg">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-165190719453310.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-165190721272111.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-165190724569512.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image004-165190724569513.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image006.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image008.png">
+<meta property="og:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image010.png">
+<meta property="article:published_time" content="2022-05-07T06:53:21.000Z">
+<meta property="article:modified_time" content="2022-05-07T07:29:37.521Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Wonbaful">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002.png">
+  
+  
+  <title>Wonbaful后门分析 - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://unpkg.com/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://unpkg.com/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://unpkg.com/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Wonbaful后门分析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-07 14:53" pubdate>
+        2022年5月7日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Wonbaful后门分析</h1>
+            
+            <div class="markdown-body">
+              <h2 id="一、样本信息"><a href="#一、样本信息" class="headerlink" title="一、样本信息"></a>一、样本信息</h2><table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>beifen.bak</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MD5</td>
+<td>EEAD5424C1738BD5061CF2455CEB45B7</td>
+</tr>
+<tr>
+<td>SHA256</td>
+<td>8fe4f4b4f7ea39f63465d1eff48a1079cbf0846fa27c00b45b596e898ae927b3</td>
+</tr>
+<tr>
+<td>文件大小</td>
+<td>151,440 字节</td>
+</tr>
+<tr>
+<td>病毒类型</td>
+<td>Backdoor:Win32&#x2F;Wonbaful.A</td>
+</tr>
+</tbody></table>
+<p>经初步分析，上述恶意文件为PE文件格式的备份文件，修改后缀后实际为SFX自解压文件，可直接执行。</p>
+<p>执行后会释放nsck.ocx（Microsoft Winsock Control DLL）和winmgmt.exe（后门程序主体）到“C:\Program Files\”，并执行winmgmt.exe。</p>
+<p>winmgmt.exe主要功能为连接C&amp;C地址tyl007.3322.org，等待接受指令，指令包括获取受控主机名、执行DOS命令、弹窗、通过ftp获取文件等。</p>
+<p>通过搜索相关特征值结合威胁情报，决定采用Microsoft的命名方式，将该恶意文件称为Wonbaful后门程序。详情如下：</p>
+<img src="clip_image002.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:80%;" />
+
+<center>beifen.bak实际为SFX自解压文件</center>
+
+<img src="clip_image002-16519068197461.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:80%;" />
+
+<center>beifen详情</center>
+
+<h2 id="二、样本分析"><a href="#二、样本分析" class="headerlink" title="二、样本分析"></a>二、样本分析</h2><p>如上所示beifen.exe文件内包含两个PE文件，经分析nsck.ocx为微软官方的网络编程接口动态链接库文件，作用是为winmgmt.exe提供网络接口方法。</p>
+<p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-16519068826252.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>数字签名</center>
+
+<img src="clip_image002-16519069007603.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:80%;" />
+
+<center>Virustotal详情</center>
+
+<p>winmgmt.exe包含后门程序主体功能，使用Visual Basic编写，详细信息包含Autocad。</p>
+<img src="clip_image002-16519069484734.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:80%;" />
+
+<center>Visual Basic编写</center>
+
+<img src="clip_image002-16519069713475.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:67%;" />
+
+<center>详细信息</center>
+
+<p>运行beifen.exe程序后,首先会释放上述两个文件（nsck.ocx、winmgmt.exe）到“C:\Program Files\”路径下，并启动winmgmt.exe。</p>
+<img src="clip_image001.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:67%;" />
+
+<center>释放文件</center>
+
+<p>winmgmt.exe执行netsh命令，但命令格式有问题，sh应该为防火墙规则名，和指定端口之间应该有空格，不清楚原因。</p>
+<img src="clip_image002-16519070330356.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom: 80%;" />
+
+<center>试图修改防火墙规则</center>
+
+<p>通联C&amp;C地址tyl007.3322.org:9999,但TCP连接建立握手后被服务器关闭连接。经查域名tyl007.3322.org及DNS解析地址183.236.2.18均被标记恶意。初步认为tyl007.3322.org动态域名已被回收，解析地址为动态域名提供商网关地址。</p>
+<img src="clip_image002-16519070801017.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:80%;" />
+
+<img src="clip_image004.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:80%;" />
+
+<center>尝试连接C&C地址</center>
+
+<img src="clip_image002-16519071074718.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:67%;" />
+
+<center>C2被标记为远控Wonbaful</center>
+
+<img src="clip_image002-16519071261699.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:67%;" />
+
+<center>疑似网关IP被大量标记</center>
+
+<p>因为后门程序没有连接到远控端，很多功能看不到，只能对该程序进行静态反编译。</p>
+<p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>样本结构</center>
+
+<p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-165190719453310.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>尝试修改防火墙规则</center>
+
+<p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-165190721272111.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center>“(@)”分割的字符串</center>
+
+<p>执行远控端haoma命令，对受控主机进行备注</p>
+<p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image002-165190724569512.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>执行DOS命令</p>
+<p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image004-165190724569513.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>发起弹窗</p>
+<p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image006.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>通过ftp协议窃取文件</p>
+<p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image008.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>删除重启后门程序</p>
+<p><img src="/2022/05/07/Wonbaful%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/clip_image010.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="三、IOCs"><a href="#三、IOCs" class="headerlink" title="三、IOCs"></a>三、IOCs</h2><p><strong>MD5</strong>:</p>
+<p>EEAD5424C1738BD5061CF2455CEB45B7</p>
+<p>6CDE9FDAF329997DFA266EC903B46EE0</p>
+<p><strong>C&amp;C</strong>:</p>
+<p>tyl007.3322.org </p>
+<p>183.236.2.18</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/">样本分析</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Wonbaful/">Wonbaful</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/13/VBE%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">VBE、PowerShell和JavaScript木马</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/29/Cobalt-Strike%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">Cobalt Strike学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://unpkg.com/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://unpkg.com/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://unpkg.com/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://unpkg.com/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://unpkg.com/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://unpkg.com/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://unpkg.com/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://unpkg.com/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
