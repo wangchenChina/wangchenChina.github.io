@@ -1,0 +1,579 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="捕获到的宏病毒样本，可以通过拼接字符串生成exe，比较老的蠕虫病毒，分析如下： 宏样本分析核心功能宏代码通过感染office文件及宏模板进行传播，执行后会在系统的Temp文件夹下生成“bk_****.tmp”文件并调用，最终生成blackice.exe 宏代码分析拼接将要写入tmp文件的字符串   获取系统Temp文件夹路径，随机生成tmp文件的名字（格式为“bk_****.tmp”），并创建与之">
+<meta property="og:type" content="article">
+<meta property="og:title" content="blackice病毒分析">
+<meta property="og:url" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="捕获到的宏病毒样本，可以通过拼接字符串生成exe，比较老的蠕虫病毒，分析如下： 宏样本分析核心功能宏代码通过感染office文件及宏模板进行传播，执行后会在系统的Temp文件夹下生成“bk_****.tmp”文件并调用，最终生成blackice.exe 宏代码分析拼接将要写入tmp文件的字符串   获取系统Temp文件夹路径，随机生成tmp文件的名字（格式为“bk_****.tmp”），并创建与之">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/1-16541516283931.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143412773.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143422561.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143431482.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143439457.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143448296.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143641966.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143727402.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143747142.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143830187.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143837856.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143844024.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143850840.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143901016.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143908961.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143917158.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144042379.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144201249.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144212246.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144220779.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144227708.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144236102.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144243740.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144251150.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144258413.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144306472.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144314910.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144324735.png">
+<meta property="og:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144330415.png">
+<meta property="article:published_time" content="2022-06-02T06:25:12.000Z">
+<meta property="article:modified_time" content="2022-06-02T06:54:38.043Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="blackice">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/1-16541516283931.png">
+  
+  
+  <title>blackice病毒分析 - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://unpkg.com/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://unpkg.com/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="blackice病毒分析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-06-02 14:25" pubdate>
+        2022年6月2日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">blackice病毒分析</h1>
+            
+            <div class="markdown-body">
+              <p>捕获到的宏病毒样本，可以通过拼接字符串生成exe，比较老的蠕虫病毒，分析如下：</p>
+<h2 id="宏样本分析"><a href="#宏样本分析" class="headerlink" title="宏样本分析"></a>宏样本分析</h2><h3 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h3><p>宏代码通过感染office文件及宏模板进行传播，执行后会在系统的Temp文件夹下生成“bk_****.tmp”文件并调用，最终生成blackice.exe</p>
+<h3 id="宏代码分析"><a href="#宏代码分析" class="headerlink" title="宏代码分析"></a>宏代码分析</h3><p>拼接将要写入tmp文件的字符串</p>
+<img src="1-16541516283931.png" srcset="/img/loading.gif" lazyload alt="1" style="zoom:67%;" />
+
+<p>获取系统Temp文件夹路径，随机生成tmp文件的名字（格式为“bk_****.tmp”），并创建与之对应的tmp文件</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143412773.png" srcset="/img/loading.gif" lazyload alt="image-20220602143412773"></p>
+<p>用上面拼接的字符串解密出一个PE文件的内容，并将其写入tmp文件中</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143422561.png" srcset="/img/loading.gif" lazyload alt="image-20220602143422561"></p>
+<p>执行生成的tmp文件</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143431482.png" srcset="/img/loading.gif" lazyload alt="image-20220602143431482"></p>
+<p>感染office文档的函数模块</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143439457.png" srcset="/img/loading.gif" lazyload alt="image-20220602143439457"></p>
+<p>感染office模板的函数模块</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143448296.png" srcset="/img/loading.gif" lazyload alt="image-20220602143448296"></p>
+<h2 id="病毒样本基本信息"><a href="#病毒样本基本信息" class="headerlink" title="病毒样本基本信息"></a>病毒样本基本信息</h2><h3 id="样本名称：blackice-exe"><a href="#样本名称：blackice-exe" class="headerlink" title="样本名称：blackice.exe"></a>样本名称：blackice.exe</h3><h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143641966.png" srcset="/img/loading.gif" lazyload alt="image-20220602143641966"></p>
+<h3 id="样本hash"><a href="#样本hash" class="headerlink" title="样本hash"></a>样本hash</h3><p>MD5: C89CDBA61B9B4D882698A084A25907D3</p>
+<p>SHA1: D77E96CEA7F7EF38034D52CAE2A4E4FDE29C37CA</p>
+<h2 id="病毒样本分析"><a href="#病毒样本分析" class="headerlink" title="病毒样本分析"></a>病毒样本分析</h2><p>经查壳可知为C++写的，无壳</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143727402.png" srcset="/img/loading.gif" lazyload alt="image-20220602143727402"></p>
+<p><img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143747142.png" srcset="/img/loading.gif" lazyload alt="image-20220602143747142"></p>
+<p>使用IDA pro对文件进行分析</p>
+<h3 id="WinMain"><a href="#WinMain" class="headerlink" title="WinMain"></a>WinMain</h3><p>创建互斥量，防止多个blackice进程同时启动</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143830187.png" srcset="/img/loading.gif" lazyload alt="image-20220602143830187"></p>
+<p>判断系统是不是Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003, Windows XP或者Windows 2000，不是则直接退出进程，获取系统路径</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143837856.png" srcset="/img/loading.gif" lazyload alt="image-20220602143837856"></p>
+<p>获取主机信息，提权获得SeDebugPrivilege权限，将自身复制并重命名为blackice.exe，kernel.dll，对explorer.exe进程进行注入</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143844024.png" srcset="/img/loading.gif" lazyload alt="image-20220602143844024"></p>
+<p>创建线程修改注册表，远程下载并执行文件，结束杀软进程，感染office宏模板，可移动磁盘和磁盘。</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143850840.png" srcset="/img/loading.gif" lazyload alt="image-20220602143850840"></p>
+<h3 id="sub-404F0B"><a href="#sub-404F0B" class="headerlink" title="sub_404F0B"></a>sub_404F0B</h3><p>获取主机名，硬盘信息，卷序列号和MAC地址</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143901016.png" srcset="/img/loading.gif" lazyload alt="image-20220602143901016"></p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143908961.png" srcset="/img/loading.gif" lazyload alt="image-20220602143908961"></p>
+<h3 id="sub-404E89"><a href="#sub-404E89" class="headerlink" title="sub_404E89"></a>sub_404E89</h3><p>提升进程权限，使其具有SeDebugPrivilege权限</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602143917158.png" srcset="/img/loading.gif" lazyload alt="image-20220602143917158"></p>
+<h3 id="sub-404CB2"><a href="#sub-404CB2" class="headerlink" title="sub_404CB2"></a>sub_404CB2</h3><p>检查是否存在blackice.exe和kernel.dll，如果不存在则将自身复制过去</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144042379.png" srcset="/img/loading.gif" lazyload alt="image-20220602144042379"></p>
+<h3 id="sub-404384"><a href="#sub-404384" class="headerlink" title="sub_404384"></a>sub_404384</h3><p>注入exeplorer.exe进程，用于进程保护，获取exeplorer.exe的pid，然后写入shellcode，通过启动远程线程的方式启用shellcode</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144201249.png" srcset="/img/loading.gif" lazyload alt="image-20220602144201249"></p>
+<h3 id="sub-404A71"><a href="#sub-404A71" class="headerlink" title="sub_404A71"></a>sub_404A71</h3><p>注入线程创建注册表实现自启动</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144212246.png" srcset="/img/loading.gif" lazyload alt="image-20220602144212246"></p>
+<h3 id="sub-403D93"><a href="#sub-403D93" class="headerlink" title="sub_403D93"></a>sub_403D93</h3><p>从指定地址下载文件并写入blackice.ini文件，然后执行下载文件</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144220779.png" srcset="/img/loading.gif" lazyload alt="image-20220602144220779"></p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144227708.png" srcset="/img/loading.gif" lazyload alt="image-20220602144227708"></p>
+<h3 id="sub-4050AC"><a href="#sub-4050AC" class="headerlink" title="sub_4050AC"></a>sub_4050AC</h3><p>查询指定杀软进程名称，并结束对应的杀软进程及其对应的线程</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144236102.png" srcset="/img/loading.gif" lazyload alt="image-20220602144236102"></p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144243740.png" srcset="/img/loading.gif" lazyload alt="image-20220602144243740"></p>
+<h3 id="sub-403105"><a href="#sub-403105" class="headerlink" title="sub_403105"></a>sub_403105</h3><p>修改宏安全设置，感染office宏模板以实现宏病毒的传播</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144251150.png" srcset="/img/loading.gif" lazyload alt="image-20220602144251150"></p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144258413.png" srcset="/img/loading.gif" lazyload alt="image-20220602144258413"></p>
+<h3 id="sub-404999"><a href="#sub-404999" class="headerlink" title="sub_404999"></a>sub_404999</h3><p>注册watchusb窗口类并创建该类窗口，监视磁盘变更的消息，如果是可移动磁盘则对其进行感染，并感染其中的目标文件</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144306472.png" srcset="/img/loading.gif" lazyload alt="image-20220602144306472"></p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144314910.png" srcset="/img/loading.gif" lazyload alt="image-20220602144314910"></p>
+<h3 id="sub-403771"><a href="#sub-403771" class="headerlink" title="sub_403771"></a>sub_403771</h3><p>感染磁盘和网络资源文件</p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144324735.png" srcset="/img/loading.gif" lazyload alt="image-20220602144324735"></p>
+<p> <img src="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20220602144330415.png" srcset="/img/loading.gif" lazyload alt="image-20220602144330415"></p>
+<h2 id="功能总结"><a href="#功能总结" class="headerlink" title="功能总结"></a>功能总结</h2><p>1、 复制自身到%windir%\system32\blackice.exe和%windir%\system32\kernel.dll文件。</p>
+<p>2、 通过修改注册表设置word，execl的安全级别和实现开机自启动，用来实现病毒传播和持久化攻击。</p>
+<p>3、 连接h_ttp:&#x2F;&#x2F;fmtwld.zj.com&#x2F;blackice&#x2F;url.txt和h_ttp:&#x2F;&#x2F;fmtwld.vicp.net&#x2F;blackice&#x2F;url.txt试图下载数据到本地，保存为%windir%\system32\blackice.ini文件运行。</p>
+<p>4、 查询指定杀软进程名称，并结束对应的杀软进程及其对应的线程。</p>
+<p>5、 注入explorer.exe进程来实现进程保护。</p>
+<p>6、 通过感染本地磁盘，可移动磁盘和网络资源中的exe，xls，doc文件实现传播。</p>
+<h2 id="处置建议"><a href="#处置建议" class="headerlink" title="处置建议"></a>处置建议</h2><p>1、 立即对被感染病毒的机器进行断网处理，防止病毒的后续攻击和进一步传播。</p>
+<p>2、 删除%windir%\system32目录下的blackice.exe，kernel.dll和blackice.ini文件。</p>
+<p>3、 使用专业杀毒软件对被感染系统和在被感染系统上使用过的可移动磁盘进行全盘查杀。</p>
+<p>4、 删除注册表HKCU\Software\Microsoft\Windows NT\CurrentVersion\Windows\run，HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\shell的相关的自启动键，修改注册表HKEY_CURRENT_USER\software\microsoft\office...\word(execl)\security还原word和execl的安全级别。</p>
+<p>5、 删除病毒所创建的宏模板。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/">样本分析</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/blackice/">blackice</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/">
+                        <span class="hidden-mobile">PDF嵌入攻击</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://unpkg.com/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://unpkg.com/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://unpkg.com/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://unpkg.com/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://unpkg.com/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://unpkg.com/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
