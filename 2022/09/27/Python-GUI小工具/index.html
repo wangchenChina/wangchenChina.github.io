@@ -1,0 +1,504 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前记打算学习一下python GUI编程 本来打算使用PyQt5，结果发现Qt Design默认的控件太少了 转而使用python自带的Tkinter模块 程序功能 计算文件Hash，包括md5、sha-1、sha-256）；  通过virustotal api获取文件的一些基本信息，包括检测比（恶意&#x2F;未检出）、卡巴斯基分类、文件类型、PEiD； （待完善）    具体代码1234567">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python GUI小工具">
+<meta property="og:url" content="http://example.com/2022/09/27/Python-GUI%E5%B0%8F%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="前记打算学习一下python GUI编程 本来打算使用PyQt5，结果发现Qt Design默认的控件太少了 转而使用python自带的Tkinter模块 程序功能 计算文件Hash，包括md5、sha-1、sha-256）；  通过virustotal api获取文件的一些基本信息，包括检测比（恶意&#x2F;未检出）、卡巴斯基分类、文件类型、PEiD； （待完善）    具体代码1234567">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/09/27/Python-GUI%E5%B0%8F%E5%B7%A5%E5%85%B7/image-20220927093900904.png">
+<meta property="article:published_time" content="2022-09-27T02:02:17.000Z">
+<meta property="article:modified_time" content="2022-09-27T02:04:40.770Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Python,Tkinter">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/09/27/Python-GUI%E5%B0%8F%E5%B7%A5%E5%85%B7/image-20220927093900904.png">
+  
+  
+  <title>Python GUI小工具 - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://unpkg.com/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://unpkg.com/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Python GUI小工具">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-09-27 10:02" pubdate>
+        2022年9月27日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      86 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Python GUI小工具</h1>
+            
+            <div class="markdown-body">
+              <h3 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h3><p>打算学习一下python GUI编程</p>
+<p>本来打算使用PyQt5，结果发现Qt Design默认的控件太少了</p>
+<p>转而使用python自带的Tkinter模块</p>
+<h3 id="程序功能"><a href="#程序功能" class="headerlink" title="程序功能"></a>程序功能</h3><ol>
+<li><p>计算文件Hash，包括md5、sha-1、sha-256）；</p>
+</li>
+<li><p>通过virustotal api获取文件的一些基本信息，包括检测比（恶意&#x2F;未检出）、卡巴斯基分类、文件类型、PEiD；</p>
+<p>（待完善）</p>
+<p><img src="/2022/09/27/Python-GUI%E5%B0%8F%E5%B7%A5%E5%85%B7/image-20220927093900904.png" srcset="/img/loading.gif" lazyload alt="image-20220927093900904"></p>
+</li>
+</ol>
+<h3 id="具体代码"><a href="#具体代码" class="headerlink" title="具体代码"></a>具体代码</h3><figure class="highlight python"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></div></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">from</span> tkinter.filedialog <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> tkinter.ttk <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> windnd<br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> base64<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">VirusTotal</span>(<span class="hljs-params">file_md5</span>):<br>    header = &#123;<br>        <span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0&#x27;</span>,<br>        <span class="hljs-string">&#x27;Connection&#x27;</span>: <span class="hljs-string">&#x27;close&#x27;</span>,<br>        <span class="hljs-string">&#x27;Accept&#x27;</span>: <span class="hljs-string">&#x27;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#x27;</span>,<br>        <span class="hljs-string">&#x27;x-apikey&#x27;</span>: <span class="hljs-string">&#x27;*****************************************&#x27;</span>                   <span class="hljs-comment">#api key</span><br>    &#125;<br>    requests.packages.urllib3.disable_warnings()<br>    <span class="hljs-comment"># 检索有关文件的信息（by MD5）</span><br>    string = requests.get(<span class="hljs-string">&#x27;https://www.virustotal.com/api/v3/files/&#x27;</span> + file_md5, headers=header, verify=<span class="hljs-literal">False</span>)<br>    <span class="hljs-comment">#print(string.text)</span><br>    s = json.loads(string.text)<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(string.text) &gt; <span class="hljs-number">1000</span>:<br>        E_VT.insert(<span class="hljs-number">0</span>, <span class="hljs-built_in">str</span>(s[<span class="hljs-string">&#x27;data&#x27;</span>][<span class="hljs-string">&#x27;attributes&#x27;</span>][<span class="hljs-string">&#x27;last_analysis_stats&#x27;</span>][<span class="hljs-string">&#x27;malicious&#x27;</span>]) + <span class="hljs-string">&#x27;/&#x27;</span> +<br>                    <span class="hljs-built_in">str</span>(s[<span class="hljs-string">&#x27;data&#x27;</span>][<span class="hljs-string">&#x27;attributes&#x27;</span>][<span class="hljs-string">&#x27;last_analysis_stats&#x27;</span>][<span class="hljs-string">&#x27;undetected&#x27;</span>]))<br>        E_Type.insert(<span class="hljs-number">0</span>, s[<span class="hljs-string">&#x27;data&#x27;</span>][<span class="hljs-string">&#x27;attributes&#x27;</span>][<span class="hljs-string">&#x27;magic&#x27;</span>])<br>        <span class="hljs-keyword">try</span>:<br>            E_Ka.insert(<span class="hljs-number">0</span>, s[<span class="hljs-string">&#x27;data&#x27;</span>][<span class="hljs-string">&#x27;attributes&#x27;</span>][<span class="hljs-string">&#x27;last_analysis_results&#x27;</span>][<span class="hljs-string">&#x27;Kaspersky&#x27;</span>][<span class="hljs-string">&#x27;result&#x27;</span>])<br>        <span class="hljs-keyword">except</span>:<br>            E_Ka.insert(<span class="hljs-number">0</span>, <span class="hljs-string">&quot;无&quot;</span>)<br>        <span class="hljs-keyword">try</span>:<br>            E_PEiD.insert(<span class="hljs-number">0</span>, s[<span class="hljs-string">&#x27;data&#x27;</span>][<span class="hljs-string">&#x27;attributes&#x27;</span>][<span class="hljs-string">&#x27;packers&#x27;</span>][<span class="hljs-string">&#x27;PEiD&#x27;</span>])<br>        <span class="hljs-keyword">except</span>:<br>            E_PEiD.insert(<span class="hljs-number">0</span>, <span class="hljs-string">&quot;无&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        E_VT.insert(<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;VT无结果&#x27;</span>)<br>        E_Ka.insert(<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;VT无结果&#x27;</span>)<br>        E_PEiD.insert(<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;VT无结果&#x27;</span>)<br>        E_Type.insert(<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;VT无结果&#x27;</span>)<br><br><span class="hljs-comment">#计算Hash</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">Hash</span>(<span class="hljs-params">file</span>):<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>        data = fp.read()<br>    file_md5 = hashlib.md5(data).hexdigest()<br>    file_sha1 = hashlib.sha1(data).hexdigest()<br>    file_sha256 = hashlib.sha256(data).hexdigest()<br>    E_md5.delete(<span class="hljs-number">0</span>, END)<br>    E_md5.insert(<span class="hljs-number">0</span>, file_md5)<br>    E_sha1.delete(<span class="hljs-number">0</span>, END)<br>    E_sha1.insert(<span class="hljs-number">0</span>, file_sha1)<br>    E_sha256.delete(<span class="hljs-number">0</span>, END)<br>    E_sha256.insert(<span class="hljs-number">0</span>, file_sha256)<br>    E_VT.delete(<span class="hljs-number">0</span>, END)<br>    E_Ka.delete(<span class="hljs-number">0</span>, END)<br>    E_PEiD.delete(<span class="hljs-number">0</span>, END)<br>    E_Type.delete(<span class="hljs-number">0</span>, END)<br>    win.update()          <span class="hljs-comment">#更新窗口</span><br>    VirusTotal(file_md5)<br><br><span class="hljs-comment">#打开文件</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">FileOpen</span>():<br>    file = askopenfilename(title=<span class="hljs-string">&#x27;打开文件&#x27;</span>)<br>    E.delete(<span class="hljs-number">0</span>, END)<br>    E.insert(<span class="hljs-number">0</span>, <span class="hljs-built_in">str</span>(file))<br>    Hash(file)<br><br><span class="hljs-comment">#拖拽打开文件</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">Dragg</span>(<span class="hljs-params">files</span>):<br>    file = <span class="hljs-string">&#x27;\n&#x27;</span>.join((item.decode(<span class="hljs-string">&#x27;gbk&#x27;</span>) <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> files))<br>    E.delete(<span class="hljs-number">0</span>, END)<br>    E.insert(<span class="hljs-number">0</span>, <span class="hljs-built_in">str</span>(file))<br>    Hash(file)<br><br><br>win = Tk()<br><span class="hljs-comment">#获取屏幕尺寸计算参数，使窗口显示再屏幕中央</span><br>screen_width = win.winfo_screenwidth()<br>screen_height = win.winfo_screenheight()<br>width = <span class="hljs-number">550</span><br>height = <span class="hljs-number">200</span><br>win_size = <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;width&#125;</span>x<span class="hljs-subst">&#123;height&#125;</span>+<span class="hljs-subst">&#123;<span class="hljs-built_in">round</span>((screen_width-width)/<span class="hljs-number">2</span>)&#125;</span>+<span class="hljs-subst">&#123;<span class="hljs-built_in">round</span>((screen_height-height)/<span class="hljs-number">2</span>)&#125;</span>&#x27;</span> <span class="hljs-comment">#round去掉小数</span><br>win.geometry(win_size)<br>win.resizable(height=<span class="hljs-literal">False</span>, width=<span class="hljs-literal">False</span>)<br>win.title(<span class="hljs-string">&#x27;DEMO&#x27;</span>)<br><br><span class="hljs-comment">#base64图标</span><br><span class="hljs-comment"># win.iconbitmap(&#x27;demo.ico&#x27;)</span><br>temp = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;temp.ico&#x27;</span>, <span class="hljs-string">&#x27;wb+&#x27;</span>)<br>base64_str = <span class="hljs-string">&#x27;AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAAMMOAADDDgAAAAAAAAAAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Tz///Lxf//xr///8bA///GwP//xsD//8bA///GwP//xsD//8bA///GwP//xsD//8bA///GwP//xsD//8bA///GwP//xsD//8bA///GwP//xsD//8bA///GwP//xsD//8bA///GwP//xr///9fS///+/v//////////////////+Pf//6CW//9VQf//Uj7//1I///9SP///Uj///1I+//9SPv//Uj7//1I+//9SPv//Uj7//1I+//9SPv//Uj7//1I+//9SPv//Uj7//1I+//9SPv//Uj7//1I+//9SPv//Uj7//1I///9PO///hHf///v7////////////////////////9fT//5iN//9QPP//TTn//046//9OO///Tzv//046//9OOv//Tjr//046//9OOv//Tjr//046//9OOv//Tjr//046//9OOv//Tjr//046//9OOv//Tjr//046//9OOv//Tjr//0s2//+Bc///+/v/////////////////////////////9PP//5SJ//9PO///TTn//1hF//+flP//ubH//7ev//+3r///t6///7ev//+3r///t6///7ev//+3r///t6///7ev//+3r///t6///7ev//+3r///uLD//6+m//9iUP//Sjb//4Jz///7+///////////////////////////////////8vH//5GE//9OOv//Tjr//4N1///r6f//////////////////////////////////////////////////////////////////////////////////8/L//3Bf//9JNf//gnP///v7////////////////////////////////////////8O///42A//9OOv//TTn//4Bx///n5P/////////////////////////////////////////////////////////////////////////////x7///b1///0k1//+Cc///+/v/////////////////////////////////////////////7+3//4l8//9NOf//TDj//4By///p5/////////////////////////////////////////////////////////////////////////Hv//9vX///STX//4Jz///7+///////////////////////////////////////////////////7Or//4V4//9NOf//TTn//4R1///r6f//////////////////////////////////////////////////////////////////8e///29f//9JNf//gnP///v7////////////////////////////////////////////////////////6uj//4J0//9NOf//TTn//4d6///u6//////////////////////////////////////////////////////////////x7///b1///0k1//+Cc///+/v/////////////////////////////////////////////////////////////6OX//35w//9MOP//Tjr//4t+///w7v////////////////////////////////////////////////////////Hv//9vX///STX//4Jz///7+///////////////////////////////////////////////////////////////////5eP//3ts//9MOP//Tjr//4+C///x8P//////////////////////////////////////////////////8e///29f//9JNf//gnP///v7////////////////////////////////////////////////////////////////////////4+D//3ho//9MOP//Tzv//5OG///z8v/////////////////////////////////////////////x7///b1///0k1//+Cc///+/v/////////////////////////////////////////////////////////////////////////////4d7//3pr//9NOf//Tzz//5aK///z8v////////////////////////////////////////Hv//9vX///STX//4Jz///7+///////////////////////////////////////////////////////////////////////////////////s6v//1E9//9MOP//W0n//9PO////////////////////////////////////////8e///29f//9JNf//gnP///v7/////////////////////////////////////////////////////////////////////////////8vF//9kUv//TDj//1ZD//+wp///+/r////////////////////////////////////////x7///b1///0k1//+Cc///+/v////////////////////////////////////////////////////////////////////////Pyf//ZVT//0s3//9VQf//rKP///z7//////////////////////////////////////////////Hv//9vX///STX//4Jz///7+///////////////////////////////////////////////////////////////////0s3//2dW//9LN///VkP//6uh///6+v//////////////////////////////////////////////////8e///29f//9JNf//gnP///v7/////////////////////////////////////////////////////////////9XQ//9qWf//Szf//1VB//+so///+/v////////////////////////////////////////////////////////x7///b1///0k1//+Cc///+/v////////////////////////////////////////////////////////Y1P//bVz//0s3//9TQP//qJ////v6//////////////////////////////////////////////////////////////Hv//9vX///STX//4Jz///7+///////////////////////////////////////////////////3Nf//3Bf//9LN///Uj///6Sa///5+f//////////////////////////////////////////////////////////////////8e///29f//9JNf//gnP///v7/////////////////////////////////////////////97b//9zY///Szf//1E+//+glv//+Pj////////////////////////////////////////////////////////////////////////x7///b1///0k1//+Cc///+/v////////////////////////////////////////h3v//dmb//0w3//9RPf//nZL///f2//////////////////////////////////////////////////////////////////////////////Hv//9vX///STX//4Jz///7+///////////////////////////////////5OH//3lq//9MOP//UDz//5aK///z8f///f3///z8///8/P///Pz///z8///8/P///Pz///z8///8/P///Pz///z8///8/P///Pz///z8///9/f//7uz//29e//9JNf//gnP///v7/////////////////////////////+fk//98bv//TTj//005//9UQf//gHL//4x///+Lfv//i37//4t+//+Lfv//i37//4t+//+Lfv//i37//4t+//+Lfv//i37//4t+//+Lfv//i37//4t+//+GeP//WUf//0o2//+Cc///+/v////////////////////////o5f//f3D//0w3//9NOP//TTn//004//9LNv//Sjb//0o2//9KNv//Sjb//0o2//9KNv//Sjb//0o2//9KNv//Sjb//0o2//9KNv//Sjb//0o2//9KNv//Sjb//0o2//9MOP//SjX//4Fy///7+///////////////////9PL//5aL//9gTv//YU///2FP//9hT///YU///2FP//9hT///YU///2FP//9hT///YU///2FP//9hT///YU///2FP//9hT///YU///2FP//9hT///YU///2FP//9hT///YU///2FP//9eTP//j4L///v7///////////////////49///4+D//+Lf///i3///4t///+Lf///i3///4t///+Lf///i3///4t///+Lf///i3///4t///+Lf///i3///4t///+Lf///i3///4t///+Lf///i3///4t///+Lf///i3///4t///+Lf///r6P///v7/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=&#x27;</span><br>imagedata = base64.b64decode(base64_str)<br>temp.write(imagedata)<br>temp.close()<br>win.iconbitmap(<span class="hljs-string">&#x27;temp.ico&#x27;</span>)<br>os.remove(<span class="hljs-string">&#x27;temp.ico&#x27;</span>)<br><br><span class="hljs-comment">#文件拖拽</span><br>windnd.hook_dropfiles(win, func=Dragg)<br><br>Label(win, text=<span class="hljs-string">&#x27;文件名：&#x27;</span>).grid(row=<span class="hljs-number">0</span>)<br>E = Entry(win, width=<span class="hljs-number">50</span>)<br>E.grid(row=<span class="hljs-number">0</span>, column=<span class="hljs-number">1</span>, columnspan=<span class="hljs-number">4</span>)<br>btn = Button(win, text=<span class="hljs-string">&#x27;选择&#x27;</span>, command=FileOpen).grid(row=<span class="hljs-number">0</span>, column=<span class="hljs-number">6</span>)<br><br>Label(win, text=<span class="hljs-string">&#x27;MD5：&#x27;</span>).grid(row=<span class="hljs-number">1</span>)<br>E_md5 = Entry(win, width=<span class="hljs-number">50</span>)<br>E_md5.grid(row=<span class="hljs-number">1</span>, column=<span class="hljs-number">1</span>, columnspan=<span class="hljs-number">5</span>)<br><br>Label(win, text=<span class="hljs-string">&#x27;SHA-1：&#x27;</span>).grid(row=<span class="hljs-number">2</span>)<br>E_sha1 = Entry(win, width=<span class="hljs-number">50</span>)<br>E_sha1.grid(row=<span class="hljs-number">2</span>, column=<span class="hljs-number">1</span>, columnspan=<span class="hljs-number">5</span>)<br><br>Label(win, text=<span class="hljs-string">&#x27;SHA-256：&#x27;</span>).grid(row=<span class="hljs-number">3</span>)<br>E_sha256 = Entry(win, width=<span class="hljs-number">50</span>)<br>E_sha256.grid(row=<span class="hljs-number">3</span>, column=<span class="hljs-number">1</span>, columnspan=<span class="hljs-number">5</span>)<br><br>Label(win, text=<span class="hljs-string">&#x27;--------VirusTotal API-------&#x27;</span>).grid(row=<span class="hljs-number">4</span>, column=<span class="hljs-number">3</span>)<br><br>Label(win, text=<span class="hljs-string">&#x27;引擎检测：&#x27;</span>).grid(row=<span class="hljs-number">5</span>)<br>E_VT = Entry(win, width=<span class="hljs-number">10</span>)<br>E_VT.grid(row=<span class="hljs-number">5</span>, column=<span class="hljs-number">1</span>, columnspan=<span class="hljs-number">5</span>, sticky=W)<br><br>Label(win, text=<span class="hljs-string">&#x27;Kaspersky：&#x27;</span>).grid(row=<span class="hljs-number">5</span>, column=<span class="hljs-number">2</span>, columnspan=<span class="hljs-number">3</span>)<br>E_Ka = Entry(win, width=<span class="hljs-number">30</span>)<br>E_Ka.grid(row=<span class="hljs-number">5</span>, column=<span class="hljs-number">4</span>, columnspan=<span class="hljs-number">3</span>, sticky=W)<br><br>Label(win, text=<span class="hljs-string">&#x27;类型：&#x27;</span>).grid(row=<span class="hljs-number">6</span>)<br>E_Type = Entry(win, width=<span class="hljs-number">50</span>)<br>E_Type.grid(row=<span class="hljs-number">6</span>, column=<span class="hljs-number">1</span>, columnspan=<span class="hljs-number">5</span>)<br><br>Label(win, text=<span class="hljs-string">&#x27;PEiD：&#x27;</span>).grid(row=<span class="hljs-number">7</span>)<br>E_PEiD = Entry(win, width=<span class="hljs-number">50</span>)<br>E_PEiD.grid(row=<span class="hljs-number">7</span>, column=<span class="hljs-number">1</span>, columnspan=<span class="hljs-number">5</span>)<br><br>win.mainloop()<br></code></pre></td></tr></table></figure>
+
+<p>使用pyinstaller打包成exe</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pyinstaller -i *.ico -F -c main.py --noconsole<br></code></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>刚开始接触使用起来还算可以，就是画界面太麻烦了</p>
+<p>工具还有很大的完善空间，加入各种api</p>
+<p>like <a target="_blank" rel="noopener" href="https://github.com/alexandreborges/malwoverview">https://github.com/alexandreborges/malwoverview</a></p>
+<p>还有就是python打包exe是真的大</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Python-Tkinter/">Python,Tkinter</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/26/Babonock%E8%A0%95%E8%99%AB%E5%88%86%E6%9E%90/">
+                        <span class="hidden-mobile">Babonock蠕虫分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://unpkg.com/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://unpkg.com/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://unpkg.com/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://unpkg.com/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://unpkg.com/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://unpkg.com/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
