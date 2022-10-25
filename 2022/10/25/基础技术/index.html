@@ -1,0 +1,491 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第二章 基础技术运行单一实例通过CreateMutex函数来创建或者打开一个已命名或未命名的互斥对象，程序在每次运行的时候，通过判断系统中是否存在相同命名的互斥对象来确定程序是否重复运行。 12345678910111213141516171819202122232425262728293031323334#include &lt;iostream&gt;#include &lt;windows.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基础技术">
+<meta property="og:url" content="http://example.com/2022/10/25/%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="第二章 基础技术运行单一实例通过CreateMutex函数来创建或者打开一个已命名或未命名的互斥对象，程序在每次运行的时候，通过判断系统中是否存在相同命名的互斥对象来确定程序是否重复运行。 12345678910111213141516171819202122232425262728293031323334#include &lt;iostream&gt;#include &lt;windows.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-25T07:23:14.000Z">
+<meta property="article:modified_time" content="2022-10-25T07:27:52.461Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="C++编程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>基础技术 - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://unpkg.com/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://unpkg.com/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="基础技术">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-25 15:23" pubdate>
+        2022年10月25日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      23 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">基础技术</h1>
+            
+            <div class="markdown-body">
+              <h2 id="第二章-基础技术"><a href="#第二章-基础技术" class="headerlink" title="第二章 基础技术"></a>第二章 基础技术</h2><h3 id="运行单一实例"><a href="#运行单一实例" class="headerlink" title="运行单一实例"></a>运行单一实例</h3><p>通过<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createmutexa">CreateMutex</a>函数来创建或者打开一个已命名或未命名的互斥对象，程序在每次运行的时候，通过判断系统中是否存在相同命名的互斥对象来确定程序是否重复运行。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></div></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;windows.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;tchar.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-comment">// 判断是否重复运行</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isalreadly</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    HANDLE hMutex = <span class="hljs-literal">NULL</span>;         <span class="hljs-comment">//定义句柄</span><br>    hMutex = ::<span class="hljs-built_in">CreateMutex</span>(<span class="hljs-literal">NULL</span>, FALSE, _T(<span class="hljs-string">&quot;TEST&quot;</span>));   <span class="hljs-comment">//创建互斥体</span><br>    <span class="hljs-keyword">if</span> (hMutex)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (ERROR_ALREADY_EXISTS == ::<span class="hljs-built_in">GetLastError</span>())<br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;                  <span class="hljs-comment">//互斥体存在，返回true，程序重复运行</span><br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;  <br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Hello World!\n&quot;</span>;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isalreadly</span>())<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;已经运行\n&quot;</span>);<br>        <span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;pause&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;没有运行\n&quot;</span>);<br>        <span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;pause&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="DLL延迟加载"><a href="#DLL延迟加载" class="headerlink" title="DLL延迟加载"></a>DLL延迟加载</h3><p>把必需的DLL文件以资源形式插入到程序中，并使用DLL延迟加载技术延迟加载。在正式调用必需的DLL之前，程序都是可以正常执行的。程序可以在这段时间内，把资源中的DLL释放到本地，等到正式调用DLL的时候释放的文件就会正确地加载执行。这样当使用程序的时候，只需把exe文件发送给用户，而不需要附加DLL文件了，也不需要担心程序会丢失DLL文件。</p>
+<p>DLL延迟加载的具体设置步骤为：<br>属性–&gt;链接器–&gt;输入–&gt;延迟加载的DLL–&gt;输入：***.dll</p>
+<h3 id="资源释放"><a href="#资源释放" class="headerlink" title="资源释放"></a>资源释放</h3><p>如果程序额外需要加载一些DLL文件、文本文件、图片文件，或者其他的音&#x2F;视频文件等，则可以把它们作为资源插入到程序里，等到程序运行后，再把它们释放到本地上。这样做的好处是编译出来的程序只有一个exe文件，而不需要附带其他文件，因而程序变得很简洁。只需把exe植入到用户计算机上，而不需要连同其他文件一起植入，这降低了被发现的风险。</p>
+<p>新增自定义资源 <em>MYRES</em> 后，添加资源1.txt</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;windows.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;resource.h&quot;</span></span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">FreeRes_ShowError</span><span class="hljs-params">(<span class="hljs-type">char</span>* pszText)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">char</span> szErr[MAX_PATH] = &#123; <span class="hljs-number">0</span> &#125;;<br>	<span class="hljs-built_in">wsprintf</span>(szErr, <span class="hljs-string">&quot;%s Error[%d]\n&quot;</span>, pszText, ::<span class="hljs-built_in">GetLastError</span>());<br>&#125;<br><br><span class="hljs-function">BOOL <span class="hljs-title">FreeMyResource</span><span class="hljs-params">(UINT uiResourceName, <span class="hljs-type">char</span>* lpszResourceType, <span class="hljs-type">char</span>* lpszSaveFileName)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-comment">//获取指定模块里的资源</span><br>	HRSRC hRsrc = ::<span class="hljs-built_in">FindResource</span>(<span class="hljs-literal">NULL</span>, <span class="hljs-built_in">MAKEINTRESOURCE</span>(uiResourceName), lpszResourceType);<br>	<span class="hljs-keyword">if</span> (<span class="hljs-literal">NULL</span> == hRsrc)<br>	&#123;<br>		<span class="hljs-built_in">FreeRes_ShowError</span>(<span class="hljs-string">&quot;FindResource&quot;</span>);<br>		<span class="hljs-keyword">return</span> FALSE;<br>	&#125;<br>	<span class="hljs-comment">// 获取资源的大小</span><br>	DWORD dwSize = ::<span class="hljs-built_in">SizeofResource</span>(<span class="hljs-literal">NULL</span>, hRsrc);<br>	<span class="hljs-keyword">if</span> (<span class="hljs-number">0</span> &gt;= dwSize)<br>	&#123;<br>		<span class="hljs-built_in">FreeRes_ShowError</span>(<span class="hljs-string">&quot;SizeofResource&quot;</span>);<br>		<span class="hljs-keyword">return</span> FALSE;<br>	&#125;<br>	<span class="hljs-comment">// 将资源加载到内存里</span><br>	HGLOBAL hGlobal = ::<span class="hljs-built_in">LoadResource</span>(<span class="hljs-literal">NULL</span>, hRsrc);<br>	<span class="hljs-keyword">if</span> (<span class="hljs-literal">NULL</span> == hGlobal)<br>	&#123;<br>		<span class="hljs-built_in">FreeRes_ShowError</span>(<span class="hljs-string">&quot;LoadResource&quot;</span>);<br>		<span class="hljs-keyword">return</span> FALSE;<br>	&#125;<br>	<span class="hljs-comment">// 锁定资源</span><br>	LPVOID lpVoid = ::<span class="hljs-built_in">LockResource</span>(hGlobal);<br>	<span class="hljs-keyword">if</span> (<span class="hljs-literal">NULL</span> == lpVoid)<br>	&#123;<br>		<span class="hljs-built_in">FreeRes_ShowError</span>(<span class="hljs-string">&quot;LockResource&quot;</span>);<br>		<span class="hljs-keyword">return</span> FALSE;<br>	&#125;<br>	<span class="hljs-comment">// 保存资源为文件</span><br>	FILE* fp = <span class="hljs-literal">NULL</span>;<br>	<span class="hljs-built_in">fopen_s</span>(&amp;fp, lpszSaveFileName, <span class="hljs-string">&quot;wb+&quot;</span>);<br>	<span class="hljs-keyword">if</span> (<span class="hljs-literal">NULL</span> == fp)<br>	&#123;<br>		<span class="hljs-built_in">FreeRes_ShowError</span>(<span class="hljs-string">&quot;LockResource&quot;</span>);<br>		<span class="hljs-keyword">return</span> FALSE;<br>	&#125;<br>	<span class="hljs-built_in">fwrite</span>(lpVoid, <span class="hljs-built_in">sizeof</span>(<span class="hljs-type">char</span>), dwSize, fp);<br>	<span class="hljs-built_in">fclose</span>(fp);<br><br>	<span class="hljs-keyword">return</span> TRUE;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">char</span> szSaveName[MAX_PATH] = <span class="hljs-string">&quot;1.txt&quot;</span>;<br>	<span class="hljs-comment">// 释放资源</span><br>	BOOL bRet = <span class="hljs-built_in">FreeMyResource</span>(IDR_MYRES2, <span class="hljs-string">&quot;MYRES&quot;</span>, szSaveName);<br>	<span class="hljs-keyword">if</span> (FALSE == bRet)<br>	&#123;<br>		<span class="hljs-built_in">MessageBox</span>(<span class="hljs-literal">NULL</span>, <span class="hljs-string">&quot;Free Resource Error!&quot;</span>, <span class="hljs-string">&quot;ERROR&quot;</span>, MB_OK);<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-built_in">MessageBox</span>(<span class="hljs-literal">NULL</span>, <span class="hljs-string">&quot;Free Resource OK!&quot;</span>, <span class="hljs-string">&quot;OK&quot;</span>, MB_OK);<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Windows%E9%BB%91%E5%AE%A2%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">Windows黑客编程技术</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/25/ShellCodeLoader%E5%8A%A0%E8%BD%BD%E5%99%A8%E6%8A%95%E6%AF%92/">
+                        <span class="hidden-mobile">ShellCodeLoader加载器投毒</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://unpkg.com/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://unpkg.com/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://unpkg.com/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://unpkg.com/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://unpkg.com/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://unpkg.com/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
