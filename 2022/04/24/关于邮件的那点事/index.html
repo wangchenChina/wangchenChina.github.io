@@ -13,27 +13,27 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="John Doe">
+  <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
     <meta name="description" content="三种邮件协议SMTP即“Simple Mail Transfer Protocol”，简单邮件传输协议。它是用于从源地址到目标地址传输邮件的规范。通过该协议来控制邮件的中转。而我们常用的邮件供应商所提供的邮件服务，基本都是采用的SMTP协议进行传输。要注意的是SMTP协议并没有要求了客户端连接服务器需要进行认证，而ESMTP （Extended SMTP）会要求用户提供用户名和密码以便验证身份。但">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于邮件的那点事">
-<meta property="og:url" content="http://example.com/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/index.html">
+<meta property="og:url" content="http://wangchenchina.github.io/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/index.html">
 <meta property="og:site_name" content="Demo_博客">
 <meta property="og:description" content="三种邮件协议SMTP即“Simple Mail Transfer Protocol”，简单邮件传输协议。它是用于从源地址到目标地址传输邮件的规范。通过该协议来控制邮件的中转。而我们常用的邮件供应商所提供的邮件服务，基本都是采用的SMTP协议进行传输。要注意的是SMTP协议并没有要求了客户端连接服务器需要进行认证，而ESMTP （Extended SMTP）会要求用户提供用户名和密码以便验证身份。但">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/image-20220424144936243.png">
-<meta property="og:image" content="http://example.com/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/image-20220424145047436.png">
-<meta property="og:image" content="http://example.com/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/屏幕截图%202022-04-24%20141829.png">
-<meta property="og:image" content="http://example.com/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/image-20220424151500716.png">
-<meta property="og:image" content="http://example.com/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/dmarc.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/image-20220424144936243.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/image-20220424145047436.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/屏幕截图%202022-04-24%20141829.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/image-20220424151500716.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/dmarc.png">
 <meta property="article:published_time" content="2022-04-24T08:01:56.000Z">
 <meta property="article:modified_time" content="2022-04-24T08:06:19.095Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="Demo">
 <meta property="article:tag" content="邮件">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/image-20220424144936243.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2022/04/24/%E5%85%B3%E4%BA%8E%E9%82%AE%E4%BB%B6%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/image-20220424144936243.png">
   
   
   
@@ -75,7 +75,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"wangchenchina.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -424,13 +424,13 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>关于邮件的那点事</div>
-      <div>http://example.com/2022/04/24/关于邮件的那点事/</div>
+      <div>http://wangchenchina.github.io/2022/04/24/关于邮件的那点事/</div>
     </div>
     <div class="license-meta">
       
         <div class="license-meta-item">
           <div>作者</div>
-          <div>John Doe</div>
+          <div>Demo</div>
         </div>
       
       

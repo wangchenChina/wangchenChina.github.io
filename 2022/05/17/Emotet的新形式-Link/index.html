@@ -13,25 +13,25 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="John Doe">
+  <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
     <meta name="description" content="今天发现Emotet出现了新的攻击方式 第一次接触Emotet是采用的常见的Office宏病毒，然后升级到后来的宏4.0，现在又出现了新的攻击方式——利用LInk文件进行攻击。 搜集到的样本包括Link文件生成VBS和PowerShell两种，以生成VBS文件为例。 文件名：Datos-2504.lnk MD5: 95e0286c6c38320d9673b6492f9e2284   1C:\Win">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Emotet的新形式-Link">
-<meta property="og:url" content="http://example.com/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/index.html">
+<meta property="og:url" content="http://wangchenchina.github.io/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/index.html">
 <meta property="og:site_name" content="Demo_博客">
 <meta property="og:description" content="今天发现Emotet出现了新的攻击方式 第一次接触Emotet是采用的常见的Office宏病毒，然后升级到后来的宏4.0，现在又出现了新的攻击方式——利用LInk文件进行攻击。 搜集到的样本包括Link文件生成VBS和PowerShell两种，以生成VBS文件为例。 文件名：Datos-2504.lnk MD5: 95e0286c6c38320d9673b6492f9e2284   1C:\Win">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517144528337.png">
-<meta property="og:image" content="http://example.com/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517145225085.png">
-<meta property="og:image" content="http://example.com/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517145700961.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517144528337.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517145225085.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517145700961.png">
 <meta property="article:published_time" content="2022-05-17T07:18:48.000Z">
 <meta property="article:modified_time" content="2022-05-17T07:21:03.733Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="Demo">
 <meta property="article:tag" content="Emotet">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517144528337.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/image-20220517144528337.png">
   
   
   
@@ -73,7 +73,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"wangchenchina.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -360,13 +360,13 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>Emotet的新形式-Link</div>
-      <div>http://example.com/2022/05/17/Emotet的新形式-Link/</div>
+      <div>http://wangchenchina.github.io/2022/05/17/Emotet的新形式-Link/</div>
     </div>
     <div class="license-meta">
       
         <div class="license-meta-item">
           <div>作者</div>
-          <div>John Doe</div>
+          <div>Demo</div>
         </div>
       
       

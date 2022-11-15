@@ -13,23 +13,23 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="John Doe">
+  <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
     <meta name="description" content="VBEVBE是编译后（加密）的VBS代码。 加密工具有很多，其中常用的是Microsoft Script Encoder(screnc.exe),此外还有许多。 可以利用Microsoft Script Encoder进行解码，但是微软官网已经下架了相关下载链接。 推荐使用国外大神写的解码工具 https:&#x2F;&#x2F;www.interclasse.com&#x2F;scripts&#x2F;decovbe.php CMD执">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VBE、VBS、PowerShell和JavaScript木马">
-<meta property="og:url" content="http://example.com/2022/05/13/VBE%E3%80%81VBS%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/index.html">
+<meta property="og:url" content="http://wangchenchina.github.io/2022/05/13/VBE%E3%80%81VBS%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/index.html">
 <meta property="og:site_name" content="Demo_博客">
 <meta property="og:description" content="VBEVBE是编译后（加密）的VBS代码。 加密工具有很多，其中常用的是Microsoft Script Encoder(screnc.exe),此外还有许多。 可以利用Microsoft Script Encoder进行解码，但是微软官网已经下架了相关下载链接。 推荐使用国外大神写的解码工具 https:&#x2F;&#x2F;www.interclasse.com&#x2F;scripts&#x2F;decovbe.php CMD执">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/05/13/VBE%E3%80%81VBS%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/image-20220512112831779.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2022/05/13/VBE%E3%80%81VBS%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/image-20220512112831779.png">
 <meta property="article:published_time" content="2022-05-13T07:56:04.000Z">
 <meta property="article:modified_time" content="2022-11-01T06:38:37.897Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="Demo">
 <meta property="article:tag" content="脚本木马">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/05/13/VBE%E3%80%81VBS%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/image-20220512112831779.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2022/05/13/VBE%E3%80%81VBS%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/image-20220512112831779.png">
   
   
   
@@ -71,7 +71,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"wangchenchina.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -374,13 +374,13 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>VBE、VBS、PowerShell和JavaScript木马</div>
-      <div>http://example.com/2022/05/13/VBE、VBS、PowerShell和JavaScript木马/</div>
+      <div>http://wangchenchina.github.io/2022/05/13/VBE、VBS、PowerShell和JavaScript木马/</div>
     </div>
     <div class="license-meta">
       
         <div class="license-meta-item">
           <div>作者</div>
-          <div>John Doe</div>
+          <div>Demo</div>
         </div>
       
       
