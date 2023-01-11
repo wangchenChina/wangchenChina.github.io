@@ -16,27 +16,21 @@
   <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前两天无意看到某公众号推送的文章 https:&#x2F;&#x2F;www.freebuf.com&#x2F;news&#x2F;333958.html 看起来是外文搬运，PDF文件似曾相识，在某客户单位的监测设备上看到过，再拿出来瞧瞧 外文原文   当时就感觉很有意思，原理很简单，但是静态免杀效果很好，截至今天卡巴和火绒都免杀，虽然运行起来大概率会被杀 其实就是很简单的PDF嵌入，执行JS代码(exportDataObject)">
+    <meta name="description" content="MSIlessmsi工具 msiexec命令    1msiexec &#x2F;a test.msi &#x2F;qb TARGETDIR&#x3D;D:\test  NSIShttps:&#x2F;&#x2F;nsis.sourceforge.io&#x2F;Can_I_decompile_an_existing_installer#Extraction_Tools 7zip  https:&#x2F;&#x2F;7-zip.org&#x2F; AutoItAutoIt3 Deco">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PDF嵌入攻击">
-<meta property="og:url" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:title" content="MSI、NSIS、AutoIt以及CHM分析工具">
+<meta property="og:url" content="http://wangchenchina.github.io/2023/01/11/MSI%E3%80%81NSIS%E3%80%81AutoIt%E4%BB%A5%E5%8F%8ACHM%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/index.html">
 <meta property="og:site_name" content="Demo_博客">
-<meta property="og:description" content="前两天无意看到某公众号推送的文章 https:&#x2F;&#x2F;www.freebuf.com&#x2F;news&#x2F;333958.html 看起来是外文搬运，PDF文件似曾相识，在某客户单位的监测设备上看到过，再拿出来瞧瞧 外文原文   当时就感觉很有意思，原理很简单，但是静态免杀效果很好，截至今天卡巴和火绒都免杀，虽然运行起来大概率会被杀 其实就是很简单的PDF嵌入，执行JS代码(exportDataObject)">
+<meta property="og:description" content="MSIlessmsi工具 msiexec命令    1msiexec &#x2F;a test.msi &#x2F;qb TARGETDIR&#x3D;D:\test  NSIShttps:&#x2F;&#x2F;nsis.sourceforge.io&#x2F;Can_I_decompile_an_existing_installer#Extraction_Tools 7zip  https:&#x2F;&#x2F;7-zip.org&#x2F; AutoItAutoIt3 Deco">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142158793.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142651194.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142748304.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525150923518.png">
-<meta property="article:published_time" content="2022-05-25T07:33:04.000Z">
-<meta property="article:modified_time" content="2022-05-25T07:38:51.376Z">
+<meta property="article:published_time" content="2023-01-11T08:51:47.000Z">
+<meta property="article:modified_time" content="2023-01-11T08:53:12.538Z">
 <meta property="article:author" content="Demo">
-<meta property="article:tag" content="PDF">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142158793.png">
   
   
   
-  <title>PDF嵌入攻击 - Demo_博客</title>
+  <title>MSI、NSIS、AutoIt以及CHM分析工具 - Demo_博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +207,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="PDF嵌入攻击"></span>
+            <span id="subtitle" data-typed-text="MSI、NSIS、AutoIt以及CHM分析工具"></span>
           
         </div>
 
@@ -224,8 +218,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-25 15:33" pubdate>
-          2022年5月25日 下午
+        <time datetime="2023-01-11 16:51" pubdate>
+          2023年1月11日 下午
         </time>
       </span>
     
@@ -236,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          876 字
+          317 字
         
       </span>
     
@@ -247,7 +241,7 @@
         
         
         
-          8 分钟
+          3 分钟
         
       </span>
     
@@ -285,41 +279,25 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">PDF嵌入攻击</h1>
+            <h1 style="display: none">MSI、NSIS、AutoIt以及CHM分析工具</h1>
             
             
               <div class="markdown-body">
                 
-                <p>前两天无意看到某公众号推送的文章</p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/news/333958.html">https://www.freebuf.com/news/333958.html</a></p>
-<p>看起来是外文搬运，PDF文件似曾相识，在某客户单位的监测设备上看到过，再拿出来瞧瞧</p>
-<p><a target="_blank" rel="noopener" href="https://www.bleepingcomputer.com/news/security/pdf-smuggles-microsoft-word-doc-to-drop-snake-keylogger-malware/">外文原文</a></p>
-<img src="image-20220525142158793.png" srcset="/img/loading.gif" lazyload alt="样本信息" style="zoom:67%;" />
+                <h3 id="MSI"><a href="#MSI" class="headerlink" title="MSI"></a>MSI</h3><p>lessmsi工具</p>
+<p>msiexec命令   </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">msiexec /a test.msi /qb TARGETDIR=D:\test<br></code></pre></td></tr></table></figure>
 
-<p>当时就感觉很有意思，原理很简单，但是静态免杀效果很好，截至今天卡巴和火绒都免杀，虽然运行起来大概率会被杀</p>
-<p>其实就是很简单的PDF嵌入，执行JS代码(exportDataObject)</p>
-<p><img src="/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142651194.png" srcset="/img/loading.gif" lazyload alt="JavaScript代码"></p>
-<p>exportDataObject函数包含 2 个参数的对象： </p>
-<ul>
-<li>cName，嵌入对象的名称</li>
-<li>nLaunch，关于 PDF 阅读器应如何处理导出对象的说明</li>
-</ul>
-<p>nLaunch是一个整数，它具有三个有效值： </p>
-<ol>
-<li>提示用户输入路径并将文件保存在那里 </li>
-<li>提示用户输入路径，保存文件，并要求操作系统打开它 </li>
-<li>选择一个临时位置，将文件保存在那里，并要求操作系统打开它</li>
-</ol>
-<p><img src="/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142748304.png" srcset="/img/loading.gif" lazyload alt="嵌入的word文件"></p>
-<p>包含的docx文件包含CVE-2017-0199漏洞，发起请求htt_ps:&#x2F;&#x2F;<a href="mailto:&#x67;&#105;&#x74;&#x68;&#x75;&#x62;&#x2e;&#99;&#111;&#x6d;&#64;&#x32;&#108;&#46;&#x6c;&#x76;">&#x67;&#105;&#x74;&#x68;&#x75;&#x62;&#x2e;&#99;&#111;&#x6d;&#64;&#x32;&#108;&#46;&#x6c;&#x76;</a>&#x2F;26，实际跳转到</p>
-<p>htt_p:&#x2F;&#x2F;192.227.196.211&#x2F;dhl_shp&#x2F;doc_000909000.doc，但是已经挂了，应该是HTA文件执行下一步攻击</p>
-<p>真的是一步三折</p>
-<p><img src="/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525150923518.png" srcset="/img/loading.gif" lazyload alt="通联地址"></p>
-<p>类似的样本分析<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1041653-1-1.html">https://www.52pojie.cn/thread-1041653-1-1.html</a></p>
-<p>利用的同外文原文一样都有CVE-2017-11882</p>
-<p>找到两个国外PDF嵌入攻击教程，比较老了，多是嵌入PE文件，不像这个样本绕了一圈，可以以后弄得玩</p>
-<p><a target="_blank" rel="noopener" href="https://ironhackers.es/en/tutoriales/pdf-malicioso-en-windows-10-con-settingcontent-ms-embebido/">https://ironhackers.es/en/tutoriales/pdf-malicioso-en-windows-10-con-settingcontent-ms-embebido/</a></p>
-<p><a target="_blank" rel="noopener" href="https://nora.codes/post/pdf-embedding-attacks/">https://nora.codes/post/pdf-embedding-attacks/</a></p>
+<h3 id="NSIS"><a href="#NSIS" class="headerlink" title="NSIS"></a>NSIS</h3><p><a target="_blank" rel="noopener" href="https://nsis.sourceforge.io/Can_I_decompile_an_existing_installer#Extraction_Tools">https://nsis.sourceforge.io/Can_I_decompile_an_existing_installer#Extraction_Tools</a></p>
+<p>7zip  <a target="_blank" rel="noopener" href="https://7-zip.org/">https://7-zip.org/</a></p>
+<h3 id="AutoIt"><a href="#AutoIt" class="headerlink" title="AutoIt"></a>AutoIt</h3><p>AutoIt3 Decompiler</p>
+<h3 id="CHM"><a href="#CHM" class="headerlink" title="CHM"></a>CHM</h3><p>ChmDecompiler工具</p>
+<p>hh命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hh -decompile  &lt;输出路径&gt;  &lt;目标chm文件&gt;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42591908/article/details/112089065">https://blog.csdn.net/weixin_42591908/article/details/112089065</a></p>
 
                 
               </div>
@@ -338,7 +316,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" class="category-chain-item">样本分析</a>
+  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="category-chain-item">基础知识</a>
   
   
 
@@ -350,13 +328,6 @@
     </div>
   
   
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/PDF/">#PDF</a>
-      
-    </div>
-  
 </div>
 
 
@@ -365,8 +336,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>PDF嵌入攻击</div>
-      <div>http://wangchenchina.github.io/2022/05/25/PDF嵌入攻击/</div>
+      <div>MSI、NSIS、AutoIt以及CHM分析工具</div>
+      <div>http://wangchenchina.github.io/2023/01/11/MSI、NSIS、AutoIt以及CHM分析工具/</div>
     </div>
     <div class="license-meta">
       
@@ -378,7 +349,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月25日</div>
+          <div>2023年1月11日</div>
         </div>
       
       
@@ -410,18 +381,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/" title="blackice病毒分析">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">blackice病毒分析</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/" title="使用mimikatz获取账号密码">
-                        <span class="hidden-mobile">使用mimikatz获取账号密码</span>
+                      <a href="/2022/12/12/%E5%85%B3%E4%BA%8EATT-CK/" title="关于ATT&amp;CK">
+                        <span class="hidden-mobile">关于ATT&amp;CK</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
