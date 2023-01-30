@@ -16,15 +16,15 @@
   <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="MSIlessmsi工具 msiexec命令    1msiexec &#x2F;a test.msi &#x2F;qb TARGETDIR&#x3D;D:\test  NSIShttps:&#x2F;&#x2F;nsis.sourceforge.io&#x2F;Can_I_decompile_an_existing_installer#Extraction_Tools 7zip  https:&#x2F;&#x2F;7-zip.org&#x2F; AutoItAutoIt3 Deco">
+    <meta name="description" content="MSI lessmsi工具  msiexec命令   1msiexec &#x2F;a test.msi &#x2F;qb TARGETDIR&#x3D;D:\test  NSIS官网对反编译的解释 https:&#x2F;&#x2F;nsis.sourceforge.io&#x2F;Can_I_decompile_an_existing_installer#Extraction_Tools 可以使用7zip工具  https:&#x2F;&#x2F;7-zip.org&#x2F; 另">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MSI、NSIS、AutoIt以及CHM分析工具">
 <meta property="og:url" content="http://wangchenchina.github.io/2023/01/11/MSI%E3%80%81NSIS%E3%80%81AutoIt%E4%BB%A5%E5%8F%8ACHM%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/index.html">
 <meta property="og:site_name" content="Demo_博客">
-<meta property="og:description" content="MSIlessmsi工具 msiexec命令    1msiexec &#x2F;a test.msi &#x2F;qb TARGETDIR&#x3D;D:\test  NSIShttps:&#x2F;&#x2F;nsis.sourceforge.io&#x2F;Can_I_decompile_an_existing_installer#Extraction_Tools 7zip  https:&#x2F;&#x2F;7-zip.org&#x2F; AutoItAutoIt3 Deco">
+<meta property="og:description" content="MSI lessmsi工具  msiexec命令   1msiexec &#x2F;a test.msi &#x2F;qb TARGETDIR&#x3D;D:\test  NSIS官网对反编译的解释 https:&#x2F;&#x2F;nsis.sourceforge.io&#x2F;Can_I_decompile_an_existing_installer#Extraction_Tools 可以使用7zip工具  https:&#x2F;&#x2F;7-zip.org&#x2F; 另">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-01-11T08:51:47.000Z">
-<meta property="article:modified_time" content="2023-01-11T08:53:12.538Z">
+<meta property="article:modified_time" content="2023-01-30T03:17:14.825Z">
 <meta property="article:author" content="Demo">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -230,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          317 字
+          389 字
         
       </span>
     
@@ -241,7 +241,7 @@
         
         
         
-          3 分钟
+          4 分钟
         
       </span>
     
@@ -284,15 +284,24 @@
             
               <div class="markdown-body">
                 
-                <h3 id="MSI"><a href="#MSI" class="headerlink" title="MSI"></a>MSI</h3><p>lessmsi工具</p>
-<p>msiexec命令   </p>
+                <h3 id="MSI"><a href="#MSI" class="headerlink" title="MSI"></a>MSI</h3><ol>
+<li><p>lessmsi工具</p>
+</li>
+<li><p>msiexec命令</p>
+</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">msiexec /a test.msi /qb TARGETDIR=D:\test<br></code></pre></td></tr></table></figure>
 
-<h3 id="NSIS"><a href="#NSIS" class="headerlink" title="NSIS"></a>NSIS</h3><p><a target="_blank" rel="noopener" href="https://nsis.sourceforge.io/Can_I_decompile_an_existing_installer#Extraction_Tools">https://nsis.sourceforge.io/Can_I_decompile_an_existing_installer#Extraction_Tools</a></p>
-<p>7zip  <a target="_blank" rel="noopener" href="https://7-zip.org/">https://7-zip.org/</a></p>
+<h3 id="NSIS"><a href="#NSIS" class="headerlink" title="NSIS"></a>NSIS</h3><p>官网对反编译的解释 <a target="_blank" rel="noopener" href="https://nsis.sourceforge.io/Can_I_decompile_an_existing_installer#Extraction_Tools">https://nsis.sourceforge.io/Can_I_decompile_an_existing_installer#Extraction_Tools</a></p>
+<p>可以使用<strong>7zip</strong>工具  <a target="_blank" rel="noopener" href="https://7-zip.org/">https://7-zip.org/</a></p>
+<p>另：分析可参考，NSIS用户手册中文版 <a target="_blank" rel="noopener" href="https://www.wenjiangs.com/doc/5d4zeojt">https://www.wenjiangs.com/doc/5d4zeojt</a></p>
 <h3 id="AutoIt"><a href="#AutoIt" class="headerlink" title="AutoIt"></a>AutoIt</h3><p>AutoIt3 Decompiler</p>
-<h3 id="CHM"><a href="#CHM" class="headerlink" title="CHM"></a>CHM</h3><p>ChmDecompiler工具</p>
-<p>hh命令</p>
+<h3 id="CHM"><a href="#CHM" class="headerlink" title="CHM"></a>CHM</h3><ol>
+<li><p>ChmDecompiler工具</p>
+</li>
+<li><p>hh命令</p>
+</li>
+</ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hh -decompile  &lt;输出路径&gt;  &lt;目标chm文件&gt;<br></code></pre></td></tr></table></figure>
 
 
@@ -380,6 +389,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/01/30/Windows%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0/" title="Windows日志学习">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Windows日志学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

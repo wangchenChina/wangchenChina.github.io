@@ -16,35 +16,29 @@
   <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、样本信息恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：    文件名 000000.xlsm    MD5 e566fc53051035e1e6fd0ed1823de0f9   SHA256 8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bb">
+    <meta name="description" content="日志类型Windows系统日志：记录系统中硬件、软件和系统问题的信息，同时还可以监视系统中发生的事件。用户可以通过它来检查错误发生的原因，或者寻找受到攻击时攻击者留下的痕迹。 Linux系统日志：记录linux系统运行中发生的各种类型的消息文件，包括 linux内核消息、用户登录消息、程序运行信息等。 应用日志：包括但不限于Web应用、应用程序等众多繁杂的日志。 Windows系统日志Window">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XRed蠕虫病毒分析">
-<meta property="og:url" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/index.html">
+<meta property="og:title" content="Windows日志学习">
+<meta property="og:url" content="http://wangchenchina.github.io/2023/01/30/Windows%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="Demo_博客">
-<meta property="og:description" content="一、样本信息恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：    文件名 000000.xlsm    MD5 e566fc53051035e1e6fd0ed1823de0f9   SHA256 8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bb">
+<meta property="og:description" content="日志类型Windows系统日志：记录系统中硬件、软件和系统问题的信息，同时还可以监视系统中发生的事件。用户可以通过它来检查错误发生的原因，或者寻找受到攻击时攻击者留下的痕迹。 Linux系统日志：记录linux系统运行中发生的各种类型的消息文件，包括 linux内核消息、用户登录消息、程序运行信息等。 应用日志：包括但不限于Web应用、应用程序等众多繁杂的日志。 Windows系统日志Window">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image004.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image006.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image008.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image010.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image012.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image014.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image016.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image017.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image019.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image021.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image022.png">
-<meta property="article:published_time" content="2022-05-16T06:26:25.000Z">
-<meta property="article:modified_time" content="2022-05-16T06:31:26.806Z">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/01/30/Windows%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0/image-20230129110644163.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/01/30/Windows%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0/image-20230129134848790.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/01/30/Windows%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0/image-20230129134551968.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/01/30/Windows%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0/image-20230129154553204.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/01/30/Windows%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0/image-20230129160202628.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/01/30/Windows%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0/image-20230130101428862.png">
+<meta property="article:published_time" content="2023-01-30T05:30:20.000Z">
+<meta property="article:modified_time" content="2023-01-30T05:31:53.945Z">
 <meta property="article:author" content="Demo">
-<meta property="article:tag" content="XRed">
+<meta property="article:tag" content="应急溯源">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2023/01/30/Windows%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0/image-20230129110644163.png">
   
   
   
-  <title>XRed蠕虫病毒分析 - Demo_博客</title>
+  <title>Windows日志学习 - Demo_博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -221,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="XRed蠕虫病毒分析"></span>
+            <span id="subtitle" data-typed-text="Windows日志学习"></span>
           
         </div>
 
@@ -232,8 +226,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-16 14:26" pubdate>
-          2022年5月16日 下午
+        <time datetime="2023-01-30 13:30" pubdate>
+          2023年1月30日 下午
         </time>
       </span>
     
@@ -244,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          2.8k 字
         
       </span>
     
@@ -255,7 +249,7 @@
         
         
         
-          18 分钟
+          24 分钟
         
       </span>
     
@@ -293,120 +287,217 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">XRed蠕虫病毒分析</h1>
+            <h1 style="display: none">Windows日志学习</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="一、样本信息"><a href="#一、样本信息" class="headerlink" title="一、样本信息"></a>一、样本信息</h2><p>恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：</p>
+                <h3 id="日志类型"><a href="#日志类型" class="headerlink" title="日志类型"></a>日志类型</h3><p><strong>Windows系统日志</strong>：记录系统中硬件、软件和系统问题的信息，同时还可以监视系统中发生的事件。用户可以通过它来检查错误发生的原因，或者寻找受到攻击时攻击者留下的痕迹。</p>
+<p><strong>Linux系统日志</strong>：记录linux系统运行中发生的各种类型的消息文件，包括 linux内核消息、用户登录消息、程序运行信息等。</p>
+<p><strong>应用日志</strong>：包括但不限于Web应用、应用程序等众多繁杂的日志。</p>
+<h3 id="Windows系统日志"><a href="#Windows系统日志" class="headerlink" title="Windows系统日志"></a>Windows系统日志</h3><p>Windows操作系统在其运行的生命周期中会记录其大量的日志信息，这些日志信息包括：Windows事件日志（Event Log），Windows服务器系统的IIS日志，FTP日志，Exchange Server邮件服务，MS SQL  Server数据库日志等。处理应急事件时，客户提出需要为其提供溯源，这些日志信息在取证和溯源中扮演着重要的角色。</p>
+<h4 id="开启审核策略"><a href="#开启审核策略" class="headerlink" title="开启审核策略"></a>开启审核策略</h4><p>运行 <strong>secpol.msc</strong> 可以打开本地安全策略，依次点开本地策略-审核策略。可以看到windows默认情况是没有开启审核策略的。不开启特定策略的话，Windows日志就不会记录某些事件，比如登录事件，进程创建事件等等。根据需要修改审核策略的属性，将全部审核操作选上成功和失败。</p>
+<img src="image-20230129110644163.png" srcset="/img/loading.gif" lazyload alt="image-20230129110644163" style="zoom: 67%;" />
+
+<p>使用 <strong>管理员身份运行</strong> 以下bat打开全部策略</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> [version] &gt;1.inf <br><span class="hljs-built_in">echo</span> signature=<span class="hljs-string">&quot;$CHICAGO$&quot;</span> &gt;&gt;1.inf <br><span class="hljs-built_in">echo</span> [Event Audit] &gt;&gt;1.inf <br><span class="hljs-built_in">echo</span> AuditSystemEvents=3 &gt;&gt;1.inf <br><span class="hljs-built_in">echo</span> AuditObjectAccess=3 &gt;&gt;1.inf <br><span class="hljs-built_in">echo</span> AuditPrivilegeUse=3 &gt;&gt;1.inf <br><span class="hljs-built_in">echo</span> AuditPolicyChange=3 &gt;&gt;1.inf <br><span class="hljs-built_in">echo</span> AuditAccountManage=3 &gt;&gt;1.inf <br><span class="hljs-built_in">echo</span> AuditProcessTracking=3 &gt;&gt;1.inf <br><span class="hljs-built_in">echo</span> AuditDSAccess=3 &gt;&gt;1.inf <br><span class="hljs-built_in">echo</span> AuditAccountLogon=3 &gt;&gt;1.inf <br><span class="hljs-built_in">echo</span> AuditLogonEvents=3 &gt;&gt;1.inf <br>secedit /configure /db 1.sdb /cfg 1.inf /log 1.<span class="hljs-built_in">log</span> /quiet <br>del 1.*<br>pause<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="日志分类"><a href="#日志分类" class="headerlink" title="日志分类"></a>日志分类</h4><p>Windows系统的日志文件存放在 <strong>C:&#x2F;windows&#x2F;system32&#x2F;winevt&#x2F;logs</strong> 目录下。</p>
+<p>Windows系统中自带事件查看器工具，它可以用来查看分析所有的Windows系统日志。运行 <strong>eventvwr</strong> 可以快速打开事件查看器。使用该工具可以看到系统日志被分为了两大类：Windows日志、应用程序和服务日志。</p>
+<img src="image-20230129134848790.png" srcset="/img/loading.gif" lazyload alt="image-20230129134848790" style="zoom: 50%;" />
+
+<p>其中，Windows日志三个核心日志文件，分别是：</p>
+<ol>
+<li>系统日志：System.evtx    (系统组件等日志) </li>
+<li>应用程序日志：Application.evtx (应用程序等日志)</li>
+<li>安全日志：Security.evtx    (系统登录等日志)</li>
+</ol>
+<p>上述日志文件默认大小均为20480KB（20MB），记录事件数据超过20MB时，默认系统将优先覆盖过期的日志记录。</p>
+<p>另外，应用程序和服务日志包含Windows系统中其它各类重要服务组件的事件日志。例如，<strong>Microsoft</strong>&gt;<strong>Windows</strong>&gt;<strong>TerminalServices-LocalSessionManager</strong>&gt;<strong>Operational</strong>，记录了用户远程桌面的访问日志，可以通过该日志定位远程登录的相关问题。</p>
+<p>大部分日志默认最大为1028KB，超过最大限制也优先覆盖过期的日志记录。</p>
+<p>可以通过日志属性修改日志保存的大小，延长日志保存时间。《网络安全法》规定网络日志留存不少于六个月。</p>
+<img src="image-20230129134551968.png" srcset="/img/loading.gif" lazyload alt="image-20230129134551968" style="zoom: 50%;" />
+
+
+
+<h4 id="日志属性"><a href="#日志属性" class="headerlink" title="日志属性"></a>日志属性</h4><p>Windows事件日志属性如下：</p>
+<img src="image-20230129154553204.png" srcset="/img/loading.gif" lazyload alt="image-20230129154553204" style="zoom: 50%;" />
+
 <table>
 <thead>
 <tr>
-<th>文件名</th>
-<th>000000.xlsm</th>
+<th>属性名</th>
+<th>描述</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>MD5</td>
-<td>e566fc53051035e1e6fd0ed1823de0f9</td>
+<td>日志名称</td>
+<td>已记录事件的日志的名称</td>
 </tr>
 <tr>
-<td>SHA256</td>
-<td>8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bbfb731424d7952c15</td>
+<td>来源</td>
+<td>记录事件的软件，可以是程序名，也可以是系统或大型程序的组件（如驱动程序名）。</td>
 </tr>
 <tr>
-<td>文件大小</td>
-<td>18,387 字节</td>
+<td>记录时间</td>
+<td>记录事件的日期和时间</td>
 </tr>
 <tr>
-<td>病毒类型</td>
-<td>HEUR:Trojan-Downloader.Script.Generic</td>
+<td>事件ID</td>
+<td>标识特定事件类型的编号。</td>
+</tr>
+<tr>
+<td>任务类别</td>
+<td>用于表示事件发行者的子组件或活动。</td>
+</tr>
+<tr>
+<td>级别</td>
+<td>事件严重性的分类，包括<strong>信息</strong>、<strong>警告</strong>、<strong>错误</strong>、<strong>审核成功</strong>、<strong>审核失败</strong>。</td>
+</tr>
+<tr>
+<td>关键字</td>
+<td>可用于筛选或搜索事件的一组类别或标记。</td>
+</tr>
+<tr>
+<td>用户</td>
+<td>事件发生所代表的用户的名称。</td>
+</tr>
+<tr>
+<td>计算机</td>
+<td>发生事件的计算机的名称。</td>
 </tr>
 </tbody></table>
-<p>经初步分析该文档属于伪装成“Synaptics触摸板驱动程序”的Xred蠕虫病毒产生的存在恶意宏代码的Excel传播文档。该病毒曾于2020年初较为活跃，是具备远程控制、信息窃取能力的感染型病毒，可以感染本地EXE文件及xlsx电子表格文件，病毒可通过文件分享和U盘、移动硬盘等媒介传播。据此，安全人员判定上述上传恶意文件的主机已经遭受感染，但在流量监控过程中并未发现该病毒主程序，因此从相关威胁情报中搜集到了源EXE格式病毒。Xred病毒详情如下：</p>
+<p>Windows 事件 ID详见 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows-server/identity/ad-ds/plan/appendix-l--events-to-monitor">https://learn.microsoft.com/zh-cn/windows-server/identity/ad-ds/plan/appendix-l--events-to-monitor</a></p>
+<p>常见的事件ID</p>
 <table>
 <thead>
 <tr>
-<th>文件名</th>
-<th>Synaptics.exe</th>
+<th>事件ID</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>MD5</td>
-<td>13358cfb6040fd4b2dba262f209464de</td>
+<td>1102</td>
+<td>清理审计日志</td>
 </tr>
 <tr>
-<td>SHA256</td>
-<td>72daa031ce52468fce5cdab85b21b18f1211b8804bc23c6e6ae8c24e868c4866</td>
+<td><strong>4624</strong></td>
+<td><strong>账号登录成功</strong></td>
 </tr>
 <tr>
-<td>文件大小</td>
-<td>771,584 字节</td>
+<td><strong>4625</strong></td>
+<td><strong>账号登录失败</strong></td>
 </tr>
 <tr>
-<td>病毒类型</td>
-<td>Backdoor.Win32.DarkKomet.hqxy</td>
+<td>4634</td>
+<td>账号注销成功</td>
+</tr>
+<tr>
+<td>4647</td>
+<td>用户启动的注销</td>
+</tr>
+<tr>
+<td><strong>4672</strong></td>
+<td><strong>使用超级用户（如管理员）进行登录</strong></td>
+</tr>
+<tr>
+<td><strong>4720</strong></td>
+<td><strong>创建用户</strong></td>
+</tr>
+<tr>
+<td><strong>4726</strong></td>
+<td><strong>删除用户</strong></td>
+</tr>
+<tr>
+<td>4732</td>
+<td>将成员添加到启用安全的本地组中</td>
+</tr>
+<tr>
+<td>4733</td>
+<td>将成员从启用安全的本地组中移除</td>
+</tr>
+<tr>
+<td><strong>4688</strong></td>
+<td><strong>创建新进程</strong></td>
+</tr>
+<tr>
+<td>4689</td>
+<td>结束进程</td>
+</tr>
+<tr>
+<td><strong>4698</strong></td>
+<td><strong>创建计划任务</strong></td>
+</tr>
+<tr>
+<td><strong>4699</strong></td>
+<td><strong>删除计划任务</strong></td>
 </tr>
 </tbody></table>
-<h2 id="二、样本分析"><a href="#二、样本分析" class="headerlink" title="二、样本分析"></a>二、样本分析</h2><p>捕获的Excel文档内容均为空，包含恶意宏代码，打开后会自动运行。篡改Word和Excel组件的宏设置，启用所有宏，并通过公有云盘下载并执行Synaptics.exe病毒。目前所有的下载链接均已失效。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>修改宏设置</center>
+<p>每个<strong>成功登录</strong>的事件都会标记一个登录类型，不同登录类型代表不同的方式：</p>
+<table>
+<thead>
+<tr>
+<th>登录类型</th>
+<th>描述</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>交互式登录（Interactive）</td>
+<td>用户在本地进行登录。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>网络（Network）</td>
+<td>最常见的情况就是连接到共享文件夹或共享打印机时。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>批处理（Batch）</td>
+<td>通常表明某计划任务启动。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>服务（Service）</td>
+<td>每种服务都被配置在某个特定的用户账号下运行。</td>
+</tr>
+<tr>
+<td>7</td>
+<td>解锁（Unlock）</td>
+<td>屏保解锁。</td>
+</tr>
+<tr>
+<td>8</td>
+<td>网络明文（NetworkCleartext）</td>
+<td>登录的密码在网络上是通过明文传输的，如FTP。</td>
+</tr>
+<tr>
+<td>9</td>
+<td>新凭证（NewCredentials）</td>
+<td>使用带&#x2F;Netonly参数的RUNAS命令运行一个程序。</td>
+</tr>
+<tr>
+<td>10</td>
+<td>远程交互（RemoteInteractive）</td>
+<td>通过终端服务、远程桌面或远程协助访问计算机。</td>
+</tr>
+<tr>
+<td>11</td>
+<td>缓存交互（CachedInteractive）</td>
+<td>以一个域用户登录而又没有域控制器可用</td>
+</tr>
+</tbody></table>
+<img src="image-20230129160202628.png" srcset="/img/loading.gif" lazyload alt="image-20230129160202628" style="zoom:50%;" />
 
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image004.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>远程下载并执行病毒</center>
+<h4 id="日志分析工具"><a href="#日志分析工具" class="headerlink" title="日志分析工具"></a>日志分析工具</h4><p><strong>Event Log Explorer</strong><br>下载地址：<a target="_blank" rel="noopener" href="https://event-log-explorer.en.softonic.com/">https://event-log-explorer.en.softonic.com/</a><br>Event Log Explorer是一款非常好用的Windows日志分析工具。可用于查看，监视和分析跟事件记录，包括安全，系统，应用程序和其他微软Windows 的记录被记载的事件，其强大的过滤功能可以快速的过滤出有价值的信息。</p>
+<img src="image-20230130101428862.png" srcset="/img/loading.gif" lazyload alt="image-20230130101428862" style="zoom:50%;" />
 
-<p>Xred病毒由Delph编写，无壳，自身伪装成Synaptics触摸板驱动程序。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image006.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>PE详情</center>
-
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image008.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>伪装成驱动程序</center>
-
-<p>该病毒通过感染指定位置（Desktop、Documents、Downloads）的32位的“.exe”后缀文件与“.xlsx”后缀文件，使其恶意代码可以通过文件共享大量传播但不会导致系统明显卡顿。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image010.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>指定位置</center>
-
-<p>被感染的文件被执行时，会执行恶意逻辑，包括释放伪装名为“Synaptics.exe”的文件常驻系统，进行远程控制，回传窃取的敏感信息等恶意行为。主要功能逻辑如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image012.png" srcset="/img/loading.gif" lazyload alt="https://pc1.gtimg.com/guanjia/images/9b/83/9b837e056017f499ccb79ef4daa6213d.png"></p>
-<center>主要功能逻辑</center>
-
-<p>被感染的可执行文件体积增量约为753KB，包含一个名为“EXERESX”的资源，该资源是原始正常的程序。“EXERESX”资源会在宿主文件运行时被释放到当前目录并设置隐藏属性后执行。添加“ ._cache_”前缀拼接文件名。如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image014.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image016.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>被感染的文件与原文件对比</center>
-
-<p>该病毒释放并加载名为“KBHKS”的动态库资源，通过设置相关钩子消息以记录键盘输入信息及其窗口信息等， Hook代码关键逻辑如下：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image017.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>Hook钩子</center>
-
-<p>病毒使用“XLSM”资源感染xlsx后缀文件，并将“.xlsx”后缀改为“.xlsm”。修改office组件设置以及xlsm后缀目的为了能够自动静默启用宏。如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image019.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>感染xlsx文件</center>
-
-<p>病毒回连地址，公有云盘下载地址及敏感信息接收邮箱见下图：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image021.png" srcset="/img/loading.gif" lazyload alt="img"> <center>回连字符串</center></p>
-<p>具有基础的远程控制功能，包括执行CMD命令、屏幕截图、打印目录、下载文件、删除文件等。功能代码如下图所示。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image022.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>远控功能</center>
-
-
-
-<h2 id="三、IOCs"><a href="#三、IOCs" class="headerlink" title="三、IOCs"></a>三、IOCs</h2><p><strong>MD5：</strong></p>
-<p>e566fc53051035e1e6fd0ed1823de0f9</p>
-<p>13358cfb6040fd4b2dba262f209464de</p>
-<p>备注：因为被感染文件一直都是变化的，MD5值不确定，只列举了两个得到的样本</p>
-<p><strong>C2 &amp; URL：</strong></p>
-<p>xred.mooo.com</p>
-<p>freedns.afraid.org</p>
-<p>docs.google.com&#x2F;uc?id&#x3D;0BxsMXGfPIZfSVlVsOGlEVGxuZVk&amp;export&#x3D;download</p>
-<p><a target="_blank" rel="noopener" href="http://www.dropbox.com/s/zhp1b06imehwylq/Synaptics.rar?dl=1">www.dropbox.com/s/zhp1b06imehwylq/Synaptics.rar?dl=1</a></p>
-<p>xred.site50.net&#x2F;syn&#x2F;Synaptics.rar</p>
-<p><strong>邮箱地址：</strong></p>
-<p><a href="mailto:&#120;&#114;&#101;&#x64;&#x6c;&#x69;&#x6e;&#x65;&#x31;&#64;&#x67;&#x6d;&#97;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#120;&#114;&#101;&#x64;&#x6c;&#x69;&#x6e;&#x65;&#x31;&#64;&#x67;&#x6d;&#97;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
-<p><a href="mailto:&#x78;&#114;&#x65;&#x64;&#108;&#105;&#110;&#101;&#x32;&#64;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#x6d;">&#x78;&#114;&#x65;&#x64;&#108;&#105;&#110;&#101;&#x32;&#64;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#x6d;</a></p>
-<p><a href="mailto:&#120;&#x72;&#101;&#x64;&#108;&#105;&#110;&#101;&#51;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#109;">&#120;&#x72;&#101;&#x64;&#108;&#105;&#110;&#101;&#51;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#109;</a></p>
-<h2 id="四、处置建议"><a href="#四、处置建议" class="headerlink" title="四、处置建议"></a>四、处置建议</h2><p>（1）立即对感染病毒的机器进行断网处理，避免进一步扩散。</p>
-<p>（2）对已感染病毒的电脑，进行全盘查杀，修复被感染的文件。</p>
+<p><strong>Log Parser</strong> <a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/download/details.aspx?id=24659">https://www.microsoft.com/en-us/download/details.aspx?id=24659</a></p>
+<p>Windows日志分析的工具很多，个人感觉并没有什么区别，只是辅助分析的作用。事件查看器有时候就足够了。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://forum.butian.net/share/355">https://forum.butian.net/share/355</a></p>
 
                 
               </div>
@@ -425,7 +516,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" class="category-chain-item">样本分析</a>
+  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="category-chain-item">基础知识</a>
   
   
 
@@ -440,7 +531,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/XRed/">#XRed</a>
+        <a href="/tags/%E5%BA%94%E6%80%A5%E6%BA%AF%E6%BA%90/">#应急溯源</a>
       
     </div>
   
@@ -452,8 +543,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>XRed蠕虫病毒分析</div>
-      <div>http://wangchenchina.github.io/2022/05/16/XRed蠕虫病毒分析/</div>
+      <div>Windows日志学习</div>
+      <div>http://wangchenchina.github.io/2023/01/30/Windows日志学习/</div>
     </div>
     <div class="license-meta">
       
@@ -465,7 +556,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月16日</div>
+          <div>2023年1月30日</div>
         </div>
       
       
@@ -497,18 +588,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/" title="Emotet的新形式-Link">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Emotet的新形式-Link</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/13/VBE%E3%80%81VBS%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/" title="VBE、VBS、PowerShell和JavaScript木马">
-                        <span class="hidden-mobile">VBE、VBS、PowerShell和JavaScript木马</span>
+                      <a href="/2023/01/11/MSI%E3%80%81NSIS%E3%80%81AutoIt%E4%BB%A5%E5%8F%8ACHM%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" title="MSI、NSIS、AutoIt以及CHM分析工具">
+                        <span class="hidden-mobile">MSI、NSIS、AutoIt以及CHM分析工具</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
