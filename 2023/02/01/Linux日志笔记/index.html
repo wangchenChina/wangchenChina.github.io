@@ -24,7 +24,7 @@
 <meta property="og:description" content="Linux系统日志一般存放在 &#x2F;var&#x2F;log&#x2F; 目录下 比较重要的日志如下    日志文件 说明    &#x2F;var&#x2F;log&#x2F;boot.log 用于记录系统启动信息的日志，一般用于查看在系统启动时所有相关信息   &#x2F;var&#x2F;log&#x2F;cron Linux的计划任务相关信息的日志，用来找寻攻击者可能写入的恶意计划任">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-02-01T07:25:14.000Z">
-<meta property="article:modified_time" content="2023-02-01T07:27:54.471Z">
+<meta property="article:modified_time" content="2023-02-10T02:42:09.482Z">
 <meta property="article:author" content="Demo">
 <meta property="article:tag" content="应急溯源">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          1.5k 字
         
       </span>
     
@@ -242,7 +242,7 @@
         
         
         
-          9 分钟
+          13 分钟
         
       </span>
     
@@ -349,7 +349,23 @@
 
 
 
-<p>参考</p>
+<p><strong>常用命令</strong></p>
+<p>lscup   查看cup信息</p>
+<p>uname -a或cat &#x2F;proc&#x2F;version   操作系统信息</p>
+<p>cat &#x2F;etc&#x2F;passwd  系统所有账户</p>
+<p>awk -F: ‘{if($3&#x3D;&#x3D;0)print $1}’ &#x2F;etc&#x2F;passwd   超级权限账户</p>
+<p>cat &#x2F;etc&#x2F;passwd | grep ‘&#x2F;bin&#x2F;bash’     可登录账户</p>
+<p>lastb | head -n 20   最近20条登录失败信息</p>
+<p>lastlog    所有账号最后登录信息</p>
+<p>last | head -n 20   最近20条登录信息</p>
+<p>ls -lat &#x2F;etc&#x2F;init.d&#x2F;    启动项</p>
+<p>crontab -l  查看计划任务</p>
+<p>crontab -u root -l 查看root 用户的任务计划</p>
+<p>netstat -antlp   网络连接</p>
+<p>ls -lat &#x2F;proc&#x2F;****  查找对应运行程序</p>
+<p>top &#x2F; ps aux  检查进程</p>
+<p>chkconfig –list 查看系统中运行的服务</p>
+<p><strong>参考</strong></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45300266/article/details/123515941">https://blog.csdn.net/weixin_45300266/article/details/123515941</a></p>
 
                 
@@ -440,6 +456,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/02/10/libprocesshider%E9%9A%90%E8%97%8F%E6%8C%87%E5%AE%9A%E8%BF%9B%E7%A8%8B/" title="libprocesshider隐藏指定进程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">libprocesshider隐藏指定进程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
