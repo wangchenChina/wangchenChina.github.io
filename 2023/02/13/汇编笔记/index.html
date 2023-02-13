@@ -16,25 +16,25 @@
   <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="项目地址：https:&#x2F;&#x2F;github.com&#x2F;gianlucaborello&#x2F;libprocesshider 1git clone https:&#x2F;&#x2F;github.com&#x2F;gianlucaborello&#x2F;libprocesshider.git  修改 processhider.c，设置process_to_filter 值为自己想要隐藏的进程名。    然后依次执行 123cd libproces">
+    <meta name="description" content="基本概念机器语言（machinelanguage）是一种数字语言，专门设计成能被计算机处理器（CPU）理解。所有x86处理器都理解共同的机器语言。 汇编语言（assemblylanguage）包含用短助记符如ADD、MOV、SUB和CALL书写的语句。汇编语言与机器语言是一对一（one-to-one）的关系：每一条汇编语言指令对应一条机器语言指令。 汇编器（assembler）是一种工具程序，用于">
 <meta property="og:type" content="article">
-<meta property="og:title" content="libprocesshider隐藏指定进程">
-<meta property="og:url" content="http://wangchenchina.github.io/2023/02/10/libprocesshider%E9%9A%90%E8%97%8F%E6%8C%87%E5%AE%9A%E8%BF%9B%E7%A8%8B/index.html">
+<meta property="og:title" content="汇编笔记">
+<meta property="og:url" content="http://wangchenchina.github.io/2023/02/13/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Demo_博客">
-<meta property="og:description" content="项目地址：https:&#x2F;&#x2F;github.com&#x2F;gianlucaborello&#x2F;libprocesshider 1git clone https:&#x2F;&#x2F;github.com&#x2F;gianlucaborello&#x2F;libprocesshider.git  修改 processhider.c，设置process_to_filter 值为自己想要隐藏的进程名。    然后依次执行 123cd libproces">
+<meta property="og:description" content="基本概念机器语言（machinelanguage）是一种数字语言，专门设计成能被计算机处理器（CPU）理解。所有x86处理器都理解共同的机器语言。 汇编语言（assemblylanguage）包含用短助记符如ADD、MOV、SUB和CALL书写的语句。汇编语言与机器语言是一对一（one-to-one）的关系：每一条汇编语言指令对应一条机器语言指令。 汇编器（assembler）是一种工具程序，用于">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://wangchenchina.github.io/2023/02/10/libprocesshider%E9%9A%90%E8%97%8F%E6%8C%87%E5%AE%9A%E8%BF%9B%E7%A8%8B/image-20230210145455674.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2023/02/10/libprocesshider%E9%9A%90%E8%97%8F%E6%8C%87%E5%AE%9A%E8%BF%9B%E7%A8%8B/image-20230210151713746.png">
-<meta property="article:published_time" content="2023-02-10T07:45:24.000Z">
-<meta property="article:modified_time" content="2023-02-10T07:48:45.868Z">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/02/13/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/%E5%BE%AE%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A1%86%E5%9B%BE.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/02/13/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/%E6%B1%87%E7%BC%96-%E9%93%BE%E6%8E%A5-%E6%89%A7%E8%A1%8C%E5%91%A8%E6%9C%9F.png">
+<meta property="article:published_time" content="2023-02-13T08:54:05.000Z">
+<meta property="article:modified_time" content="2023-02-13T08:55:04.910Z">
 <meta property="article:author" content="Demo">
-<meta property="article:tag" content="linux HOOK">
+<meta property="article:tag" content="汇编">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://wangchenchina.github.io/2023/02/10/libprocesshider%E9%9A%90%E8%97%8F%E6%8C%87%E5%AE%9A%E8%BF%9B%E7%A8%8B/image-20230210145455674.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2023/02/13/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/%E5%BE%AE%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A1%86%E5%9B%BE.png">
   
   
   
-  <title>libprocesshider隐藏指定进程 - Demo_博客</title>
+  <title>汇编笔记 - Demo_博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -211,7 +211,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="libprocesshider隐藏指定进程"></span>
+            <span id="subtitle" data-typed-text="汇编笔记"></span>
           
         </div>
 
@@ -222,8 +222,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-02-10 15:45" pubdate>
-          2023年2月10日 下午
+        <time datetime="2023-02-13 16:54" pubdate>
+          2023年2月13日 下午
         </time>
       </span>
     
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          3.4k 字
         
       </span>
     
@@ -245,7 +245,7 @@
         
         
         
-          10 分钟
+          29 分钟
         
       </span>
     
@@ -283,29 +283,259 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">libprocesshider隐藏指定进程</h1>
+            <h1 style="display: none">汇编笔记</h1>
             
             
               <div class="markdown-body">
                 
-                <p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/gianlucaborello/libprocesshider">https://github.com/gianlucaborello/libprocesshider</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git clone https://github.com/gianlucaborello/libprocesshider.git<br></code></pre></td></tr></table></figure>
+                <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><strong>机器语言</strong>（machinelanguage）是一种数字语言，专门设计成能被计算机处理器（CPU）理解。所有x86处理器都理解共同的机器语言。</p>
+<p><strong>汇编语言</strong>（assemblylanguage）包含用短助记符如ADD、MOV、SUB和CALL书写的语句。汇编语言与机器语言是一对一（one-to-one）的关系：每一条汇编语言指令对应一条机器语言指令。</p>
+<p><strong>汇编器</strong>（assembler）是一种工具程序，用于将汇编语言源程序转换为机器语言。</p>
+<p>**常用的汇编编译器 **有MASM（ Microsoft 宏汇编器）、TASM（Turbc汇编器），NASM（NetWide汇编器）和MASM32（MASM的一种变体）。GAS（GNU汇编器）和NASM是两种基于Linux的汇编器。在这些汇编器中，NASM的语法与MASM的最相似。</p>
+<p><strong>链接器</strong>（linker）是一种工具程序，它把汇编器生成的单个文件组合为一个可执行程序。</p>
+<p>高级语言如Python、C++和Java与汇编语言和机器语言的关系是一对多（one-to-many）。比如，C++的一条语句就会扩展为多条汇编指<br>令或机器指令。</p>
+<h2 id="X86处理器"><a href="#X86处理器" class="headerlink" title="X86处理器"></a>X86处理器</h2><p>中央处理单元（CPU）处理算术和逻辑运算。它包含了有限数量的存储位置，即寄存器；一个高频时钟用于同步其操作；一个控制单元和一个算术逻辑单元。内存存储单元在计算机程序运行时，保存指令和数据。总线是一组并行线路，在计算机不同部件之间传输数据。</p>
+<p><img src="/2023/02/13/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/%E5%BE%AE%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A1%86%E5%9B%BE.png" srcset="/img/loading.gif" lazyload alt="image-20230207141550992"></p>
+<h3 id="32位x86处理器"><a href="#32位x86处理器" class="headerlink" title="32位x86处理器"></a>32位x86处理器</h3><p><strong>基本程序运行寄存器</strong>由4类寄存器组成。具体包括8个通用寄存器，6个段寄存器，1个EFLAGS寄存器（标志寄存器）以及1个指令指针寄存器。</p>
+<ul>
+<li>通用寄存器主要用于算术运算、数据传输和逻辑操作。</li>
+<li>段寄存器存放预先分配的内存区域的基址，这些内存区域就是段。</li>
+<li>标志寄存器包含的独立二进制位用于控制CPU的操作，并反映ALU操作的结果。</li>
+<li>指令指针寄存器存放的是下一条要执行指令的地址。</li>
+</ul>
+<p>其他寄存器还包括<strong>控制寄存器</strong>（CR0、CR1、CR2、CR3）、<strong>调试寄存器</strong>（DR0-DR7）、<strong>系统地址寄存器</strong>、 <strong>浮点寄存器</strong>等。</p>
+<p><strong>通用寄存器</strong>是一种通用型的寄存器，用于传送和暂存数据，也可参与算数逻辑运算，并保存计算结果。</p>
+<table>
+<thead>
+<tr>
+<th>寄存器</th>
+<th>名称</th>
+<th>32位</th>
+<th>16位</th>
+<th>高8位</th>
+<th>低8位</th>
+<th>主要用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EAX</td>
+<td>累加器</td>
+<td>EAX</td>
+<td>AX</td>
+<td>AH</td>
+<td>AL</td>
+<td>针对操作数和结果数据</td>
+</tr>
+<tr>
+<td>EBX</td>
+<td>基址寄存器</td>
+<td>EBX</td>
+<td>BX</td>
+<td>BH</td>
+<td>BL</td>
+<td>DS段中的数据指针</td>
+</tr>
+<tr>
+<td>ECX</td>
+<td>计数器</td>
+<td>ECX</td>
+<td>CX</td>
+<td>CH</td>
+<td>CL</td>
+<td>字符串和循环操作</td>
+</tr>
+<tr>
+<td>EDX</td>
+<td>数据寄存器</td>
+<td>EDX</td>
+<td>DX</td>
+<td>DH</td>
+<td>DL</td>
+<td>I&#x2F;O指针</td>
+</tr>
+<tr>
+<td>ESI</td>
+<td>源变址寄存器</td>
+<td>ESI</td>
+<td>SI</td>
+<td>-</td>
+<td>-</td>
+<td>字符串操作源指针</td>
+</tr>
+<tr>
+<td>EDI</td>
+<td>字符串操作目标指针</td>
+<td>EDI</td>
+<td>DI</td>
+<td>-</td>
+<td>-</td>
+<td>字符串操作目标寄存器</td>
+</tr>
+<tr>
+<td>EBP</td>
+<td>扩展基址指针寄存器</td>
+<td>EBP</td>
+<td>BP</td>
+<td>-</td>
+<td>-</td>
+<td>SS段中栈内数据指针</td>
+</tr>
+<tr>
+<td>ESP</td>
+<td>栈指针寄存器</td>
+<td>ESP</td>
+<td>SP</td>
+<td>-</td>
+<td>-</td>
+<td>栈指针寄存器</td>
+</tr>
+</tbody></table>
+<p><strong>段寄存器</strong> IA-32 的保护模式中，段是一种内存保护技术，它把内存划分为多个区段，并为每个区段赋予起始地址、范围、访问权限等，以保护内存。此外同分页技术一起用于将虚拟内存变更为实际物理内存。段内存记录在 SDT（Segment Descriptor Table，段描述符表）中，而<strong>段寄存器</strong>就持有这些 SDT 的索引。</p>
+<table>
+<thead>
+<tr>
+<th>寄存器</th>
+<th>名称</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CS</td>
+<td>Code Segment</td>
+<td>代码段寄存器</td>
+</tr>
+<tr>
+<td>SS</td>
+<td>Stack Segment</td>
+<td>栈段寄存器</td>
+</tr>
+<tr>
+<td>DS</td>
+<td>Data Segment</td>
+<td>数据段寄存器</td>
+</tr>
+<tr>
+<td>ES</td>
+<td>Extra ( Data ) Segment</td>
+<td>附加（数据）段寄存器</td>
+</tr>
+<tr>
+<td>FS</td>
+<td>Data Segment</td>
+<td>数据段寄存器</td>
+</tr>
+<tr>
+<td>GS</td>
+<td>Data Segment</td>
+<td>数据段寄存器</td>
+</tr>
+</tbody></table>
+<p><strong>EFLAGS寄存器</strong> 包含了独立的二进制位，主要用于反映处理器的状态和ALU运算结果的某些特征及控制指令的执行。</p>
+<table>
+<thead>
+<tr>
+<th>标志位（外语缩写）</th>
+<th>标志位名称</th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CF</td>
+<td>进位标志</td>
+<td>进位</td>
+<td>无进位</td>
+</tr>
+<tr>
+<td>PF</td>
+<td>奇偶标志</td>
+<td>偶</td>
+<td>奇</td>
+</tr>
+<tr>
+<td>AF</td>
+<td>辅助进位标志</td>
+<td>进位</td>
+<td>无进位</td>
+</tr>
+<tr>
+<td>ZF</td>
+<td>零标志</td>
+<td>等于零</td>
+<td>不等于零</td>
+</tr>
+<tr>
+<td>SF</td>
+<td>符号标志</td>
+<td>负</td>
+<td>非负</td>
+</tr>
+<tr>
+<td>TF</td>
+<td>跟踪标志</td>
+<td>单步工作方式</td>
+<td>连续工作方式</td>
+</tr>
+<tr>
+<td>IF</td>
+<td>中断标志</td>
+<td>允许</td>
+<td>禁止</td>
+</tr>
+<tr>
+<td>DF</td>
+<td>方向标志</td>
+<td>减少</td>
+<td>增加</td>
+</tr>
+<tr>
+<td>OF</td>
+<td>溢出标志</td>
+<td>溢出</td>
+<td>未溢出</td>
+</tr>
+</tbody></table>
+<p><strong>指令指针寄存器</strong> EIP（Instruction Pointer），用于指向下一条要执行的指令。</p>
+<h3 id="64位x86-64处理器"><a href="#64位x86-64处理器" class="headerlink" title="64位x86-64处理器"></a>64位x86-64处理器</h3><p>x86-64处理器向下兼容x86指令集，且比x86处理器多了8个通用寄存器（R8到R15）。</p>
+<p>x86-64通用寄存器RAX、RBX、RCX、RDX、RDI、RSI、RBP、RSP、R8、R9、R10、R11、R12、R13、R14、R15。</p>
+<h3 id="处理器架构"><a href="#处理器架构" class="headerlink" title="处理器架构"></a>处理器架构</h3><p><strong>IA32和x86</strong></p>
+<p>IA-32为Intel Architecture 32bit简称，即英特尔32位体系架构，在英特尔公司1985年推出的80386微处理器中首先采用。通常也被称为i386、x86-32、x86等。</p>
+<p><strong>x86-64、x64、AMD64、Intel64</strong></p>
+<p>后来AMD推出了兼容32位的64位集关于IA-32的扩展，之后改名为AMD64，Intel后来也采用该架构，在其文档中称为Intel64。同时，该架构又被称为x86-64或者x64。</p>
+<p>以上都属于x86架构，使用CISC（Complex Instruction Set Computer，复杂指令集计算机）。</p>
+<p>其他主流cpu架构还包括<strong>ARM</strong>、<strong>RISC-V</strong>、<strong>MIPS</strong>。</p>
+<p><strong>IA64</strong>是后来intel和惠普联合推出的64位体系架构，但是不兼容原有的32位体系结构的应用程序，导致市场惨淡。不属于x86架构。</p>
+<h2 id="汇编语言基础"><a href="#汇编语言基础" class="headerlink" title="汇编语言基础"></a>汇编语言基础</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs assembly">;32位程序模板(Template.asm)<br>.386<br>.model flat, stdcall<br>.stack 4096<br>ExitProcess PROTO, dwExitCode:DWORD<br><br>.data<br>	;在这里声明变量<br>.code<br>main PROC<br>	;在这里编写自己的代码<br>	INVOKE ExitProcess,0<br>main ENDP<br>END main<br></code></pre></td></tr></table></figure>
 
-<p>修改 processhider.c，设置process_to_filter 值为自己想要隐藏的进程名。 </p>
-<img src="image-20230210145455674.png" srcset="/img/loading.gif" lazyload alt="image-20230210145455674" style="zoom:50%;" />
-
-<p>然后依次执行</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd libprocesshider/ &amp;&amp; make<br>cp libprocesshider.so /usr/local/lib/        <br>echo /usr/local/lib/libprocesshider.so &gt;&gt; /etc/ld.so.preload<br></code></pre></td></tr></table></figure>
-
-<p>此时再运行top或者ps相应进程就不可见了</p>
-<p><strong>原理</strong></p>
-<p>查看processhider.c源码可以发现，原理上就是重写了readdir的系统调用，因为无论ps,top,ls都会调用readdir，process_to_filter定义了你要过滤进程的名字，这样就达到了过滤隐藏目的。</p>
-<p>利用 LD_PRELOAD 来实现系统函数的劫持，<strong>程序在执行外部库函数调用的时候，会根据动态库的优先级来加载库函数，linux下库的加载顺序为&#x2F;etc&#x2F;ld.so.preload（ LD_PRELOAD）&gt;&#x2F;etc&#x2F;ld.so.cache&gt;&#x2F;etc&#x2F;ld.so.conf</strong>，当程序调用外部库的函数，如果LD_PRELOAD里面有自定义和其他系统库相同的库函数，则优先加载我们自定义的函数，这样就达到了劫持系统函数的目的。</p>
-<p>由于ps,top,ls等几乎所有的查看命令都基于readdir系统调用，所以能够完美的隐藏掉进程，对付一般的小白是完全够用了。如果为了避免分析人员查找&#x2F;etc&#x2F;ld.so.preload而定位到进程，我们可以不创建ld.so.preload文件，而使用LD_PRELOAD宏来定义库的路径。例如将export LD_PRELOAD&#x3D;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libprocesshider.so放到linux系统启动过程中rc文件去加载，加大定位的难度。</p>
-<p><strong>关联样本</strong></p>
-<p>htt^p:&#x2F;&#x2F;5.133.65.53&#x2F;soft&#x2F;linux&#x2F;sshpkit.so</p>
-<p>htt^p:&#x2F;&#x2F;5.133.65.53&#x2F;soft&#x2F;linux&#x2F;sshkit.so</p>
-<p><img src="/2023/02/10/libprocesshider%E9%9A%90%E8%97%8F%E6%8C%87%E5%AE%9A%E8%BF%9B%E7%A8%8B/image-20230210151713746.png" srcset="/img/loading.gif" lazyload alt="image-20230210151713746"></p>
+<p>用汇编语言编写的源程序不能直接在其目标计算机上执行，必须通过汇编将其转换为可执行代码。汇编器生成包含机器语言的文件，称为目标文件（object file）。这个文件还没有准备好执行，它还需传递给一个被称为链接器（linker）的程序，从而生成可执行文件（executable file）。编辑、汇编、链接和执行汇编语言程序的过程，如下：、</p>
+<ul>
+<li>步骤1：编程者用编辑器创建一个ASCIl文本文件，称之为源文件。</li>
+<li>步骤2：汇编器读取源文件，并生成目标文件，即对程序的机器语言翻译。或者，它也会生成列表文件。只要出现任何错误，编程者就必须返回步骤1，修改程序。</li>
+<li>步骤3：链接器读取并检查目标文件，以便发现该程序是否包含了任何对链接库中过程的调用。链接器从链接库中复制任何被请求的过程，将它们与目标文件组合，以生成可执行文件。</li>
+<li>步骤4：操作系统加载程序将可执行文件读入内存，并使CPU分支到该程序起始地址，然后程序开始执行。</li>
+</ul>
+<p><img src="/2023/02/13/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/%E6%B1%87%E7%BC%96-%E9%93%BE%E6%8E%A5-%E6%89%A7%E8%A1%8C%E5%91%A8%E6%9C%9F.png" srcset="/img/loading.gif" lazyload alt="image-20230207160612066"></p>
+<p><strong>列表文件</strong>（listingfile）包括了程序源文件的副本，再加上行号、每条指令的数字地址、每条指令的机器代码字节（十六进制）以及符号表。符号表中包含了程序中所有标识符的名称、段和相关信息。</p>
+<h3 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h3><p>x86-32时，使用栈传递参数。程序中的参数会以从右往左的方向依次压入栈中。这也是方便出栈时，左边第一个参数最先出来。</p>
+<p>x86-64时，前6个基础类型参数通过寄存器传递，第7个参数开始用栈传递。通过寄存器传递可减少压栈和弹栈开销，提升性能。具体来说，<strong>前6个参数分别通过寄存器rdi，rsi，rdx，rcx，r8和r9寄存器传递</strong>，剩下的参数，依次通过调用者的rsp+0，rsp+8，rsp+16，……，rsp+8^N 这些地址空间传递。</p>
+<table>
+<thead>
+<tr>
+<th>rdi</th>
+<th>rsi</th>
+<th>rdx</th>
+<th>rcx</th>
+<th>r8</th>
+<th>r9</th>
+<th>栈传递</th>
+</tr>
+</thead>
+</table>
+<h3 id="栈和栈桢"><a href="#栈和栈桢" class="headerlink" title="栈和栈桢"></a>栈和栈桢</h3><p>汇编中一般堆栈（stack）指的就是栈（stack），**区分堆(heap)、栈(stack)、堆栈(stack)**。</p>
+<p>堆栈帧（stack frame）（或活动记录（activation record））是一块堆栈保留区域，用于保存被传递的实际参数、子程序的返回值、局部变量以及被保存的寄存器。</p>
+<p>寄存器EBP指向当前的栈帧的底部，寄存器ESP指向当前的栈帧的顶部。  </p>
+<p>注意：EBP指向当前位于系统栈最上边一个栈帧的底部，而不是系统栈的底部。严格说来，“栈帧底部”和“栈底”是不同的概念；ESP所指的栈帧顶部和系统栈的顶部是同一个位置。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/melonyzzZ/article/details/127754271">https://blog.csdn.net/melonyzzZ/article/details/127754271</a></p>
 
                 
               </div>
@@ -339,7 +569,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/linux-HOOK/">#linux HOOK</a>
+        <a href="/tags/%E6%B1%87%E7%BC%96/">#汇编</a>
       
     </div>
   
@@ -351,8 +581,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>libprocesshider隐藏指定进程</div>
-      <div>http://wangchenchina.github.io/2023/02/10/libprocesshider隐藏指定进程/</div>
+      <div>汇编笔记</div>
+      <div>http://wangchenchina.github.io/2023/02/13/汇编笔记/</div>
     </div>
     <div class="license-meta">
       
@@ -364,7 +594,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年2月10日</div>
+          <div>2023年2月13日</div>
         </div>
       
       
@@ -396,18 +626,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/02/13/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/" title="汇编笔记">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">汇编笔记</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/02/01/Linux%E6%97%A5%E5%BF%97%E7%AC%94%E8%AE%B0/" title="Linux日志笔记">
-                        <span class="hidden-mobile">Linux日志笔记</span>
+                      <a href="/2023/02/10/libprocesshider%E9%9A%90%E8%97%8F%E6%8C%87%E5%AE%9A%E8%BF%9B%E7%A8%8B/" title="libprocesshider隐藏指定进程">
+                        <span class="hidden-mobile">libprocesshider隐藏指定进程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
