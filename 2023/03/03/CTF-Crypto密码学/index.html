@@ -23,14 +23,15 @@
 <meta property="og:site_name" content="Demo_博客">
 <meta property="og:description" content="关于CTFCTF(Capture The Flag)，即夺旗赛。在网络安全领域中指的是网络安全技术人员之间进行技术竞技的一种比赛形式。其大致流程是，参赛团队之间通过进行攻防对抗、程序分析等形式，率先从主办方给出的比赛环境中得到一串具有一定格式的字符串或其他内容(Flag)，并将其提交给主办方，从而夺得分数。 CTF竞赛模式具体分为以下三类：  解题模式 通过互联网或现场网络参与，解决网络安全技术挑">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/ASCII.jpg">
 <meta property="og:image" content="http://wangchenchina.github.io/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/image-20230227134125266.png">
 <meta property="og:image" content="http://wangchenchina.github.io/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/b327494746995423ab63fbc0799d2698.png">
 <meta property="article:published_time" content="2023-03-03T12:43:09.000Z">
-<meta property="article:modified_time" content="2023-03-03T12:44:30.025Z">
+<meta property="article:modified_time" content="2023-03-03T12:59:05.090Z">
 <meta property="article:author" content="Demo">
 <meta property="article:tag" content="CTF">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://wangchenchina.github.io/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/image-20230227134125266.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/ASCII.jpg">
   
   
   
@@ -245,7 +246,7 @@
         
         
         
-          37 分钟
+          36 分钟
         
       </span>
     
@@ -302,7 +303,7 @@
 </li>
 </ol>
 <p>赛题类型一般分为Web 渗透、Crypto 密码学、Pwn 二进制、Reverse 逆向、Misc 杂项，拓展的还有Mobile 移动设备, Forensics 电子取证等，这些其实都可以归入前面五大类中。</p>
-<h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><h4 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h4><p>![点击查看图片来源]1-735-jpg_6_0_______-1153-0-0-1153.jpg)</p>
+<h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><h4 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h4><p><img src="/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/ASCII.jpg" srcset="/img/loading.gif" lazyload alt="ASCII"></p>
 <h4 id="Base64-Base32-Base16编码"><a href="#Base64-Base32-Base16编码" class="headerlink" title="Base64\Base32\Base16编码"></a>Base64\Base32\Base16编码</h4><p>常见的base系列编码有base64、base32、base16，其中</p>
 <p>base64：含a<del>z,A</del>Z,0~9,+,&#x2F; 以及补位的 ‘’&#x3D;’’；(补齐字符串长度为4的倍数)</p>
 <p>base32：含A<del>Z,2</del>7以及补位的 ‘’&#x3D;’’；(补齐字符串长度为8的倍数，可以不添加)</p>
