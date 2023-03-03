@@ -1,0 +1,748 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Demo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="关于CTFCTF(Capture The Flag)，即夺旗赛。在网络安全领域中指的是网络安全技术人员之间进行技术竞技的一种比赛形式。其大致流程是，参赛团队之间通过进行攻防对抗、程序分析等形式，率先从主办方给出的比赛环境中得到一串具有一定格式的字符串或其他内容(Flag)，并将其提交给主办方，从而夺得分数。 CTF竞赛模式具体分为以下三类：  解题模式 通过互联网或现场网络参与，解决网络安全技术挑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF-Crypto密码学">
+<meta property="og:url" content="http://wangchenchina.github.io/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="关于CTFCTF(Capture The Flag)，即夺旗赛。在网络安全领域中指的是网络安全技术人员之间进行技术竞技的一种比赛形式。其大致流程是，参赛团队之间通过进行攻防对抗、程序分析等形式，率先从主办方给出的比赛环境中得到一串具有一定格式的字符串或其他内容(Flag)，并将其提交给主办方，从而夺得分数。 CTF竞赛模式具体分为以下三类：  解题模式 通过互联网或现场网络参与，解决网络安全技术挑">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/image-20230227134125266.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/b327494746995423ab63fbc0799d2698.png">
+<meta property="article:published_time" content="2023-03-03T12:43:09.000Z">
+<meta property="article:modified_time" content="2023-03-03T12:44:30.025Z">
+<meta property="article:author" content="Demo">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/image-20230227134125266.png">
+  
+  
+  
+  <title>CTF-Crypto密码学 - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangchenchina.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CTF-Crypto密码学"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-03 20:43" pubdate>
+          2023年3月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CTF-Crypto密码学</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="关于CTF"><a href="#关于CTF" class="headerlink" title="关于CTF"></a>关于CTF</h2><p>CTF(Capture The Flag)，即夺旗赛。在网络安全领域中指的是网络安全技术人员之间进行技术竞技的一种比赛形式。其大致流程是，参赛团队之间通过进行攻防对抗、程序分析等形式，率先从主办方给出的比赛环境中得到一串具有一定格式的字符串或其他内容(<strong>Flag</strong>)，并将其提交给主办方，从而夺得分数。</p>
+<p>CTF竞赛模式具体分为以下三类：</p>
+<ol>
+<li><p>解题模式</p>
+<p>通过互联网或现场网络参与，解决网络安全技术挑战题目，并以分值和时间排名。</p>
+</li>
+<li><p>攻防模式</p>
+<p>在攻防（AWD）模式CTF赛制中，在网络空间互相进行攻击和防守，挖掘网络服务漏洞并攻击对手来得分，修补自身服务漏洞进行防御来避免丢分。</p>
+</li>
+<li><p>混合模式</p>
+<p>结合了解题模式与攻防模式的CTF赛制，参赛队伍通过解题可以获取一些初始分数，然后通过攻防对抗进行得分增减的零和游戏，最终以得分高低分出胜负。</p>
+</li>
+</ol>
+<p>赛题类型一般分为Web 渗透、Crypto 密码学、Pwn 二进制、Reverse 逆向、Misc 杂项，拓展的还有Mobile 移动设备, Forensics 电子取证等，这些其实都可以归入前面五大类中。</p>
+<h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><h4 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h4><p>![点击查看图片来源]1-735-jpg_6_0_______-1153-0-0-1153.jpg)</p>
+<h4 id="Base64-Base32-Base16编码"><a href="#Base64-Base32-Base16编码" class="headerlink" title="Base64\Base32\Base16编码"></a>Base64\Base32\Base16编码</h4><p>常见的base系列编码有base64、base32、base16，其中</p>
+<p>base64：含a<del>z,A</del>Z,0~9,+,&#x2F; 以及补位的 ‘’&#x3D;’’；(补齐字符串长度为4的倍数)</p>
+<p>base32：含A<del>Z,2</del>7以及补位的 ‘’&#x3D;’’；(补齐字符串长度为8的倍数，可以不添加)</p>
+<p>base16：含0<del>9,A</del>F。</p>
+<p><strong>注意换表</strong></p>
+<p><strong>参考：</strong><a target="_blank" rel="noopener" href="https://www.qqxiuzi.cn/bianma/base.php">https://www.qqxiuzi.cn/bianma/base.php</a></p>
+<h4 id="Unicode编码"><a href="#Unicode编码" class="headerlink" title="Unicode编码"></a>Unicode编码</h4><p>特征是以<code>\u数字或者字母加数字</code>，<code>\u</code>过后是每四个为一组。可以使用python的print函数输出。</p>
+<h4 id="URL编码"><a href="#URL编码" class="headerlink" title="URL编码"></a>URL编码</h4><p>url编码又叫百分号编码，是统一资源定位(URL)编码方式。其形式为%加上十六进制数值。</p>
+<h4 id="HTML实体编码"><a href="#HTML实体编码" class="headerlink" title="HTML实体编码"></a>HTML实体编码</h4><p>一些字符在 HTML 中是预留的，拥有特殊的含义，比如小于号‘&lt;’用于定义 HTML  标签的开始。如果我们希望浏览器正确地显示这些字符，我们必须在 HTML  源码中插入字符实体。用一个编号写入HTML代码中来代替一个字符，在使用浏览器访问网页时会将这个编号解析还原为字符以供阅读。</p>
+<p><a target="_blank" rel="noopener" href="http://www.w3school.com.cn/html/html_entities.asp">http://www.w3school.com.cn/html/html_entities.asp</a></p>
+<h4 id="莫尔斯电码和敲击码"><a href="#莫尔斯电码和敲击码" class="headerlink" title="莫尔斯电码和敲击码"></a>莫尔斯电码和敲击码</h4><p>摩尔斯电码（又译为摩斯密码，Morse  code）是一种时通时断的信号代码，通过不同的排列顺序来表达不同的英文字母、数字和标点符号。它的代码包括五种：点、划、点和划之间的停顿、每个字符之间短的停顿、每个词之间中等的停顿以及句子之间长的停顿。</p>
+<p>除此之外，常用的编码方式还有敲击码（Tap code）等。</p>
+<h4 id="JSFuck"><a href="#JSFuck" class="headerlink" title="JSFuck"></a>JSFuck</h4><p>JSFuck也称为Jother编码，是JavaScript的一种变形编码，因此可以使用浏览器控制台输出。其源于一门编程语言Brainfuck，主要的思想就是只使用8种特定的符号来编写代码。而JSFuck也是沿用了这个思想，它仅仅使用6种符号来编写代码。它们分别是**(<strong>、</strong>)<strong>、</strong>+<strong>、</strong>[<strong>、</strong>]<strong>、</strong>!**。</p>
+<p><a target="_blank" rel="noopener" href="http://www.jsfuck.com/">http://www.jsfuck.com/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.liminba.com/tool/jsfuckdecode/">http://www.liminba.com/tool/jsfuckdecode/</a></p>
+<h4 id="Brainfuck"><a href="#Brainfuck" class="headerlink" title="Brainfuck"></a>Brainfuck</h4><p>Brainfuck是一种极小化的计算机语言，目标是建立一种简单的、可以用最小的编译器来实现的、符合图灵完全思想的编程语言。BrainFuck 语言只有八种符号，所有的操作都由这八种符号（**&gt; &lt; + - . , [ ]** ）的组合来完成。</p>
+<p><a target="_blank" rel="noopener" href="https://www.splitbrain.org/services/ook">https://www.splitbrain.org/services/ook</a></p>
+<h3 id="古典密码"><a href="#古典密码" class="headerlink" title="古典密码"></a>古典密码</h3><h4 id="恺撒密码"><a href="#恺撒密码" class="headerlink" title="恺撒密码"></a>恺撒密码</h4><p>恺撒密码是一种替换加密的技术，明文中的所有字母都在字母表上向后(或向前)按照一个固定数值进行偏移，替换成密文。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs">例如：<br>密钥：3（当偏移量是左移3的时候）<br>明文字母表：ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>密文字母表：DEFGHIJKLMNOPQRSTUVWXYZABC<br>明文：FIGHTING<br>密文：ILJKWLQJ<br></code></pre></td></tr></table></figure>
+
+<h4 id="栅栏密码"><a href="#栅栏密码" class="headerlink" title="栅栏密码"></a>栅栏密码</h4><p>栅栏密码就是把要加密的明文分成N个一组，然后把每组的第1个字连起来，形成一段无规律的话。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs vim">例如：<br>明文：The quick brown fox <span class="hljs-keyword">jumps</span> over the lazy dog<br>去空格：Thequickbrownfoxjumpsoverthelazydog<br>分组：Th eq ui ck <span class="hljs-keyword">br</span> <span class="hljs-keyword">ow</span> nf ox <span class="hljs-keyword">ju</span> mp <span class="hljs-keyword">so</span> <span class="hljs-keyword">ve</span> rt he <span class="hljs-keyword">la</span> zy <span class="hljs-keyword">do</span> g<br>密文：Teucbonojmsvrhlzdghqikrwfxupoeteayo<br></code></pre></td></tr></table></figure>
+
+<h4 id="培根密码"><a href="#培根密码" class="headerlink" title="培根密码"></a>培根密码</h4><p>又名倍康尼密码（英语：Bacon’s cipher）是由法兰西斯·培根发明的一种隐写术。是一种替换密码，每个明文字母被一组五个英文字母的序列替换。如下表</p>
+<p><img src="/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/image-20230227134125266.png" srcset="/img/loading.gif" lazyload alt="image-20230227134125266"></p>
+<p>加密者需使用两种不同格式或属性，分别代表A和B。准备好一篇包含相同AB字数的假信息后，按照密文格式化假信息，即依密文中每个字母是A还是B分别套用两种格式或属性。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs css">例如：<br>密文：bAcon iS <span class="hljs-selector-tag">a</span> MEaT prodUcT prePared <span class="hljs-selector-tag">frOm</span> <span class="hljs-selector-tag">a</span> pig and UsuALLy cUReD<br>五个一组重新排列：bAcon iSaMEaTpro dUcTp rePar edfrO mapig andUs uALLy cUReD<br>小写字母转换成<span class="hljs-selector-tag">A</span>，大写字母转换成<span class="hljs-selector-tag">B</span>：abaaa ababb abaaa ababa aabaa aaaab aaaaa aaaba abbba abbab<br>根据转换表每五个密文字母对应一个明文字母，得到明文：<span class="hljs-selector-tag">i</span> like bacon<br></code></pre></td></tr></table></figure>
+
+<h4 id="仿射密码"><a href="#仿射密码" class="headerlink" title="仿射密码"></a>仿射密码</h4><p>仿射密码是一种单表代换密码，字母表中的每个字母相应的值使用一个简单的数学函数映射到对应的数值，再把对应数值转换成字母。每一个字母都是通过函数（ax + b）mod m加密，其中b是位移量，为了保证仿射密码的可逆性，a和m需要互质，一般m为设置为26。</p>
+<h4 id="维吉尼亚密码"><a href="#维吉尼亚密码" class="headerlink" title="维吉尼亚密码"></a>维吉尼亚密码</h4><p>维吉尼亚密码（又译维热纳尔密码）是使用一系列凯撒密码组成密码字母表的加密算法，属于多表密码的一种简单形式。它将凯撒密码的全部25种位移排序为一张表，与原字母序列共同组成26行及26列的字母表。另外，维吉尼亚密码必须有一个密钥，这个密钥由字母组成，最少一个，最多可与明文字母数量相等。</p>
+<p><img src="/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/b327494746995423ab63fbc0799d2698.png" srcset="/img/loading.gif" lazyload alt="b327494746995423ab63fbc0799d2698"></p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">例如：<br>明文：THE QUICK <span class="hljs-keyword">BROWN </span>FOX <span class="hljs-keyword">JUMPS </span>OVER THE LAZY DOG<br>密钥(循环使用，密钥越长相对破解难度越大)：CULTURE<br>加密过程：如果第一行为明文字母，第一列为密钥字母，那么明文字母<span class="hljs-string">&#x27;T&#x27;</span>列和密钥字母<span class="hljs-string">&#x27;C&#x27;</span>行的交点就是密文字母<span class="hljs-string">&#x27;V&#x27;</span>，以此类推。<br>密文：VBP <span class="hljs-keyword">JOZGM </span>VCHQE <span class="hljs-keyword">JQR </span>UNGGW QPPK NYI NUKR XFK<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.qqxiuzi.cn/bianma/weijiniyamima.php">https://www.qqxiuzi.cn/bianma/weijiniyamima.php</a></p>
+<h3 id="对称密码"><a href="#对称密码" class="headerlink" title="对称密码"></a>对称密码</h3><h4 id="AES、DES、RC4、Rabbit、3DES加密"><a href="#AES、DES、RC4、Rabbit、3DES加密" class="headerlink" title="AES、DES、RC4、Rabbit、3DES加密"></a>AES、DES、RC4、Rabbit、3DES加密</h4><p>RC4加密过程：</p>
+<ol>
+<li>生成伪随机数组S：长度为256，填充所有元素从0到255；</li>
+<li>初始化状态向量：将数组S中的元素按照指定的密钥K进行一次打乱；</li>
+<li>产生密钥流：从位置0开始，每次取出S中的一个元素，然后将其与前一个元素进行交换，并取出交换后的元素；</li>
+<li>加密过程：将明文每一个字节和密钥流中的一个字节进行异或运算，得到密文。</li>
+</ol>
+<p>RC4解密过程： </p>
+<ol>
+<li><p>根据密钥K，生成相同的伪随机数组S； </p>
+</li>
+<li><p>初始化状态向量，将数组S中的元素按照密钥K进行一次打乱；</p>
+</li>
+<li><p>从位置0开始，每次取出S中的一个元素，并与前一个元素进行交换，取出交换后的元素；</p>
+</li>
+<li><p>解密过程：将密文每一个字节和密钥流中的一个字节进行异或运算，得到明文。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># RC4解密函数</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rc4_decrypt</span>(<span class="hljs-params">data, key</span>): <br>    key = <span class="hljs-built_in">bytes</span>(key, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>)<br>    enc = ARC4.new(key)<br>    res = enc.decrypt(data)<br>    res = <span class="hljs-built_in">str</span>(res,<span class="hljs-string">&quot;utf-8&quot;</span>)<br>    <span class="hljs-keyword">return</span> res<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="非对称密码"><a href="#非对称密码" class="headerlink" title="非对称密码"></a>非对称密码</h3><h4 id="RSA、-DSA、-DH-和-ECC加密"><a href="#RSA、-DSA、-DH-和-ECC加密" class="headerlink" title="RSA、 DSA、 DH 和 ECC加密"></a>RSA、 DSA、 DH 和 ECC加密</h4><h3 id="哈希摘要算法"><a href="#哈希摘要算法" class="headerlink" title="哈希摘要算法"></a>哈希摘要算法</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">MD4</span>：<span class="hljs-number">32</span>位的摘要算法。<span class="hljs-number">2</span>add09183d0b1dc0428701df9838fba<br><span class="hljs-attribute">MD5</span>：<span class="hljs-number">32</span>位的摘要算法。<span class="hljs-number">63</span>a9f0ea7bb98050796b649e8548184<br><span class="hljs-attribute">SHA1</span>：<span class="hljs-number">40</span>位的摘要算法。dc76e9f0c0006e8f919e0c515c66dbba3982f785<br><span class="hljs-attribute">SHA224</span>：<span class="hljs-number">56</span>位的摘要算法。<span class="hljs-number">871</span>ce144069ea0816545f52f09cd135d1182262c3b235808fa5a3281<br><span class="hljs-attribute">SHA256</span>：<span class="hljs-number">64</span>位的摘要算法。<span class="hljs-number">4813494</span>d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b<br><span class="hljs-attribute">SHA384</span>：<span class="hljs-number">96</span>位的摘要算法。<span class="hljs-number">7</span>ed8c2c790aa83d6c3e404b5368f6832c18d46a0e98b9c7a7a5e3ef823e2c9f0e310abbf6f7ea9d9d883ccb64ec2736a<br><span class="hljs-attribute">SHA512</span>：<span class="hljs-number">128</span>位的摘要算法。<span class="hljs-number">99</span>adc231b045331e514a516b4b7680f588e3823213abe901738bc3ad67b2f6fcb3c64efb93d18002588d3ccc1a49efbae1ce20cb43df36b38651f11fa75678e8<br><span class="hljs-attribute">SHA3_224</span>：<span class="hljs-number">56</span>位的摘要算法。<span class="hljs-number">3</span>e42295e89a3a84ce7ee38e2ba317aeb57ca3164459bdf48f4da0e92<br><span class="hljs-attribute">SHA3_256</span>：<span class="hljs-number">64</span>位的摘要算法。a00e4d3b352e9d11979549b9eef5dc951592f594488451e6cd86fdc4bce76a53<br><span class="hljs-attribute">SHA3_384</span>：<span class="hljs-number">96</span>位的摘要算法。aac595410801e93eadb099ac575ccc12e43be2c15e31e7991e908329e5beb0729881b3be9ccdb0eeb6eb79335ea38b6d<br><span class="hljs-attribute">SHA3_512</span>：<span class="hljs-number">128</span>位的摘要算法。<span class="hljs-number">8</span>cd824c700eb0c125fff40c8c185d14c5dfe7f32814afac079ba7c20d93bc3c082193243c420fed22ef2474fbb85880e7bc1ca772150a1f759f8ddebca77711f<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="category-chain-item">基础知识</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CTF/">#CTF</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CTF-Crypto密码学</div>
+      <div>http://wangchenchina.github.io/2023/03/03/CTF-Crypto密码学/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Demo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/17/%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8Fchm-yara%E8%A7%84%E5%88%99/" title="蔓灵花恶意chm yara规则">
+                        <span class="hidden-mobile">蔓灵花恶意chm yara规则</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
