@@ -16,27 +16,36 @@
   <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前两天无意看到某公众号推送的文章 https:&#x2F;&#x2F;www.freebuf.com&#x2F;news&#x2F;333958.html 看起来是外文搬运，PDF文件似曾相识，在某客户单位的监测设备上看到过，再拿出来瞧瞧 外文原文   当时就感觉很有意思，原理很简单，但是静态免杀效果很好，截至今天卡巴和火绒都免杀，虽然运行起来大概率会被杀 其实就是很简单的PDF嵌入，执行JS代码(exportDataObject)">
+    <meta name="description" content="$77_oracle.exe样本基本信息   可以看出样本为64位PE文件，使用C++语言，编译器为VS2019。文件MD5：3b89f9f1e9932eee5a031b0266894f5f 样本分析版本信息显示为 XMRig&#x2F;6.15.2 MSVC&#x2F;2019，矿池地址为5.133.65.54:80   原版XMRig  https:&#x2F;&#x2F;github.com&#x2F;xmrig&#x2F;xmr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PDF嵌入攻击">
-<meta property="og:url" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:title" content="77oracle挖矿木马分析">
+<meta property="og:url" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="Demo_博客">
-<meta property="og:description" content="前两天无意看到某公众号推送的文章 https:&#x2F;&#x2F;www.freebuf.com&#x2F;news&#x2F;333958.html 看起来是外文搬运，PDF文件似曾相识，在某客户单位的监测设备上看到过，再拿出来瞧瞧 外文原文   当时就感觉很有意思，原理很简单，但是静态免杀效果很好，截至今天卡巴和火绒都免杀，虽然运行起来大概率会被杀 其实就是很简单的PDF嵌入，执行JS代码(exportDataObject)">
+<meta property="og:description" content="$77_oracle.exe样本基本信息   可以看出样本为64位PE文件，使用C++语言，编译器为VS2019。文件MD5：3b89f9f1e9932eee5a031b0266894f5f 样本分析版本信息显示为 XMRig&#x2F;6.15.2 MSVC&#x2F;2019，矿池地址为5.133.65.54:80   原版XMRig  https:&#x2F;&#x2F;github.com&#x2F;xmrig&#x2F;xmr">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142158793.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142651194.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142748304.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525150923518.png">
-<meta property="article:published_time" content="2022-05-25T07:33:04.000Z">
-<meta property="article:modified_time" content="2022-05-25T07:38:51.376Z">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230905100132892.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230905100259171.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/win10_1903_x64.jpg">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230905100557005.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230906144528486.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230907132142104.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230907132434816.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230907134604164.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230907135020061.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230907140215501.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230918095119917.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230908145819741.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230907103515139.png">
+<meta property="article:published_time" content="2023-09-19T05:34:10.000Z">
+<meta property="article:modified_time" content="2023-09-19T05:36:25.763Z">
 <meta property="article:author" content="Demo">
-<meta property="article:tag" content="PDF">
+<meta property="article:tag" content="77oracle挖矿">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://wangchenchina.github.io/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142158793.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230905100132892.png">
   
   
   
-  <title>PDF嵌入攻击 - Demo_博客</title>
+  <title>77oracle挖矿木马分析 - Demo_博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +222,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="PDF嵌入攻击"></span>
+            <span id="subtitle" data-typed-text="77oracle挖矿木马分析"></span>
           
         </div>
 
@@ -224,8 +233,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-25 15:33" pubdate>
-          2022年5月25日 下午
+        <time datetime="2023-09-19 13:34" pubdate>
+          2023年9月19日 下午
         </time>
       </span>
     
@@ -236,7 +245,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          875 字
+          1.8k 字
         
       </span>
     
@@ -247,7 +256,7 @@
         
         
         
-          8 分钟
+          16 分钟
         
       </span>
     
@@ -285,41 +294,53 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">PDF嵌入攻击</h1>
+            <h1 style="display: none">77oracle挖矿木马分析</h1>
             
             
               <div class="markdown-body">
                 
-                <p>前两天无意看到某公众号推送的文章</p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/news/333958.html">https://www.freebuf.com/news/333958.html</a></p>
-<p>看起来是外文搬运，PDF文件似曾相识，在某客户单位的监测设备上看到过，再拿出来瞧瞧</p>
-<p><a target="_blank" rel="noopener" href="https://www.bleepingcomputer.com/news/security/pdf-smuggles-microsoft-word-doc-to-drop-snake-keylogger-malware/">外文原文</a></p>
-<img src="image-20220525142158793.png" srcset="/img/loading.gif" lazyload alt="样本信息" style="zoom:67%;" />
+                <h2 id="77-oracle-exe"><a href="#77-oracle-exe" class="headerlink" title="$77_oracle.exe"></a>$77_oracle.exe</h2><h3 id="样本基本信息"><a href="#样本基本信息" class="headerlink" title="样本基本信息"></a>样本基本信息</h3><img src="image-20230905100132892.png" srcset="/img/loading.gif" lazyload alt="image-20230905100132892" style="zoom:80%;" />
 
-<p>当时就感觉很有意思，原理很简单，但是静态免杀效果很好，截至今天卡巴和火绒都免杀，虽然运行起来大概率会被杀</p>
-<p>其实就是很简单的PDF嵌入，执行JS代码(exportDataObject)</p>
-<p><img src="/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142651194.png" srcset="/img/loading.gif" lazyload alt="JavaScript代码"></p>
-<p>exportDataObject函数包含 2 个参数的对象： </p>
-<ul>
-<li>cName，嵌入对象的名称</li>
-<li>nLaunch，关于 PDF 阅读器应如何处理导出对象的说明</li>
-</ul>
-<p>nLaunch是一个整数，它具有三个有效值： </p>
-<ol>
-<li>提示用户输入路径并将文件保存在那里 </li>
-<li>提示用户输入路径，保存文件，并要求操作系统打开它 </li>
-<li>选择一个临时位置，将文件保存在那里，并要求操作系统打开它</li>
-</ol>
-<p><img src="/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525142748304.png" srcset="/img/loading.gif" lazyload alt="嵌入的word文件"></p>
-<p>包含的docx文件包含CVE-2017-0199漏洞，发起请求htt_ps:&#x2F;&#x2F;<a href="mailto:&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#46;&#x63;&#111;&#109;&#64;&#50;&#x6c;&#x2e;&#x6c;&#118;">&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#46;&#x63;&#111;&#109;&#64;&#50;&#x6c;&#x2e;&#x6c;&#118;</a>&#x2F;26，实际跳转到</p>
-<p>htt_p:&#x2F;&#x2F;192.227.196.211&#x2F;dhl_shp&#x2F;doc_000909000.doc，但是已经挂了，应该是HTA文件执行下一步攻击</p>
-<p>真的是一步三折</p>
-<p><img src="/2022/05/25/PDF%E5%B5%8C%E5%85%A5%E6%94%BB%E5%87%BB/image-20220525150923518.png" srcset="/img/loading.gif" lazyload alt="通联地址"></p>
-<p>类似的样本分析<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1041653-1-1.html">https://www.52pojie.cn/thread-1041653-1-1.html</a></p>
-<p>利用的同外文原文一样都有CVE-2017-11882</p>
-<p>找到两个国外PDF嵌入攻击教程，比较老了，多是嵌入PE文件，不像这个样本绕了一圈，可以以后弄得玩</p>
-<p><a target="_blank" rel="noopener" href="https://ironhackers.es/en/tutoriales/pdf-malicioso-en-windows-10-con-settingcontent-ms-embebido/">https://ironhackers.es/en/tutoriales/pdf-malicioso-en-windows-10-con-settingcontent-ms-embebido/</a></p>
-<p><a target="_blank" rel="noopener" href="https://nora.codes/post/pdf-embedding-attacks/">https://nora.codes/post/pdf-embedding-attacks/</a></p>
+<p><img src="/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230905100259171.png" srcset="/img/loading.gif" lazyload alt="image-20230905100259171"></p>
+<p>可以看出样本为64位PE文件，使用C++语言，编译器为VS2019。文件MD5：3b89f9f1e9932eee5a031b0266894f5f</p>
+<h3 id="样本分析"><a href="#样本分析" class="headerlink" title="样本分析"></a>样本分析</h3><p>版本信息显示为 <strong>XMRig&#x2F;6.15.2 MSVC&#x2F;2019</strong>，矿池地址为5.133.65.54:80</p>
+<img src="win10_1903_x64.jpg" srcset="/img/loading.gif" lazyload alt="win10_1903_x64"  />
+
+<p>原版XMRig  <a target="_blank" rel="noopener" href="https://github.com/xmrig/xmrig/releases">https://github.com/xmrig/xmrig/releases</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/xmrig/xmrig/releases/download/v6.15.2/xmrig-6.15.2-msvc-win64.zip">https://github.com/xmrig/xmrig/releases/download/v6.15.2/xmrig-6.15.2-msvc-win64.zip</a></p>
+<p>左边为$77_oracle.exe，右边为xmrig.exe(xmrig-6.15.2-msvc-win64)。可以看出main函数基本一致，应该是由此版本修改编译得到的。</p>
+<p>编译文档  <a target="_blank" rel="noopener" href="https://xmrig.com/docs/miner/build/windows">https://xmrig.com/docs/miner/build/windows</a> </p>
+<p><img src="/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230905100557005.png" srcset="/img/loading.gif" lazyload alt="image-20230905100557005"></p>
+<p>内存中加载的config，矿池地址为5.133.65.54:80</p>
+<p><img src="/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230906144528486.png" srcset="/img/loading.gif" lazyload alt="image-20230906144528486"></p>
+<h2 id="77-Loader-exe"><a href="#77-Loader-exe" class="headerlink" title="$77_Loader.exe"></a>$77_Loader.exe</h2><h3 id="样本基本信息-1"><a href="#样本基本信息-1" class="headerlink" title="样本基本信息"></a>样本基本信息</h3><img src="image-20230907132142104.png" srcset="/img/loading.gif" lazyload alt="image-20230907132142104" style="zoom:80%;" />
+
+<p><img src="/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230907132434816.png" srcset="/img/loading.gif" lazyload alt="image-20230907132434816"></p>
+<p>可以看出样本为64位PE文件，使用.net框架编译，存在Smart Assembly混淆。文件MD5：6F593DBEA0A8703AF52BD66F582251A4</p>
+<h3 id="样本分析-1"><a href="#样本分析-1" class="headerlink" title="样本分析"></a>样本分析</h3><p>首先使用de4dot去混淆，再使用dnspy进行反编译，分析</p>
+<p>主函数</p>
+<p><img src="/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230907134604164.png" srcset="/img/loading.gif" lazyload alt="image-20230907134604164"></p>
+<p>剩下的懒得看了，就是加载资源解密，然后执行解密的powershell代码。</p>
+<p><img src="/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230907135020061.png" srcset="/img/loading.gif" lazyload alt="image-20230907135020061"></p>
+<p>直接定位到   <em><strong>Error executing script.</strong></em></p>
+<p><img src="/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230907140215501.png" srcset="/img/loading.gif" lazyload alt="image-20230907140215501"></p>
+<p>在这里下断点就可以看见要执行的powershell了，可以选择保存进行分析。</p>
+<img src="image-20230918095119917.png" srcset="/img/loading.gif" lazyload alt="image-20230918095119917" style="zoom:80%;" />
+
+<p>执行powershell</p>
+<img src="image-20230908145819741.png" srcset="/img/loading.gif" lazyload alt="image-20230908145819741"  />
+
+<h3 id="unsapien提取打包的powershell脚本"><a href="#unsapien提取打包的powershell脚本" class="headerlink" title="unsapien提取打包的powershell脚本"></a>unsapien提取打包的powershell脚本</h3><p>可以看出是使用<strong>SAPIEN PowerShell Studio</strong>打包</p>
+<p>提取powershell代码工具  <a target="_blank" rel="noopener" href="https://github.com/dfir-it/unsapien">https://github.com/dfir-it/unsapien</a></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">python2 unsapien<span class="hljs-selector-class">.py</span> <span class="hljs-number">77</span>_loader<span class="hljs-selector-class">.exe</span> &gt;<span class="hljs-number">1</span><span class="hljs-selector-class">.txt</span>     <span class="hljs-comment">//代码太长，保存到文件1.txt</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/image-20230907103515139.png" srcset="/img/loading.gif" lazyload alt="image-20230907103515139"></p>
+<p>奇安信攻防社区的一篇文章，也是通过sapien打包powershell脚本生成的可执行文件  <a target="_blank" rel="noopener" href="https://forum.butian.net/share/2340">https://forum.butian.net/share/2340</a></p>
+<h2 id="OracleLoader-ps1"><a href="#OracleLoader-ps1" class="headerlink" title="OracleLoader.ps1"></a>OracleLoader.ps1</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">Configuration:</span><br><span class="hljs-attr">Title                            :</span> <span class="hljs-string">Loader</span><br><span class="hljs-attr">Initial Folder                   :</span> <br><span class="hljs-attr">COM Object Path                  :</span> <br><span class="hljs-attr">Script Engine                    :</span> <span class="hljs-string">SAPIEN</span> <span class="hljs-string">PowerShell</span> <span class="hljs-string">V2</span> <span class="hljs-string">Host</span> <span class="hljs-string">(Silent)</span> <span class="hljs-string">x64</span><br><span class="hljs-attr">Leave Data Files                 :</span> <span class="hljs-literal">False</span><br><span class="hljs-attr">Leave Script Files               :</span> <span class="hljs-literal">False</span><br><span class="hljs-attr">Leave COM Objects                :</span> <span class="hljs-literal">False</span><br><span class="hljs-attr">Run Parallel                     :</span> <span class="hljs-literal">False</span><br><span class="hljs-attr">Folder Settings                  :</span> <span class="hljs-number">0</span><br><span class="hljs-attr">UserID                           :</span> <br><span class="hljs-attr">Password                         :</span> <br><span class="hljs-attr">Alternate Credentials            :</span> <span class="hljs-string">Current</span> <span class="hljs-string">user</span><br><span class="hljs-attr">Trial Mode                       :</span> <span class="hljs-literal">False</span><br><span class="hljs-attr">Options                          :</span> <span class="hljs-number">101</span><br><span class="hljs-attr">MTA Mode                         :</span> <span class="hljs-literal">True</span><br><span class="hljs-attr">Execution restrictions           :</span> <span class="hljs-literal">False</span><br><span class="hljs-attr">Allow only single instance       :</span> <span class="hljs-literal">True</span><br><span class="hljs-attr">Check EnableScriptBlockLogging   :</span> <span class="hljs-literal">False</span><br><span class="hljs-attr">Disable EnableScriptBlockLogging :</span> <span class="hljs-literal">True</span><br><span class="hljs-attr">Disable EnableTranscripting      :</span> <span class="hljs-literal">True</span><br><span class="hljs-attr">Use AES                          :</span> <span class="hljs-literal">False</span><br><span class="hljs-attr">Trial Mode Day                   :</span> <span class="hljs-number">0</span><br><span class="hljs-attr">Trial Mode Month                 :</span> <span class="hljs-number">0</span><br><span class="hljs-attr">Trial Mode Year                  :</span> <span class="hljs-number">0</span><br><span class="hljs-attr">Script name                      :</span> <span class="hljs-string">OracleLoader.ps1</span><br><span class="hljs-attr">Allowed OS version               :</span> <br><span class="hljs-attr">Allowed users                    :</span> <br><span class="hljs-attr">Allowed hostnames                :</span> <br><span class="hljs-attr">Allowed MAC addresses            :</span> <br><span class="hljs-attr">Allowed domains                  :</span> <br><br><span class="hljs-attr">Script:</span> <span class="hljs-string">OracleLoader.ps1</span> [<span class="hljs-string">b2823679fc85abd40d50cc1bec18ce4bc803fc78e2597a92c32dec4ff63ffcaf</span>]<br></code></pre></td></tr></table></figure>
+
+<p>太长了随便看看了看，感觉与cspsvc.ps1相似，不上分析了，可以参见参考。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/system/337691.html">https://www.freebuf.com/articles/system/337691.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/153070">https://www.anquanke.com/post/id/153070</a></p>
 
                 
               </div>
@@ -353,7 +374,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/PDF/">#PDF</a>
+        <a href="/tags/77oracle%E6%8C%96%E7%9F%BF/">#77oracle挖矿</a>
       
     </div>
   
@@ -365,8 +386,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>PDF嵌入攻击</div>
-      <div>http://wangchenchina.github.io/2022/05/25/PDF嵌入攻击/</div>
+      <div>77oracle挖矿木马分析</div>
+      <div>http://wangchenchina.github.io/2023/09/19/77oracle挖矿木马分析/</div>
     </div>
     <div class="license-meta">
       
@@ -378,7 +399,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月25日</div>
+          <div>2023年9月19日</div>
         </div>
       
       
@@ -410,18 +431,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/06/02/blackice%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/" title="blackice病毒分析">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">blackice病毒分析</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/24/%E4%BD%BF%E7%94%A8mimikatz%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81/" title="使用mimikatz获取账号密码">
-                        <span class="hidden-mobile">使用mimikatz获取账号密码</span>
+                      <a href="/2023/09/06/%E6%90%9C%E7%B4%A2%E8%BF%9E%E6%8E%A5%E5%99%A8%E2%80%94%E2%80%94%E7%96%91%E4%BC%BC%E8%94%93%E7%81%B5%E8%8A%B1%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6/" title="搜索连接器——疑似蔓灵花恶意文件">
+                        <span class="hidden-mobile">搜索连接器——疑似蔓灵花恶意文件</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
