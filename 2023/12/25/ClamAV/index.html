@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Demo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="官网 https:&#x2F;&#x2F;www.clamav.net&#x2F; 官方文档 https:&#x2F;&#x2F;docs.clamav.net&#x2F; Ubuntu在线安装123sudo apt-get install clamav或者 sudo apt-get install clamtk     #图形化界面，感觉不如命令行直观sudo clamscan --exclude-dir&#x3D;&#x2F;sys&#x2F; -i -r &#x2F;   12345678">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ClamAV">
+<meta property="og:url" content="http://wangchenchina.github.io/2023/12/25/ClamAV/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="官网 https:&#x2F;&#x2F;www.clamav.net&#x2F; 官方文档 https:&#x2F;&#x2F;docs.clamav.net&#x2F; Ubuntu在线安装123sudo apt-get install clamav或者 sudo apt-get install clamtk     #图形化界面，感觉不如命令行直观sudo clamscan --exclude-dir&#x3D;&#x2F;sys&#x2F; -i -r &#x2F;   12345678">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://wangchenchina.github.io/2023/12/25/ClamAV/image-20231026132708350.png">
+<meta property="article:published_time" content="2023-12-25T02:57:25.000Z">
+<meta property="article:modified_time" content="2023-12-25T02:59:16.804Z">
+<meta property="article:author" content="Demo">
+<meta property="article:tag" content="ClamAV">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2023/12/25/ClamAV/image-20231026132708350.png">
+  
+  
+  
+  <title>ClamAV - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangchenchina.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ClamAV"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-25 10:57" pubdate>
+          2023年12月25日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          59 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ClamAV</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>官网 <a target="_blank" rel="noopener" href="https://www.clamav.net/">https://www.clamav.net/</a></p>
+<p>官方文档 <a target="_blank" rel="noopener" href="https://docs.clamav.net/">https://docs.clamav.net/</a></p>
+<h3 id="Ubuntu在线安装"><a href="#Ubuntu在线安装" class="headerlink" title="Ubuntu在线安装"></a>Ubuntu在线安装</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">sudo apt-<span class="hljs-built_in">get</span> install clamav<br>或者 sudo apt-<span class="hljs-built_in">get</span> install clamtk     #图形化界面，感觉不如命令行直观<br>sudo clamscan <span class="hljs-attribute">--exclude-dir</span>=/sys/ -i -r /<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2023/12/25/ClamAV/image-20231026132708350.png" srcset="/img/loading.gif" lazyload alt="image-20231026132708350"></p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><code class="hljs ada"><span class="hljs-comment">--help -h   Show this help	显示此帮助</span><br><span class="hljs-comment">--version -V   Print version number	打印版本号</span><br><span class="hljs-comment">--verbose -v   Be verbose	详细</span><br><span class="hljs-comment">--archive-verbose -a   Show filenames inside scanned archives	在扫描的档案中显示文件名</span><br><span class="hljs-comment">--debug   Enable libclamav&#x27;s debug messages	启用libclamav的调试消息</span><br><span class="hljs-comment">--quiet   Only output error messages	仅输出错误消息</span><br><span class="hljs-comment">--stdout   Write to stdout instead of stderr. Does not affect &#x27;debug&#x27; messages.	写到stdout而不是stderr。不影响“调试”消息。</span><br><span class="hljs-comment">--no-summary   Disable summary at end of scanning	扫描结束时禁用摘要</span><br><span class="hljs-comment">--infected -i   Only print infected files	仅打印受感染的文件</span><br><span class="hljs-comment">--suppress-ok-results -o   Skip printing OK files	跳过打印OK文件</span><br><span class="hljs-comment">--bell   Sound bell on virus detection	检测病毒的声音</span><br><span class="hljs-comment">--tempdir=DIRECTORY   Create temporary files in DIRECTORY	在目录中创建临时文件</span><br><span class="hljs-comment">--leave-temps[=yes/no(*)]   Do not remove temporary files	不要删除临时文件</span><br><span class="hljs-comment">--gen-json[=yes/no(*)]   Generate JSON description of scanned file(s). JSON will be printed and alsodropped to the temp directory if --leave-temps is enabled.	生成扫描文件的JSON描述。如果启用--leave-temps，则将打印JSON并将其拖放到temp目录中。</span><br><span class="hljs-comment">--database=FILE/DIR -d FILE/DIR   Load virus database from FILE or load all supported db files from DIR	从FILE加载病毒数据库或从DIR加载所有受支持的数据库文件</span><br><span class="hljs-comment">--official-db-only[=yes/no(*)]   Only load official signatures	仅加载官方签名</span><br><span class="hljs-comment">--log=FILE -l FILE   Save scan report to FILE	将扫描报告保存到FILE</span><br><span class="hljs-comment">--recursive[=yes/no(*)] -r   Scan subdirectories recursively	递归扫描子目录</span><br><span class="hljs-comment">--allmatch[=yes/no(*)] -z   Continue scanning within file after finding a match	找到匹配项后继续在文件中扫描</span><br><span class="hljs-comment">--cross-fs[=yes(*)/no]   Scan files and directories on other filesystems	扫描其他文件系统上的文件和目录</span><br><span class="hljs-comment">--follow-dir-symlinks[=0/1(*)/2]   Follow directory symlinks (0 = never, 1 = direct, 2 = always)	遵循目录符号链接（0 =永不，1 =直接，2 =始终）</span><br><span class="hljs-comment">--follow-file-symlinks[=0/1(*)/2]   Follow file symlinks (0 = never, 1 = direct, 2 = always)	跟随文件符号链接（0 =从不，1 =直接，2 =始终）</span><br><span class="hljs-comment">--file-list=FILE -f FILE   Scan files from FILE	从FILE扫描文件</span><br><span class="hljs-comment">--remove[=yes/no(*)]   Remove infected files. Be careful!	删除受感染的文件。小心！</span><br><span class="hljs-comment">--move=DIRECTORY   Move infected files into DIRECTORY	将受感染的文件移至目录</span><br><span class="hljs-comment">--copy=DIRECTORY   Copy infected files into DIRECTORY	将受感染的文件复制到目录中</span><br><span class="hljs-comment">--exclude=REGEX   Don&#x27;t scan file names matching REGEX	不要扫描与REGEX匹配的文件名</span><br><span class="hljs-comment">--exclude-dir=REGEX   Don&#x27;t scan directories matching REGEX	不要扫描与REGEX匹配的目录</span><br><span class="hljs-comment">--include=REGEX   Only scan file names matching REGEX	仅扫描与REGEX匹配的文件名</span><br><span class="hljs-comment">--include-dir=REGEX   Only scan directories matching REGEX	仅扫描与REGEX匹配的目录</span><br><span class="hljs-comment">--bytecode[=yes(*)/no]   Load bytecode from the database	从数据库加载字节码</span><br><span class="hljs-comment">--bytecode-unsigned[=yes/no(*)]   Load unsigned bytecode	加载无符号字节码</span><br><span class="hljs-comment">--bytecode-timeout=N   Set bytecode timeout (in milliseconds)	设置字节码超时（以毫秒为单位）</span><br><span class="hljs-comment">--statistics[=none(*)/bytecode/pcre]   Collect and print execution statistics	收集并打印执行统计信息</span><br><span class="hljs-comment">--detect-pua[=yes/no(*)]   Detect Possibly Unwanted Applications	检测可能有害的应用程序</span><br><span class="hljs-comment">--exclude-pua=CAT   Skip PUA sigs of category CAT	跳过类别CAT的PUA信号</span><br><span class="hljs-comment">--include-pua=CAT   Load PUA sigs of category CAT	加载类别为CAT的PUA信号</span><br><span class="hljs-comment">--detect-structured[=yes/no(*)]   Detect structured data (SSN, Credit Card)	检测结构化数据（SSN，信用卡）</span><br><span class="hljs-comment">--structured-ssn-format=X   SSN format (0=normal,1=stripped,2=both)	SSN格式（0 =正常，1 =剥离，2 =两者）</span><br><span class="hljs-comment">--structured-ssn-count=N   Min SSN count to generate a detect	最小SSN计数以生成检测</span><br><span class="hljs-comment">--structured-cc-count=N   Min CC count to generate a detect	最小CC计数以生成检测</span><br><span class="hljs-comment">--scan-mail[=yes(*)/no]   Scan mail files	扫描邮件文件</span><br><span class="hljs-comment">--phishing-sigs[=yes(*)/no]   Enable email signature-based phishing detection	启用基于电子邮件签名的网络钓鱼检测</span><br><span class="hljs-comment">--phishing-scan-urls[=yes(*)/no]   Enable URL signature-based phishing detection	启用基于URL签名的网络钓鱼检测</span><br><span class="hljs-comment">--heuristic-alerts[=yes(*)/no]   Heuristic alerts	启发式警报</span><br><span class="hljs-comment">--heuristic-scan-precedence[=yes/no(*)]   Stop scanning as soon as a heuristic match is found	找到启发式匹配项后立即停止扫描</span><br><span class="hljs-comment">--normalize[=yes(*)/no]   Normalize html, script, and text files. Use normalize=no for yara compatibility	规范化html，脚本和文本文件。使用normalize = no获得yara兼容性</span><br><span class="hljs-comment">--scan-pe[=yes(*)/no]   Scan PE files	扫描PE文件</span><br><span class="hljs-comment">--scan-elf[=yes(*)/no]   Scan ELF files	扫描ELF文件</span><br><span class="hljs-comment">--scan-ole2[=yes(*)/no]   Scan OLE2 containers	扫描OLE2容器</span><br><span class="hljs-comment">--scan-pdf[=yes(*)/no]   Scan PDF files	扫描PDF文件</span><br><span class="hljs-comment">--scan-swf[=yes(*)/no]   Scan SWF files	扫描SWF文件</span><br><span class="hljs-comment">--scan-html[=yes(*)/no]   Scan HTML files	扫描HTML文件</span><br><span class="hljs-comment">--scan-xmldocs[=yes(*)/no]   Scan xml-based document files	扫描基于xml的文档文件</span><br><span class="hljs-comment">--scan-hwp3[=yes(*)/no]   Scan HWP3 files	扫描HWP3文件</span><br><span class="hljs-comment">--scan-archive[=yes(*)/no]   Scan archive files (supported by libclamav)	扫描存档文件（libclamav支持）</span><br><span class="hljs-comment">--alert-broken[=yes/no(*)]   Alert on broken executable files (PE &amp; ELF)	警报损坏的可执行文件（PE和ELF）</span><br><span class="hljs-comment">--alert-encrypted[=yes/no(*)]   Alert on encrypted archives and documents	提醒加密的档案和文件</span><br><span class="hljs-comment">--alert-encrypted-archive[=yes/no(*)]   Alert on encrypted archives	警报加密档案</span><br><span class="hljs-comment">--alert-encrypted-doc[=yes/no(*)]   Alert on encrypted documents	加密文件警报</span><br><span class="hljs-comment">--alert-macros[=yes/no(*)]   Alert on OLE2 files containing VBA macros	对包含VBA宏的OLE2文件发出警报</span><br><span class="hljs-comment">--alert-exceeds-max[=yes/no(*)]   Alert on files that exceed max file size, max scan size, or max recursion limit	对超过最大文件大小，最大扫描大小或最大递归限制的文件发出警报</span><br><span class="hljs-comment">--alert-phishing-ssl[=yes/no(*)]   Alert on emails containing SSL mismatches in URLs	在URL中包含SSL不匹配的电子邮件时发出警报</span><br><span class="hljs-comment">--alert-phishing-cloak[=yes/no(*)]   Alert on emails containing cloaked URLs	对包含隐藏URL的电子邮件发出警报</span><br><span class="hljs-comment">--alert-partition-intersection[=yes/no(*)]   Alert on raw DMG image files containing partition intersections	对包含分区相交的原始DMG图像文件发出警报</span><br><span class="hljs-comment">--nocerts   Disable authenticode certificate chain verification in PE files	禁用PE文件中的Authenticode证书链验证</span><br><span class="hljs-comment">--dumpcerts   Dump authenticode certificate chain in PE files	在PE文件中转储Authenticode证书链</span><br><span class="hljs-comment">--max-scantime=#n   Scan time longer than this will be skipped and assumed clean	扫描时间长于此时间将被忽略并认为是干净的</span><br><span class="hljs-comment">--max-filesize=#n   Files larger than this will be skipped and assumed clean	大于此大小的文件将被跳过并假定为干净文件</span><br><span class="hljs-comment">--max-scansize=#n   The maximum amount of data to scan for each container file (**)	每个容器文件要扫描的最大数据量（**）</span><br><span class="hljs-comment">--max-files=#n   The maximum number of files to scan for each container file (**)	每个容器文件要扫描的最大文件数（**）</span><br><span class="hljs-comment">--max-recursion=#n   Maximum archive recursion level for container file (**)	容器文件的最大归档递归级别（**）</span><br><span class="hljs-comment">--max-dir-recursion=#n   Maximum directory recursion level	最大目录递归级别</span><br><span class="hljs-comment">--max-embeddedpe=#n   Maximum size file to check for embedded PE	检查嵌入式PE的最大大小文件</span><br><span class="hljs-comment">--max-htmlnormalize=#n   Maximum size of HTML file to normalize	要规范化的HTML文件的最大大小</span><br><span class="hljs-comment">--max-htmlnotags=#n   Maximum size of normalized HTML file to scan	要扫描的规范化HTML文件的最大大小</span><br><span class="hljs-comment">--max-scriptnormalize=#n   Maximum size of script file to normalize	要规范化的脚本文件的最大大小</span><br><span class="hljs-comment">--max-ziptypercg=#n   Maximum size zip to type reanalyze	邮编的最大大小可重新分析</span><br><span class="hljs-comment">--max-partitions=#n   Maximum number of partitions in disk image to be scanned	磁盘映像中要扫描的最大分区数</span><br><span class="hljs-comment">--max-iconspe=#n   Maximum number of icons in PE file to be scanned	PE文件中要扫描的最大图标数</span><br><span class="hljs-comment">--max-rechwp3=#n   Maximum recursive calls to HWP3 parsing function	对HWP3解析函数的最大递归调用</span><br><span class="hljs-comment">--pcre-match-limit=#n   Maximum calls to the PCRE match function.	最多调用PCRE匹配功能。</span><br><span class="hljs-comment">--pcre-recmatch-limit=#n   Maximum recursive calls to the PCRE match function.	对PCRE匹配函数的最大递归调用。</span><br><span class="hljs-comment">--pcre-max-filesize=#n   Maximum size file to perform PCRE subsig matching.	执行PCRE subsig匹配的最大文件大小。</span><br><span class="hljs-comment">--disable-cache   Disable caching and cache checks for hash sums of scanned files.	禁用对扫描文件的哈希和进行缓存和缓存检查。</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Ubuntu离线安装"><a href="#Ubuntu离线安装" class="headerlink" title="Ubuntu离线安装"></a>Ubuntu离线安装</h3><p>下载 <a target="_blank" rel="noopener" href="https://www.clamav.net/downloads">https://www.clamav.net/downloads</a></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs awk">sudo dpkg -i  clamav-<span class="hljs-number">1.2</span>.<span class="hljs-number">1</span>.linux.i686.deb<br>sudo mkdir <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/share/</span>clamav<br><br>下载clamav的病毒库，放到上面目录中<br>http:<span class="hljs-regexp">//</span>database.clamav.net/main.cvd<br>http:<span class="hljs-regexp">//</span>database.clamav.net/daily.cvd<br>http:<span class="hljs-regexp">//</span>database.clamav.net/bytecode.cvd<br></code></pre></td></tr></table></figure>
+
+<p>测试ClamAv查杀率堪忧。</p>
+<p><strong>Avast</strong>、<strong>Avria</strong>（小红伞）、<strong>AVG</strong>相应linux家庭免费版本未找到。</p>
+<p>下一步研究<strong>Chkrootkit</strong>、<strong>Rkhunter</strong>。</p>
+<h3 id="Rkhunter"><a href="#Rkhunter" class="headerlink" title="Rkhunter"></a>Rkhunter</h3><p><a target="_blank" rel="noopener" href="https://jaist.dl.sourceforge.net/project/rkhunter/rkhunter/1.4.6/rkhunter-1.4.6.tar.gz%EF%BC%88%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89">https://jaist.dl.sourceforge.net/project/rkhunter/rkhunter/1.4.6/rkhunter-1.4.6.tar.gz（不推荐）</a></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake">sudo apt <span class="hljs-keyword">install</span> rkhunter<br>sudo apt download rkhunter<br>sudo dpkg -i rkhun*<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">tar</span> -zxf rkhunter-<span class="hljs-number">1</span>.<span class="hljs-number">4</span>.<span class="hljs-number">6</span>.tar.gz<br><span class="hljs-attribute">cd</span> rkhunter-<span class="hljs-number">1</span>.<span class="hljs-number">4</span>.<span class="hljs-number">6</span><br><span class="hljs-attribute">sudo</span> ./installer.sh --install<br><span class="hljs-attribute">sudo</span> rkhunter --version<br><span class="hljs-attribute">sudo</span> rkhunter -c --sk<br><span class="hljs-attribute">sudo</span> cat /var/log/rkhunter.log | grep Warning &gt; <span class="hljs-number">1</span>.txt<br></code></pre></td></tr></table></figure>
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="category-chain-item">基础知识</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ClamAV/">#ClamAV</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ClamAV</div>
+      <div>http://wangchenchina.github.io/2023/12/25/ClamAV/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Demo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年12月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/09/19/77oracle%E6%8C%96%E7%9F%BF%E6%9C%A8%E9%A9%AC%E5%88%86%E6%9E%90/" title="77oracle挖矿木马分析">
+                        <span class="hidden-mobile">77oracle挖矿木马分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
