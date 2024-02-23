@@ -16,35 +16,28 @@
   <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、样本信息恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：    文件名 000000.xlsm    MD5 e566fc53051035e1e6fd0ed1823de0f9   SHA256 8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bb">
+    <meta name="description" content="背景2024.2.3  看雪社区成员发表文章  [讨论]火绒5.0.68.0残忍杀害本机explorer.exe 2024.2.18 火绒安全论坛官方发表公告  [产品公告] 关于近期explorer误报问题说明 当然还有B站 &#x3D; &#x3D; 从上述文章可以看出，火绒在 2024年1月12日 之前的旧版本，在windows10 22h2更新补丁（KB5034203、KB5034763等">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XRed蠕虫病毒分析">
-<meta property="og:url" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/index.html">
+<meta property="og:title" content="explorer误杀">
+<meta property="og:url" content="http://wangchenchina.github.io/2024/02/23/explorer%E8%AF%AF%E6%9D%80/index.html">
 <meta property="og:site_name" content="Demo_博客">
-<meta property="og:description" content="一、样本信息恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：    文件名 000000.xlsm    MD5 e566fc53051035e1e6fd0ed1823de0f9   SHA256 8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bb">
+<meta property="og:description" content="背景2024.2.3  看雪社区成员发表文章  [讨论]火绒5.0.68.0残忍杀害本机explorer.exe 2024.2.18 火绒安全论坛官方发表公告  [产品公告] 关于近期explorer误报问题说明 当然还有B站 &#x3D; &#x3D; 从上述文章可以看出，火绒在 2024年1月12日 之前的旧版本，在windows10 22h2更新补丁（KB5034203、KB5034763等">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image004.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image006.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image008.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image010.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image012.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image014.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image016.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image017.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image019.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image021.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image022.png">
-<meta property="article:published_time" content="2022-05-16T06:26:25.000Z">
-<meta property="article:modified_time" content="2022-05-16T06:31:26.806Z">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/02/23/explorer%E8%AF%AF%E6%9D%80/image-20240222103620778.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/02/23/explorer%E8%AF%AF%E6%9D%80/image-20240223092136887.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/02/23/explorer%E8%AF%AF%E6%9D%80/image-20240223092359371.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/02/23/explorer%E8%AF%AF%E6%9D%80/image-20240223092748240.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/02/23/explorer%E8%AF%AF%E6%9D%80/image-20240223094616532.png">
+<meta property="article:published_time" content="2024-02-23T02:37:54.000Z">
+<meta property="article:modified_time" content="2024-02-23T03:10:10.748Z">
 <meta property="article:author" content="Demo">
-<meta property="article:tag" content="XRed">
+<meta property="article:tag" content="explorer">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://wangchenchina.github.io/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2024/02/23/explorer%E8%AF%AF%E6%9D%80/image-20240222103620778.png">
   
   
   
-  <title>XRed蠕虫病毒分析 - Demo_博客</title>
+  <title>explorer误杀 - Demo_博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -221,7 +214,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="XRed蠕虫病毒分析"></span>
+            <span id="subtitle" data-typed-text="explorer误杀"></span>
           
         </div>
 
@@ -232,8 +225,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-16 14:26" pubdate>
-          2022年5月16日 下午
+        <time datetime="2024-02-23 10:37" pubdate>
+          2024年2月23日 上午
         </time>
       </span>
     
@@ -244,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          441 字
         
       </span>
     
@@ -255,7 +248,7 @@
         
         
         
-          18 分钟
+          4 分钟
         
       </span>
     
@@ -293,120 +286,28 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">XRed蠕虫病毒分析</h1>
+            <h1 style="display: none">explorer误杀</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="一、样本信息"><a href="#一、样本信息" class="headerlink" title="一、样本信息"></a>一、样本信息</h2><p>恶意文件为excel表格文件，文件名为“000000.xlsm”，MD5值为e566fc53051035e1e6fd0ed1823de0f9。详情如下表：</p>
-<table>
-<thead>
-<tr>
-<th>文件名</th>
-<th>000000.xlsm</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MD5</td>
-<td>e566fc53051035e1e6fd0ed1823de0f9</td>
-</tr>
-<tr>
-<td>SHA256</td>
-<td>8e574b4ae6502230c0829e2319a6c146aebd51b7008bf5bbfb731424d7952c15</td>
-</tr>
-<tr>
-<td>文件大小</td>
-<td>18,387 字节</td>
-</tr>
-<tr>
-<td>病毒类型</td>
-<td>HEUR:Trojan-Downloader.Script.Generic</td>
-</tr>
-</tbody></table>
-<p>经初步分析该文档属于伪装成“Synaptics触摸板驱动程序”的Xred蠕虫病毒产生的存在恶意宏代码的Excel传播文档。该病毒曾于2020年初较为活跃，是具备远程控制、信息窃取能力的感染型病毒，可以感染本地EXE文件及xlsx电子表格文件，病毒可通过文件分享和U盘、移动硬盘等媒介传播。据此，安全人员判定上述上传恶意文件的主机已经遭受感染，但在流量监控过程中并未发现该病毒主程序，因此从相关威胁情报中搜集到了源EXE格式病毒。Xred病毒详情如下：</p>
-<table>
-<thead>
-<tr>
-<th>文件名</th>
-<th>Synaptics.exe</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MD5</td>
-<td>13358cfb6040fd4b2dba262f209464de</td>
-</tr>
-<tr>
-<td>SHA256</td>
-<td>72daa031ce52468fce5cdab85b21b18f1211b8804bc23c6e6ae8c24e868c4866</td>
-</tr>
-<tr>
-<td>文件大小</td>
-<td>771,584 字节</td>
-</tr>
-<tr>
-<td>病毒类型</td>
-<td>Backdoor.Win32.DarkKomet.hqxy</td>
-</tr>
-</tbody></table>
-<h2 id="二、样本分析"><a href="#二、样本分析" class="headerlink" title="二、样本分析"></a>二、样本分析</h2><p>捕获的Excel文档内容均为空，包含恶意宏代码，打开后会自动运行。篡改Word和Excel组件的宏设置，启用所有宏，并通过公有云盘下载并执行Synaptics.exe病毒。目前所有的下载链接均已失效。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image002.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>修改宏设置</center>
+                <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>2024.2.3  看雪社区成员发表文章  <a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-280449.htm">[讨论]火绒5.0.68.0残忍杀害本机explorer.exe</a></p>
+<p>2024.2.18 火绒安全论坛官方发表公告  <a target="_blank" rel="noopener" href="https://bbs.huorong.cn/thread-136360-1-1.html">[产品公告] 关于近期explorer误报问题说明</a></p>
+<p>当然还有B站 &#x3D; &#x3D;</p>
+<p>从上述文章可以看出，火绒在 <strong>2024年1月12日</strong> 之前的旧版本，在windows10 22h2更新补丁（KB5034203、KB5034763等）后，存在误杀系统explorer.exe资源管理器文件的风险。</p>
+<p>有些人应该是为了火绒剑保留老版安装包。</p>
+<p>![屏幕截图 2024-02-21 155506](屏幕截图 2024-02-21 155506.png)</p>
+<p><img src="/2024/02/23/explorer%E8%AF%AF%E6%9D%80/image-20240222103620778.png" srcset="/img/loading.gif" lazyload alt="image-20240222103620778"></p>
+<p>据悉，受影响的文件版本包括从3992-4161(当前最新)。</p>
+<h3 id="逆向分析"><a href="#逆向分析" class="headerlink" title="逆向分析"></a>逆向分析</h3><p><img src="/2024/02/23/explorer%E8%AF%AF%E6%9D%80/image-20240223092136887.png" srcset="/img/loading.gif" lazyload alt="image-20240223092136887"></p>
+<p><strong>IsHijackingProcessRunning</strong>函数</p>
+<img src="image-20240223092359371.png" srcset="/img/loading.gif" lazyload alt="image-20240223092359371" style="zoom:80%;" />
 
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image004.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>远程下载并执行病毒</center>
-
-<p>Xred病毒由Delph编写，无壳，自身伪装成Synaptics触摸板驱动程序。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image006.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>PE详情</center>
-
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image008.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>伪装成驱动程序</center>
-
-<p>该病毒通过感染指定位置（Desktop、Documents、Downloads）的32位的“.exe”后缀文件与“.xlsx”后缀文件，使其恶意代码可以通过文件共享大量传播但不会导致系统明显卡顿。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image010.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>指定位置</center>
-
-<p>被感染的文件被执行时，会执行恶意逻辑，包括释放伪装名为“Synaptics.exe”的文件常驻系统，进行远程控制，回传窃取的敏感信息等恶意行为。主要功能逻辑如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image012.png" srcset="/img/loading.gif" lazyload alt="https://pc1.gtimg.com/guanjia/images/9b/83/9b837e056017f499ccb79ef4daa6213d.png"></p>
-<center>主要功能逻辑</center>
-
-<p>被感染的可执行文件体积增量约为753KB，包含一个名为“EXERESX”的资源，该资源是原始正常的程序。“EXERESX”资源会在宿主文件运行时被释放到当前目录并设置隐藏属性后执行。添加“ ._cache_”前缀拼接文件名。如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image014.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image016.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>被感染的文件与原文件对比</center>
-
-<p>该病毒释放并加载名为“KBHKS”的动态库资源，通过设置相关钩子消息以记录键盘输入信息及其窗口信息等， Hook代码关键逻辑如下：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image017.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>Hook钩子</center>
-
-<p>病毒使用“XLSM”资源感染xlsx后缀文件，并将“.xlsx”后缀改为“.xlsm”。修改office组件设置以及xlsm后缀目的为了能够自动静默启用宏。如下图所示：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image019.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>感染xlsx文件</center>
-
-<p>病毒回连地址，公有云盘下载地址及敏感信息接收邮箱见下图：</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image021.png" srcset="/img/loading.gif" lazyload alt="img"> <center>回连字符串</center></p>
-<p>具有基础的远程控制功能，包括执行CMD命令、屏幕截图、打印目录、下载文件、删除文件等。功能代码如下图所示。</p>
-<p><img src="/2022/05/16/XRed%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/clip_image022.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<center>远控功能</center>
-
-
-
-<h2 id="三、IOCs"><a href="#三、IOCs" class="headerlink" title="三、IOCs"></a>三、IOCs</h2><p><strong>MD5：</strong></p>
-<p>e566fc53051035e1e6fd0ed1823de0f9</p>
-<p>13358cfb6040fd4b2dba262f209464de</p>
-<p>备注：因为被感染文件一直都是变化的，MD5值不确定，只列举了两个得到的样本</p>
-<p><strong>C2 &amp; URL：</strong></p>
-<p>xred.mooo.com</p>
-<p>freedns.afraid.org</p>
-<p>docs.google.com&#x2F;uc?id&#x3D;0BxsMXGfPIZfSVlVsOGlEVGxuZVk&amp;export&#x3D;download</p>
-<p><a target="_blank" rel="noopener" href="http://www.dropbox.com/s/zhp1b06imehwylq/Synaptics.rar?dl=1">www.dropbox.com/s/zhp1b06imehwylq/Synaptics.rar?dl=1</a></p>
-<p>xred.site50.net&#x2F;syn&#x2F;Synaptics.rar</p>
-<p><strong>邮箱地址：</strong></p>
-<p><a href="mailto:&#x78;&#x72;&#x65;&#x64;&#108;&#x69;&#110;&#x65;&#x31;&#64;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#x78;&#x72;&#x65;&#x64;&#108;&#x69;&#110;&#x65;&#x31;&#64;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;</a></p>
-<p><a href="mailto:&#120;&#114;&#101;&#100;&#108;&#x69;&#x6e;&#x65;&#50;&#64;&#103;&#109;&#97;&#x69;&#108;&#46;&#x63;&#111;&#x6d;">&#120;&#114;&#101;&#100;&#108;&#x69;&#x6e;&#x65;&#50;&#64;&#103;&#109;&#97;&#x69;&#108;&#46;&#x63;&#111;&#x6d;</a></p>
-<p><a href="mailto:&#120;&#114;&#x65;&#100;&#x6c;&#x69;&#x6e;&#101;&#x33;&#64;&#103;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#111;&#x6d;">&#120;&#114;&#x65;&#100;&#x6c;&#x69;&#x6e;&#101;&#x33;&#64;&#103;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#111;&#x6d;</a></p>
-<h2 id="四、处置建议"><a href="#四、处置建议" class="headerlink" title="四、处置建议"></a>四、处置建议</h2><p>（1）立即对感染病毒的机器进行断网处理，避免进一步扩散。</p>
-<p>（2）对已感染病毒的电脑，进行全盘查杀，修复被感染的文件。</p>
+<p>返回上层函数<strong>CheckCampaignAvailability</strong></p>
+<p><img src="/2024/02/23/explorer%E8%AF%AF%E6%9D%80/image-20240223092748240.png" srcset="/img/loading.gif" lazyload alt="image-20240223092748240"></p>
+<p>返回上层函数<strong>RunFeedsCampaign</strong></p>
+<p><img src="/2024/02/23/explorer%E8%AF%AF%E6%9D%80/image-20240223094616532.png" srcset="/img/loading.gif" lazyload alt="image-20240223094616532"></p>
+<p>总之，就是<strong>检测360进程，如果存在，就关闭Feeds资讯和兴趣</strong>。Interesting</p>
 
                 
               </div>
@@ -425,7 +326,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" class="category-chain-item">样本分析</a>
+  <a href="/categories/%E5%85%B6%E4%BB%96/" class="category-chain-item">其他</a>
   
   
 
@@ -440,7 +341,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/XRed/">#XRed</a>
+        <a href="/tags/explorer/">#explorer</a>
       
     </div>
   
@@ -452,8 +353,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>XRed蠕虫病毒分析</div>
-      <div>http://wangchenchina.github.io/2022/05/16/XRed蠕虫病毒分析/</div>
+      <div>explorer误杀</div>
+      <div>http://wangchenchina.github.io/2024/02/23/explorer误杀/</div>
     </div>
     <div class="license-meta">
       
@@ -465,7 +366,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月16日</div>
+          <div>2024年2月23日</div>
         </div>
       
       
@@ -497,18 +398,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/05/17/Emotet%E7%9A%84%E6%96%B0%E5%BD%A2%E5%BC%8F-Link/" title="Emotet的新形式-Link">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Emotet的新形式-Link</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/13/VBE%E3%80%81VBS%E3%80%81PowerShell%E5%92%8CJavaScript%E6%9C%A8%E9%A9%AC/" title="VBE、VBS、PowerShell和JavaScript木马">
-                        <span class="hidden-mobile">VBE、VBS、PowerShell和JavaScript木马</span>
+                      <a href="/2023/12/25/ClamAV/" title="ClamAV">
+                        <span class="hidden-mobile">ClamAV</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
