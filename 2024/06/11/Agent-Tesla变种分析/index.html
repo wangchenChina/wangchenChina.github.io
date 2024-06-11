@@ -1,0 +1,835 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Demo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="窃密木马家族 Agent Tesla    编译语言 .NET   首次发现时间 2014年   针对平台 Windows   主要传播方式 网络钓鱼   主要分析对抗技术 载荷混淆、多层载荷加载、进程注入   主要窃取目标 系统数据、浏览器、电子邮件、FTP、VPN、远程连接工具、即时通讯软件、数据库、下载器   其他恶意行为 禁用系统功能、持久化   样本情况12345文件名: SOA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agent Tesla变种分析">
+<meta property="og:url" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="窃密木马家族 Agent Tesla    编译语言 .NET   首次发现时间 2014年   针对平台 Windows   主要传播方式 网络钓鱼   主要分析对抗技术 载荷混淆、多层载荷加载、进程注入   主要窃取目标 系统数据、浏览器、电子邮件、FTP、VPN、远程连接工具、即时通讯软件、数据库、下载器   其他恶意行为 禁用系统功能、持久化   样本情况12345文件名: SOA">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606150811291.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605105053743.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605104740699.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605110535460.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605143256507.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605132316724.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605133352485.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605134348472.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605143532924.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605143720424.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605150218573.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605150521585.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605150910447.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605151459824.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606100711489.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606100251936.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606102043756.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606133347833.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606145228347.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240607143632669.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240607144026979.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240607144458892.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240611095330611.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240611100148680.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240611102037978.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240611101950439.png">
+<meta property="article:published_time" content="2024-06-11T03:24:33.000Z">
+<meta property="article:modified_time" content="2024-06-11T03:27:00.712Z">
+<meta property="article:author" content="Demo">
+<meta property="article:tag" content="Agent Tesla">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606150811291.png">
+  
+  
+  
+  <title>Agent Tesla变种分析 - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangchenchina.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Agent Tesla变种分析"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-06-11 11:24" pubdate>
+          2024年6月11日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Agent Tesla变种分析</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <table>
+<thead>
+<tr>
+<th><strong>窃密木马家族</strong></th>
+<th>Agent Tesla</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>编译语言</strong></td>
+<td>.NET</td>
+</tr>
+<tr>
+<td><strong>首次发现时间</strong></td>
+<td>2014年</td>
+</tr>
+<tr>
+<td><strong>针对平台</strong></td>
+<td>Windows</td>
+</tr>
+<tr>
+<td><strong>主要传播方式</strong></td>
+<td>网络钓鱼</td>
+</tr>
+<tr>
+<td><strong>主要分析对抗技术</strong></td>
+<td>载荷混淆、多层载荷加载、进程注入</td>
+</tr>
+<tr>
+<td><strong>主要窃取目标</strong></td>
+<td>系统数据、浏览器、电子邮件、FTP、VPN、远程连接工具、即时通讯软件、数据库、下载器</td>
+</tr>
+<tr>
+<td><strong>其他恶意行为</strong></td>
+<td>禁用系统功能、持久化</td>
+</tr>
+</tbody></table>
+<h3 id="样本情况"><a href="#样本情况" class="headerlink" title="样本情况"></a>样本情况</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs markdown">文件名: SOA MAY.pdf<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__<span class="hljs-emphasis">_.exe</span></span><br><span class="hljs-emphasis"><span class="hljs-strong">大小: 727552 字节</span></span><br><span class="hljs-emphasis"><span class="hljs-strong">文件版本: 0.0.5.5</span></span><br><span class="hljs-emphasis"><span class="hljs-strong">MD5: 6A5EDFEDCACD647606F65F573BA88FD5</span></span><br><span class="hljs-emphasis"><span class="hljs-strong">SHA1: E03491D78351A41011798D2F713A5296DFCC0553</span></span><br></code></pre></td></tr></table></figure>
+
+<img src="image-20240606150811291.png" srcset="/img/loading.gif" lazyload alt="image-20240606150811291" style="zoom: 80%;" />
+
+<h3 id="样本释放第一层载荷"><a href="#样本释放第一层载荷" class="headerlink" title="样本释放第一层载荷"></a>样本释放第一层载荷</h3><p>获取名为“sahu”的资源对象，解码出RC4密钥“0x44 0x46 0x45 0x47 0x55 0x31 0x35 0x37 0x45 0x34 0x59 0x34 0x38 0x35 0x38 0x45 0x54 0x47 0x35 0x47 0x43 0x35”</p>
+<p>使用密钥解码出下一个模块<em><strong>SimpleLogin</strong></em>，该模块为一个.net程序集的PE文件。</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605105053743.png" srcset="/img/loading.gif" lazyload alt="image-20240605105053743"></p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605104740699.png" srcset="/img/loading.gif" lazyload alt="image-20240605104740699"></p>
+<p>通过反射机制获取程序集对象<em><strong>SimpleLogin</strong></em>，并创建Pia4ntb8MiUGvhGsP9.RLhDAEYwfjHvjWVq5a实例。</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605110535460.png" srcset="/img/loading.gif" lazyload alt="image-20240605110535460"></p>
+<p>传递的参数如下</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605143256507.png" srcset="/img/loading.gif" lazyload alt="image-20240605143256507"></p>
+<h3 id="第一层载荷"><a href="#第一层载荷" class="headerlink" title="第一层载荷"></a>第一层载荷</h3><p>sleep 10112ms</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605132316724.png" srcset="/img/loading.gif" lazyload alt="image-20240605132316724"></p>
+<p>解压缩名为“zzz”的资源数据</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605133352485.png" srcset="/img/loading.gif" lazyload alt="image-20240605133352485"></p>
+<p>以解压缩的资源数据为对象，加载程序集<em><strong>Gamma</strong></em>（第二层载荷）。并创建指向该数据集中 ReactionDiffusionLib.ReactionVessel 类的对象</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605134348472.png" srcset="/img/loading.gif" lazyload alt="image-20240605134348472"></p>
+<p>调用ReactionDiffusionLib.ReactionVessel类中的CausalitySource方法解出参数Zuob</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605143532924.png" srcset="/img/loading.gif" lazyload alt="image-20240605143532924"></p>
+<p>调用ReactionDiffusionLib.ReactionVessel类中的CausalitySource方法解出参数eir</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605143720424.png" srcset="/img/loading.gif" lazyload alt="image-20240605143720424"></p>
+<p>获取主程序的资源Zuob，并将该图片资源像素点数据转换为字节流</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605150218573.png" srcset="/img/loading.gif" lazyload alt="image-20240605150218573"></p>
+<p>调用ReactionDiffusionLib.ReactionVessel类中的SearchResult方法解码字节流，可以看到解码出的是一个PE程序</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605150521585.png" srcset="/img/loading.gif" lazyload alt="image-20240605150521585"></p>
+<p>加载解码出的程序集<em><strong>Tyrone</strong></em>（第三层载荷）</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605150910447.png" srcset="/img/loading.gif" lazyload alt="image-20240605150910447"></p>
+<p>执行程序集中 T3reatI1l1Onow9d2c.qnY1dVtHD4DbcDHSBN 类的RdihiuuJZA()方法</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240605151459824.png" srcset="/img/loading.gif" lazyload alt="image-20240605151459824"></p>
+<h3 id="第三层载荷"><a href="#第三层载荷" class="headerlink" title="第三层载荷"></a>第三层载荷</h3><p>创建互斥体，设置守护进程，进程睡眠0x19s</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606100711489.png" srcset="/img/loading.gif" lazyload alt="image-20240606100711489"></p>
+<p>检查进程是否具有管理员权限，如果具有管理员权限，则添加自己为Windows Defender排除项</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606100251936.png" srcset="/img/loading.gif" lazyload alt="image-20240606100251936"></p>
+<p>复制主程序到%AppData%路径下，并设置计划任务实现持久化</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606102043756.png" srcset="/img/loading.gif" lazyload alt="image-20240606102043756"></p>
+<p>异或解码出<em><strong>Tyrone</strong></em>程序集中的 T71qM6HMRpQ 资源，解码后可以看到该资源是一个PE程序</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606133347833.png" srcset="/img/loading.gif" lazyload alt="image-20240606133347833"></p>
+<p>将解码出的PE程序注入MSBuild.exe</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240606145228347.png" srcset="/img/loading.gif" lazyload alt="image-20240606145228347"></p>
+<h3 id="Agent-Tesla"><a href="#Agent-Tesla" class="headerlink" title="Agent Tesla"></a>Agent Tesla</h3><p><strong>MD5：3544CB0B8734581E6A729ED85D89D5FA</strong></p>
+<p>结束除当前进程外的所有同名进程</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240607143632669.png" srcset="/img/loading.gif" lazyload alt="image-20240607143632669"></p>
+<p>初始化，获取一些设备信息，包括计算设备ID、获取设备IP等</p>
+<img src="image-20240607144026979.png" srcset="/img/loading.gif" lazyload alt="image-20240607144026979" style="zoom: 80%;" />
+
+<p>获取的设备信息</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240607144458892.png" srcset="/img/loading.gif" lazyload alt="image-20240607144458892"></p>
+<p>搜集Firefox、Chrome、Edge等28款浏览器的信息</p>
+<img src="image-20240611095330611.png" srcset="/img/loading.gif" lazyload alt="image-20240611095330611" style="zoom:67%;" />
+
+<p>搜集电子邮件、FTP、VPN、数据库等信息</p>
+<img src="image-20240611100148680.png" srcset="/img/loading.gif" lazyload alt="image-20240611100148680" style="zoom:67%;" />
+
+<p>发送邮件将收集到的信息发送出去</p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240611102037978.png" srcset="/img/loading.gif" lazyload alt="image-20240611102037978"></p>
+<p><img src="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/image-20240611101950439.png" srcset="/img/loading.gif" lazyload alt="image-20240611101950439"></p>
+<p>样本部分配置信息如图，可以看出有些功能并未打开，比如键盘记录、屏幕记录、剪切板记录等</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> PcHwid = <span class="hljs-string">&quot;&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> ThisComputerName = <span class="hljs-string">&quot;&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> AsmFilePath = <span class="hljs-string">&quot;&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> PublicIpAddress = <span class="hljs-string">&quot;&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> PublicIpAddressGrab = Convert.ToBoolean(<span class="hljs-string">&quot;true&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> IpApi = <span class="hljs-string">&quot;https://api.ipify.org&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> jcSOCBsUWLk.U8lcIO lastInputInf = <span class="hljs-literal">default</span>(jcSOCBsUWLk.U8lcIO);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> PublicUserAgent = <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> PcState = <span class="hljs-literal">true</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> Log_text = <span class="hljs-string">&quot;&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> EnableKeylogger = Convert.ToBoolean(<span class="hljs-string">&quot;false&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> EnableScreenLogger = Convert.ToBoolean(<span class="hljs-string">&quot;false&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> EnableClipboardLogger = Convert.ToBoolean(<span class="hljs-string">&quot;false&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> EnableTorPanel = Convert.ToBoolean(<span class="hljs-string">&quot;false&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> EnableCookies = Convert.ToBoolean(<span class="hljs-string">&quot;false&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> EnableContacts = Convert.ToBoolean(<span class="hljs-string">&quot;false&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> DeleteBackspace = Convert.ToBoolean(<span class="hljs-string">&quot;false&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> TorPid = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> KeyloggerInterval = Convert.ToInt32(<span class="hljs-string">&quot;20&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> ScreenInterval = Convert.ToInt32(<span class="hljs-string">&quot;20&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> LogType = Convert.ToInt32(<span class="hljs-string">&quot;1&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> SmtpSSL = Convert.ToBoolean(<span class="hljs-string">&quot;false&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> SmtpPort = Convert.ToInt32(<span class="hljs-string">&quot;587&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> SmtpAttach = Convert.ToBoolean(<span class="hljs-string">&quot;false&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> SmtpServer = <span class="hljs-string">&quot;mail.mayedasselectromech.com&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> SmtpSender = <span class="hljs-string">&quot;nksharma@mayedasselectromech.com&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> SmtpPassword = <span class="hljs-string">&quot;India@2014&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> SmtpReceiver = <span class="hljs-string">&quot;solomonchimaobi709@gmail.com&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> AppAddStartup = Convert.ToBoolean(<span class="hljs-string">&quot;false&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> HideFileStartup = Convert.ToBoolean(<span class="hljs-string">&quot;false&quot;</span>);<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> AppStartupFullPath = <span class="hljs-string">&quot;&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> StartupDirectoryPath = <span class="hljs-string">&quot;&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> StartupEnvName = <span class="hljs-string">&quot;appdata&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> StartupDirectoryName = <span class="hljs-string">&quot;KRIPvjV&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> StartupInstallationName = <span class="hljs-string">&quot;KRIPvjV.exe&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> StartupRegName = <span class="hljs-string">&quot;KRIPvjV&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">模块描述</th>
+<th align="center">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">主样本</td>
+<td align="center">SOA MAY.pdf_______________________________________________________________________.exe</td>
+<td align="center">解密资源释放下一层载荷</td>
+</tr>
+<tr>
+<td align="center">第一层载荷</td>
+<td align="center">SimpleLogin</td>
+<td align="center">解密资源释放下一层载荷</td>
+</tr>
+<tr>
+<td align="center">第二层载荷</td>
+<td align="center">Gamma</td>
+<td align="center">提供解密函数</td>
+</tr>
+<tr>
+<td align="center">第三层载荷</td>
+<td align="center">Tyrone</td>
+<td align="center">实现持久化功能等功能，向MSBuild注入playload</td>
+</tr>
+<tr>
+<td align="center">注入MSBuild载荷</td>
+<td align="center">fa16cf2d-8af2-4e7a-8bd2-d55470e17d2f</td>
+<td align="center">Agent Tesla</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" class="category-chain-item">样本分析</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Agent-Tesla/">#Agent Tesla</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Agent Tesla变种分析</div>
+      <div>http://wangchenchina.github.io/2024/06/11/Agent-Tesla变种分析/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Demo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年6月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/16/IDApython%E8%A7%A3%E7%A0%81/" title="IDApython解码">
+                        <span class="hidden-mobile">IDApython解码</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
