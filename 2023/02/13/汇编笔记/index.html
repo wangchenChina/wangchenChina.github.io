@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://wangchenchina.github.io/2023/02/13/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/%E5%BE%AE%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A1%86%E5%9B%BE.png">
 <meta property="og:image" content="http://wangchenchina.github.io/2023/02/13/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/%E6%B1%87%E7%BC%96-%E9%93%BE%E6%8E%A5-%E6%89%A7%E8%A1%8C%E5%91%A8%E6%9C%9F.png">
 <meta property="article:published_time" content="2023-02-13T08:54:05.000Z">
-<meta property="article:modified_time" content="2023-02-13T08:55:04.910Z">
+<meta property="article:modified_time" content="2024-06-13T07:00:25.233Z">
 <meta property="article:author" content="Demo">
 <meta property="article:tag" content="汇编">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.4k 字
+          3.7k 字
         
       </span>
     
@@ -245,7 +245,7 @@
         
         
         
-          29 分钟
+          31 分钟
         
       </span>
     
@@ -531,6 +531,13 @@
 </tr>
 </thead>
 </table>
+<p>在Windows 64位系统中，函数参数传递的顺序通常是按照以下规则：</p>
+<ol>
+<li><strong>整数和指针参数：</strong> 从左到右依次压入64位寄存器 <code>RCX</code>, <code>RDX</code>, <code>R8</code>, <code>R9</code>。如果参数超过4个或者是浮点数，则额外的参数通过栈传递。</li>
+<li><strong>浮点数参数：</strong> 浮点数参数通过 <code>XMM0</code>, <code>XMM1</code>, <code>XMM2</code>, <code>XMM3</code> 寄存器传递，超过4个或者是整数参数则通过栈传递。</li>
+</ol>
+<p>这种参数传递顺序适用于大多数的函数调用约定（calling convention）在Windows x64系统上。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/cpp/build/x64-calling-convention?view=msvc-170#parameter-passing">https://learn.microsoft.com/zh-cn/cpp/build/x64-calling-convention?view=msvc-170#parameter-passing</a></p>
 <h3 id="栈和栈桢"><a href="#栈和栈桢" class="headerlink" title="栈和栈桢"></a>栈和栈桢</h3><p>汇编中一般堆栈（stack）指的就是栈（stack），**区分堆(heap)、栈(stack)、堆栈(stack)**。</p>
 <p>堆栈帧（stack frame）（或活动记录（activation record））是一块堆栈保留区域，用于保存被传递的实际参数、子程序的返回值、局部变量以及被保存的寄存器。</p>
 <p>寄存器EBP指向当前的栈帧的底部，寄存器ESP指向当前的栈帧的顶部。  </p>
