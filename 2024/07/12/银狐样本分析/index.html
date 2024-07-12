@@ -23,25 +23,25 @@
 <meta property="og:site_name" content="Demo_博客">
 <meta property="og:description" content="来源：不只是黑产？疑似筹划 APT 攻击的”银狐”团伙攻击活动分析 12MD5：7468dd569c6c4087426012c9bb1b1227 Winos	41d9f4201c9090f2009727664431e80d Winos  样本执行流程图如下  两个样本功能一致，以第二个文件为例   显示加壳vmp2，但实际虽然存在vmp反调试的保护，但是未发现对代码段进行加密。 脱壳后发现第一层功">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://wangchenchina.github.io/image-20240712133850017-1720765090972.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712133850017.png">
 <meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711133333907.png">
 <meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711133854001.png">
-<meta property="og:image" content="http://wangchenchina.github.io/image-20240711134723542-1720765099077.png">
-<meta property="og:image" content="http://wangchenchina.github.io/image-20240711155147459-1720765100632.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711134723542.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711155147459.png">
 <meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/屏幕截图%202024-07-12%20091101.png">
 <meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712092655769.png">
 <meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712092825023.png">
 <meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712093838570.png">
 <meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712100834454.png">
-<meta property="og:image" content="http://wangchenchina.github.io/image-20240712101327403-1720765114665.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712101327403.png">
 <meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712105914038.png">
 <meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712110427598.png">
 <meta property="article:published_time" content="2024-07-12T06:16:58.000Z">
-<meta property="article:modified_time" content="2024-07-12T06:19:53.759Z">
+<meta property="article:modified_time" content="2024-07-12T06:33:15.641Z">
 <meta property="article:author" content="Demo">
 <meta property="article:tag" content="银狐">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://wangchenchina.github.io/image-20240712133850017-1720765090972.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712133850017.png">
   
   
   
@@ -303,7 +303,7 @@
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs llvm">MD<span class="hljs-number">5</span>：<span class="hljs-number">7468</span>dd<span class="hljs-number">569</span><span class="hljs-keyword">c</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span><span class="hljs-number">4087426012</span><span class="hljs-keyword">c</span><span class="hljs-number">9</span>bb<span class="hljs-number">1</span>b<span class="hljs-number">1227</span> Winos<br>	<span class="hljs-number">41</span>d<span class="hljs-number">9</span>f<span class="hljs-number">4201</span><span class="hljs-keyword">c</span><span class="hljs-number">9090</span>f<span class="hljs-number">2009727664431e80</span>d Winos<br></code></pre></td></tr></table></figure>
 
 <p>样本执行流程图如下</p>
-<p><img src="/image-20240712133850017-1720765090972.png" srcset="/img/loading.gif" lazyload alt="image-20240712133850017"></p>
+<p><img src="/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712133850017.png" srcset="/img/loading.gif" lazyload alt="image-20240712133850017"></p>
 <p>两个样本功能一致，以第二个文件为例</p>
 <img src="image-20240711133333907.png" srcset="/img/loading.gif" lazyload alt="image-20240711133333907"  />
 
@@ -312,9 +312,9 @@
 <img src="image-20240711133854001.png" srcset="/img/loading.gif" lazyload alt="image-20240711133854001" style="zoom:67%;" />
 
 <p>执行shellcode之后首先会对自身再进行一次异或解密</p>
-<p><img src="/image-20240711134723542-1720765099077.png" srcset="/img/loading.gif" lazyload alt="image-20240711134723542"></p>
+<p><img src="/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711134723542.png" srcset="/img/loading.gif" lazyload alt="image-20240711134723542"></p>
 <p>动态获取VirtualAlloc、VirtualFree、RtlZeroMemory等函数地址，供下一步使用</p>
-<p><img src="/image-20240711155147459-1720765100632.png" srcset="/img/loading.gif" lazyload alt="image-20240711155147459"></p>
+<p><img src="/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711155147459.png" srcset="/img/loading.gif" lazyload alt="image-20240711155147459"></p>
 <p>使用VirtualAlloc申请内存，使用RtlCopyMemory将palyload复制到内存地址中。可以看出palyload是一个PE文件，dump后可以进行进一步分析。</p>
 <img src="屏幕截图 2024-07-12 091101.png" srcset="/img/loading.gif" lazyload alt="屏幕截图 2024-07-12 091101" style="zoom:67%;" />
 
@@ -331,7 +331,7 @@
 <img src="image-20240712100834454.png" srcset="/img/loading.gif" lazyload alt="image-20240712100834454" style="zoom:67%;" />
 
 <p>如果进程具备管理者权限则进行下一步工作</p>
-<p><img src="/image-20240712101327403-1720765114665.png" srcset="/img/loading.gif" lazyload alt="image-20240712101327403"></p>
+<p><img src="/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712101327403.png" srcset="/img/loading.gif" lazyload alt="image-20240712101327403"></p>
 <p>判断是否存在360Tray.exe进程，如果存在，则在相应的目录下生成文件，并设置对应的注册表项。</p>
 <p>上面的操作包括下面的使用explorer.exe断链启动，遍历进程确保WeGame.exe启动，结束360Tray.exe占用，都是为了<strong>绕过360核晶</strong>。</p>
 <img src="image-20240712105914038.png" srcset="/img/loading.gif" lazyload alt="image-20240712105914038" style="zoom:80%;" />
