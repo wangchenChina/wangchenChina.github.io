@@ -16,21 +16,36 @@
   <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="MSI lessmsi工具  msiexec命令   1msiexec &#x2F;a test.msi &#x2F;qb TARGETDIR&#x3D;D:\test  NSIS官网对反编译的解释 https:&#x2F;&#x2F;nsis.sourceforge.io&#x2F;Can_I_decompile_an_existing_installer#Extraction_Tools 可以使用7zip工具  https:&#x2F;&#x2F;7-zip.org&#x2F; 另">
+    <meta name="description" content="来源：不只是黑产？疑似筹划 APT 攻击的”银狐”团伙攻击活动分析 12MD5：7468dd569c6c4087426012c9bb1b1227 Winos	41d9f4201c9090f2009727664431e80d Winos  样本执行流程图如下  两个样本功能一致，以第二个文件为例   显示加壳vmp2，但实际虽然存在vmp反调试的保护，但是未发现对代码段进行加密。 脱壳后发现第一层功">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MSI、NSIS、AutoIt以及CHM分析工具">
-<meta property="og:url" content="http://wangchenchina.github.io/2023/01/11/MSI%E3%80%81NSIS%E3%80%81AutoIt%E4%BB%A5%E5%8F%8ACHM%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:title" content="银狐样本分析">
+<meta property="og:url" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="Demo_博客">
-<meta property="og:description" content="MSI lessmsi工具  msiexec命令   1msiexec &#x2F;a test.msi &#x2F;qb TARGETDIR&#x3D;D:\test  NSIS官网对反编译的解释 https:&#x2F;&#x2F;nsis.sourceforge.io&#x2F;Can_I_decompile_an_existing_installer#Extraction_Tools 可以使用7zip工具  https:&#x2F;&#x2F;7-zip.org&#x2F; 另">
+<meta property="og:description" content="来源：不只是黑产？疑似筹划 APT 攻击的”银狐”团伙攻击活动分析 12MD5：7468dd569c6c4087426012c9bb1b1227 Winos	41d9f4201c9090f2009727664431e80d Winos  样本执行流程图如下  两个样本功能一致，以第二个文件为例   显示加壳vmp2，但实际虽然存在vmp反调试的保护，但是未发现对代码段进行加密。 脱壳后发现第一层功">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-01-11T08:51:47.000Z">
-<meta property="article:modified_time" content="2024-06-25T02:28:45.473Z">
+<meta property="og:image" content="http://wangchenchina.github.io/image-20240712133850017-1720765090972.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711133333907.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711133854001.png">
+<meta property="og:image" content="http://wangchenchina.github.io/image-20240711134723542-1720765099077.png">
+<meta property="og:image" content="http://wangchenchina.github.io/image-20240711155147459-1720765100632.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/屏幕截图%202024-07-12%20091101.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712092655769.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712092825023.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712093838570.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712100834454.png">
+<meta property="og:image" content="http://wangchenchina.github.io/image-20240712101327403-1720765114665.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712105914038.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712110427598.png">
+<meta property="article:published_time" content="2024-07-12T06:16:58.000Z">
+<meta property="article:modified_time" content="2024-07-12T06:19:53.759Z">
 <meta property="article:author" content="Demo">
+<meta property="article:tag" content="银狐">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://wangchenchina.github.io/image-20240712133850017-1720765090972.png">
   
   
   
-  <title>MSI、NSIS、AutoIt以及CHM分析工具 - Demo_博客</title>
+  <title>银狐样本分析 - Demo_博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -207,7 +222,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="MSI、NSIS、AutoIt以及CHM分析工具"></span>
+            <span id="subtitle" data-typed-text="银狐样本分析"></span>
           
         </div>
 
@@ -218,8 +233,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-01-11 16:51" pubdate>
-          2023年1月11日 下午
+        <time datetime="2024-07-12 14:16" pubdate>
+          2024年7月12日 下午
         </time>
       </span>
     
@@ -230,7 +245,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          455 字
+          828 字
         
       </span>
     
@@ -241,7 +256,7 @@
         
         
         
-          4 分钟
+          7 分钟
         
       </span>
     
@@ -279,35 +294,55 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">MSI、NSIS、AutoIt以及CHM分析工具</h1>
+            <h1 style="display: none">银狐样本分析</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="MSI"><a href="#MSI" class="headerlink" title="MSI"></a>MSI</h3><ol>
-<li><p>lessmsi工具</p>
-</li>
-<li><p>msiexec命令</p>
-</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">msiexec /a test.msi /qb TARGETDIR=D:\test<br></code></pre></td></tr></table></figure>
+                <p>来源：<a target="_blank" rel="noopener" href="https://paper.seebug.org/3192/">不只是黑产？疑似筹划 APT 攻击的”银狐”团伙攻击活动分析</a></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs llvm">MD<span class="hljs-number">5</span>：<span class="hljs-number">7468</span>dd<span class="hljs-number">569</span><span class="hljs-keyword">c</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span><span class="hljs-number">4087426012</span><span class="hljs-keyword">c</span><span class="hljs-number">9</span>bb<span class="hljs-number">1</span>b<span class="hljs-number">1227</span> Winos<br>	<span class="hljs-number">41</span>d<span class="hljs-number">9</span>f<span class="hljs-number">4201</span><span class="hljs-keyword">c</span><span class="hljs-number">9090</span>f<span class="hljs-number">2009727664431e80</span>d Winos<br></code></pre></td></tr></table></figure>
 
-<h3 id="NSIS"><a href="#NSIS" class="headerlink" title="NSIS"></a>NSIS</h3><p>官网对反编译的解释 <a target="_blank" rel="noopener" href="https://nsis.sourceforge.io/Can_I_decompile_an_existing_installer#Extraction_Tools">https://nsis.sourceforge.io/Can_I_decompile_an_existing_installer#Extraction_Tools</a></p>
-<p>可以使用<strong>7zip</strong>工具  <a target="_blank" rel="noopener" href="https://7-zip.org/">https://7-zip.org/</a></p>
-<p>另：分析可参考，NSIS用户手册中文版 <a target="_blank" rel="noopener" href="https://www.wenjiangs.com/doc/5d4zeojt">https://www.wenjiangs.com/doc/5d4zeojt</a></p>
-<h3 id="AutoIt"><a href="#AutoIt" class="headerlink" title="AutoIt"></a>AutoIt</h3><p>AutoIt3 Decompiler</p>
-<p>升级版 <a target="_blank" rel="noopener" href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=1774093">https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=1774093</a></p>
-<h3 id="CHM"><a href="#CHM" class="headerlink" title="CHM"></a>CHM</h3><ol>
-<li><p>ChmDecompiler工具</p>
-</li>
-<li><p>hh命令</p>
-</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hh -decompile  &lt;输出路径&gt;  &lt;目标chm文件&gt;<br></code></pre></td></tr></table></figure>
+<p>样本执行流程图如下</p>
+<p><img src="/image-20240712133850017-1720765090972.png" srcset="/img/loading.gif" lazyload alt="image-20240712133850017"></p>
+<p>两个样本功能一致，以第二个文件为例</p>
+<img src="image-20240711133333907.png" srcset="/img/loading.gif" lazyload alt="image-20240711133333907"  />
 
+<p>显示加壳vmp2，但实际虽然存在vmp反调试的保护，但是未发现对代码段进行加密。</p>
+<p>脱壳后发现第一层功能较为简单，加载“shellcode”资源，解密后执行</p>
+<img src="image-20240711133854001.png" srcset="/img/loading.gif" lazyload alt="image-20240711133854001" style="zoom:67%;" />
 
+<p>执行shellcode之后首先会对自身再进行一次异或解密</p>
+<p><img src="/image-20240711134723542-1720765099077.png" srcset="/img/loading.gif" lazyload alt="image-20240711134723542"></p>
+<p>动态获取VirtualAlloc、VirtualFree、RtlZeroMemory等函数地址，供下一步使用</p>
+<p><img src="/image-20240711155147459-1720765100632.png" srcset="/img/loading.gif" lazyload alt="image-20240711155147459"></p>
+<p>使用VirtualAlloc申请内存，使用RtlCopyMemory将palyload复制到内存地址中。可以看出palyload是一个PE文件，dump后可以进行进一步分析。</p>
+<img src="屏幕截图 2024-07-12 091101.png" srcset="/img/loading.gif" lazyload alt="屏幕截图 2024-07-12 091101" style="zoom:67%;" />
 
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42591908/article/details/112089065">https://blog.csdn.net/weixin_42591908/article/details/112089065</a></p>
+<p>内存中动态加载系统dll</p>
+<img src="image-20240712092655769.png" srcset="/img/loading.gif" lazyload alt="image-20240712092655769" style="zoom: 80%;" />
+
+<p>跳转到加载的恶意Dll入口位置，执行payload</p>
+<img src="image-20240712092825023.png" srcset="/img/loading.gif" lazyload alt="image-20240712092825023" style="zoom:80%;" />
+
+<p>导出的palyload dll程序基本与网上曝漏的银狐组件一致</p>
+<img src="image-20240712093838570.png" srcset="/img/loading.gif" lazyload alt="image-20240712093838570" style="zoom: 67%;" />
+
+<p>获取C2配置信息，然后将包含C2配置信息的ShellCode代码设置为相应的注册表项</p>
+<img src="image-20240712100834454.png" srcset="/img/loading.gif" lazyload alt="image-20240712100834454" style="zoom:67%;" />
+
+<p>如果进程具备管理者权限则进行下一步工作</p>
+<p><img src="/image-20240712101327403-1720765114665.png" srcset="/img/loading.gif" lazyload alt="image-20240712101327403"></p>
+<p>判断是否存在360Tray.exe进程，如果存在，则在相应的目录下生成文件，并设置对应的注册表项。</p>
+<p>上面的操作包括下面的使用explorer.exe断链启动，遍历进程确保WeGame.exe启动，结束360Tray.exe占用，都是为了<strong>绕过360核晶</strong>。</p>
+<img src="image-20240712105914038.png" srcset="/img/loading.gif" lazyload alt="image-20240712105914038" style="zoom:80%;" />
+
+<p>启动colorcpl.exe进程，然后查询之前包含C2配置信息的注册表项的ShellCode代码，然后将里面shellcode代码注入到colorcpl.exe进程</p>
+<img src="image-20240712110427598.png" srcset="/img/loading.gif" lazyload alt="image-20240712110427598" style="zoom:80%;" />
+
+<p>shellcode属于winos生成木马，包含明显的C2配置。</p>
+<p><strong>参考：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/14807">https://xz.aliyun.com/t/14807</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/388013.html">https://www.freebuf.com/articles/web/388013.html</a></p>
 
                 
               </div>
@@ -326,7 +361,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="category-chain-item">基础知识</a>
+  <a href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" class="category-chain-item">样本分析</a>
   
   
 
@@ -338,6 +373,13 @@
     </div>
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%93%B6%E7%8B%90/">#银狐</a>
+      
+    </div>
+  
 </div>
 
 
@@ -346,8 +388,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>MSI、NSIS、AutoIt以及CHM分析工具</div>
-      <div>http://wangchenchina.github.io/2023/01/11/MSI、NSIS、AutoIt以及CHM分析工具/</div>
+      <div>银狐样本分析</div>
+      <div>http://wangchenchina.github.io/2024/07/12/银狐样本分析/</div>
     </div>
     <div class="license-meta">
       
@@ -359,7 +401,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年1月11日</div>
+          <div>2024年7月12日</div>
         </div>
       
       
@@ -391,18 +433,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/01/30/Windows%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0/" title="Windows日志学习">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Windows日志学习</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/12/12/%E5%85%B3%E4%BA%8EATT-CK/" title="关于ATT&amp;CK">
-                        <span class="hidden-mobile">关于ATT&amp;CK</span>
+                      <a href="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/" title="Agent Tesla变种分析">
+                        <span class="hidden-mobile">Agent Tesla变种分析</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
