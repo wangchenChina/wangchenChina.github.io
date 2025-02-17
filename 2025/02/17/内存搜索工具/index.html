@@ -16,28 +16,25 @@
   <meta name="author" content="Demo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="来源：163邮箱向某国有媒体实施钓鱼邮件攻击，主题内容较为精准 附件文件名：totboqnxd.zip等 文件MD5：834DE43CB81A7C96F53E79F146A3EBA2 压缩包密码为“123”（进一步说明，监测设备还是需要有一些常用密码进行解压检测的） 解压缩后明显存在winos隐藏文件夹，“财务查看”符合银狐的常见攻击手法   很明显病毒的主体为DropperV2.dll，MD5:">
+    <meta name="description" content="使用python编写，用于应急处置时根据特定字符串（域名、IP、操作符等）定位可疑进程 https:&#x2F;&#x2F;github.com&#x2F;wangchenChina&#x2F;Memory_Searcher 不指定PID时默认搜索所有进程  指定PID可以输出指定字符串所在的内存地址，以及其前后10字节的数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="疑似银狐钓鱼样本">
-<meta property="og:url" content="http://wangchenchina.github.io/2024/11/29/%E7%96%91%E4%BC%BC%E9%93%B6%E7%8B%90%E9%92%93%E9%B1%BC%E6%A0%B7%E6%9C%AC/index.html">
+<meta property="og:title" content="内存搜索工具">
+<meta property="og:url" content="http://wangchenchina.github.io/2025/02/17/%E5%86%85%E5%AD%98%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7/index.html">
 <meta property="og:site_name" content="Demo_博客">
-<meta property="og:description" content="来源：163邮箱向某国有媒体实施钓鱼邮件攻击，主题内容较为精准 附件文件名：totboqnxd.zip等 文件MD5：834DE43CB81A7C96F53E79F146A3EBA2 压缩包密码为“123”（进一步说明，监测设备还是需要有一些常用密码进行解压检测的） 解压缩后明显存在winos隐藏文件夹，“财务查看”符合银狐的常见攻击手法   很明显病毒的主体为DropperV2.dll，MD5:">
+<meta property="og:description" content="使用python编写，用于应急处置时根据特定字符串（域名、IP、操作符等）定位可疑进程 https:&#x2F;&#x2F;github.com&#x2F;wangchenChina&#x2F;Memory_Searcher 不指定PID时默认搜索所有进程  指定PID可以输出指定字符串所在的内存地址，以及其前后10字节的数据">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/11/29/%E7%96%91%E4%BC%BC%E9%93%B6%E7%8B%90%E9%92%93%E9%B1%BC%E6%A0%B7%E6%9C%AC/image-20241129101556632.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/11/29/%E7%96%91%E4%BC%BC%E9%93%B6%E7%8B%90%E9%92%93%E9%B1%BC%E6%A0%B7%E6%9C%AC/image-20241129102617621.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/11/29/%E7%96%91%E4%BC%BC%E9%93%B6%E7%8B%90%E9%92%93%E9%B1%BC%E6%A0%B7%E6%9C%AC/image-20241129103504509.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/11/29/%E7%96%91%E4%BC%BC%E9%93%B6%E7%8B%90%E9%92%93%E9%B1%BC%E6%A0%B7%E6%9C%AC/image-20241129103623322.png">
-<meta property="og:image" content="http://wangchenchina.github.io/2024/11/29/%E7%96%91%E4%BC%BC%E9%93%B6%E7%8B%90%E9%92%93%E9%B1%BC%E6%A0%B7%E6%9C%AC/image-20241129105206368.png">
-<meta property="article:published_time" content="2024-11-29T03:23:43.000Z">
-<meta property="article:modified_time" content="2024-11-29T05:12:10.087Z">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/02/17/%E5%86%85%E5%AD%98%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7/image-20250217103823430.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/02/17/%E5%86%85%E5%AD%98%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7/image-20250217104006627.png">
+<meta property="article:published_time" content="2025-02-17T02:40:23.000Z">
+<meta property="article:modified_time" content="2025-02-17T02:47:24.094Z">
 <meta property="article:author" content="Demo">
-<meta property="article:tag" content="银狐">
+<meta property="article:tag" content="应急处置工具">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://wangchenchina.github.io/2024/11/29/%E7%96%91%E4%BC%BC%E9%93%B6%E7%8B%90%E9%92%93%E9%B1%BC%E6%A0%B7%E6%9C%AC/image-20241129101556632.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2025/02/17/%E5%86%85%E5%AD%98%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7/image-20250217103823430.png">
   
   
   
-  <title>疑似银狐钓鱼样本 - Demo_博客</title>
+  <title>内存搜索工具 - Demo_博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +211,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="疑似银狐钓鱼样本"></span>
+            <span id="subtitle" data-typed-text="内存搜索工具"></span>
           
         </div>
 
@@ -225,8 +222,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-29 11:23" pubdate>
-          2024年11月29日 上午
+        <time datetime="2025-02-17 10:40" pubdate>
+          2025年2月17日 上午
         </time>
       </span>
     
@@ -237,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          729 字
+          140 字
         
       </span>
     
@@ -248,7 +245,7 @@
         
         
         
-          7 分钟
+          2 分钟
         
       </span>
     
@@ -286,37 +283,17 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">疑似银狐钓鱼样本</h1>
+            <h1 style="display: none">内存搜索工具</h1>
             
             
               <div class="markdown-body">
                 
-                <p>来源：163邮箱向某国有媒体实施钓鱼邮件攻击，主题内容较为精准</p>
-<p>附件文件名：totboqnxd.zip等</p>
-<p>文件MD5：834DE43CB81A7C96F53E79F146A3EBA2</p>
-<p>压缩包密码为“123”（进一步说明，监测设备还是需要有一些常用密码进行解压检测的）</p>
-<p>解压缩后明显存在<strong>winos</strong>隐藏文件夹，“财务查看”符合银狐的常见攻击手法</p>
-<img src="image-20241129101556632.png" srcset="/img/loading.gif" lazyload alt="image-20241129101556632" style="zoom: 80%;" />
-
-<p>很明显病毒的主体为DropperV2.dll，MD5:5813AF8217A2B9F415A8797E7B3CEEC4</p>
-<p>从文件名可以看出这是一个加载器，用IDA打开发现存在PDB路径</p>
-<p><img src="/2024/11/29/%E7%96%91%E4%BC%BC%E9%93%B6%E7%8B%90%E9%92%93%E9%B1%BC%E6%A0%B7%E6%9C%AC/image-20241129102617621.png" srcset="/img/loading.gif" lazyload alt="image-20241129102617621"></p>
-<p>根据master特征，从github上搜索可以发现开源项目<a target="_blank" rel="noopener" href="https://github.com/0xjbb/httpdropper">https://github.com/0xjbb/httpdropper</a></p>
-<p>经过对比，基本可以确定样本就是使用该项目进行开发的</p>
-<p>查询VT免杀的效果还可以 <strong>5&#x2F;71</strong>（截至2024.11.29）</p>
-<h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>从远程服务器下载shellcode保存</p>
-<img src="image-20241129103504509.png" srcset="/img/loading.gif" lazyload alt="image-20241129103504509" style="zoom:80%;" />
-
-<p>动态加载函数，并创建进程执行下载到的shellcode</p>
-<img src="image-20241129103623322.png" srcset="/img/loading.gif" lazyload alt="image-20241129103623322" style="zoom:80%;" />
-
-<p>shellcode的免杀效果更好，<strong>3&#x2F;61</strong>，其中瑞星报警名为 <strong>Backdoor.SilverFox&#x2F;x64!1.104D7 (CLASSIC)</strong> ，标记为银狐组织</p>
-<p>shellcode主要功能仍然是一段下载器，尝试连接C2地址的6655端口，先发送数据“7A”，再接收下载</p>
-<img src="image-20241129105206368.png" srcset="/img/loading.gif" lazyload alt="image-20241129105206368" style="zoom:80%;" />
-
-<h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><p>奇怪的是C2的6655端口没有开放，资产测绘也没有发现打开过该端口，且该IP属于香港Tcloudnet，境内访问受限。</p>
-<p>银狐已经成为国内黑产的代称，winos也是开源的远控工具，且此次攻击手法一般，并没有发现银狐类似的代码特征，也存在没有下载到下一阶段载荷，分析不彻底的可能。</p>
-<p>IOC：206.238.196.244</p>
+                <p>使用python编写，用于应急处置时根据特定字符串（域名、IP、操作符等）定位可疑进程</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wangchenChina/Memory_Searcher">https://github.com/wangchenChina/Memory_Searcher</a></p>
+<p>不指定PID时默认搜索所有进程</p>
+<p><img src="/2025/02/17/%E5%86%85%E5%AD%98%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7/image-20250217103823430.png" srcset="/img/loading.gif" lazyload alt="image-20250217103823430"></p>
+<p>指定PID可以输出指定字符串所在的内存地址，以及其前后10字节的数据</p>
+<p><img src="/2025/02/17/%E5%86%85%E5%AD%98%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7/image-20250217104006627.png" srcset="/img/loading.gif" lazyload alt="image-20250217104006627"></p>
 
                 
               </div>
@@ -335,7 +312,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" class="category-chain-item">样本分析</a>
+  <a href="/categories/%E5%85%B6%E4%BB%96/" class="category-chain-item">其他</a>
   
   
 
@@ -350,7 +327,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E9%93%B6%E7%8B%90/">#银狐</a>
+        <a href="/tags/%E5%BA%94%E6%80%A5%E5%A4%84%E7%BD%AE%E5%B7%A5%E5%85%B7/">#应急处置工具</a>
       
     </div>
   
@@ -362,8 +339,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>疑似银狐钓鱼样本</div>
-      <div>http://wangchenchina.github.io/2024/11/29/疑似银狐钓鱼样本/</div>
+      <div>内存搜索工具</div>
+      <div>http://wangchenchina.github.io/2025/02/17/内存搜索工具/</div>
     </div>
     <div class="license-meta">
       
@@ -375,7 +352,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年11月29日</div>
+          <div>2025年2月17日</div>
         </div>
       
       
@@ -407,18 +384,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/02/17/%E5%86%85%E5%AD%98%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7/" title="内存搜索工具">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">内存搜索工具</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/12/%E6%9F%A5%E6%9D%80%E5%B7%A5%E5%85%B7/" title="查杀工具">
-                        <span class="hidden-mobile">查杀工具</span>
+                      <a href="/2024/11/29/%E7%96%91%E4%BC%BC%E9%93%B6%E7%8B%90%E9%92%93%E9%B1%BC%E6%A0%B7%E6%9C%AC/" title="疑似银狐钓鱼样本">
+                        <span class="hidden-mobile">疑似银狐钓鱼样本</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
