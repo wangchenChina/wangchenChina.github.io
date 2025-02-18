@@ -23,20 +23,20 @@
 <meta property="og:site_name" content="Demo_博客">
 <meta property="og:description" content="样本信息   文件名 优盘资料.exe    MD5 E9A6B1346D1A2447CABB980F3CC5DD27   SHA1 FE102A75E319AAB20F030299DF3A0A36204B4019   CRC32 0C8F34FB   文件大小 139,264字节   病毒类型 Trojan.Win32.Vague.bn     使用C++编写，文件图标为文件夹图片，应该属于蠕虫">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:/Users/wangchen/Desktop/Markdown/Vague病毒分析/image-20250217132729169.png">
-<meta property="og:image" content="c:/Users/wangchen/Desktop/Markdown/Vague病毒分析/image-20250217145117544.png">
-<meta property="og:image" content="c:/Users/wangchen/Desktop/Markdown/Vague病毒分析/image-20250218150136113.png">
-<meta property="og:image" content="c:/Users/wangchen/Desktop/Markdown/Vague病毒分析/image-20250217150427142.png">
-<meta property="og:image" content="c:/Users/wangchen/Desktop/Markdown/Vague病毒分析/image-20250217151305601.png">
-<meta property="og:image" content="c:/Users/wangchen/Desktop/Markdown/Vague病毒分析/image-20250217151445210.png">
-<meta property="og:image" content="c:/Users/wangchen/Desktop/Markdown/Vague病毒分析/image-20250218154953128.png">
-<meta property="og:image" content="c:/Users/wangchen/Desktop/Markdown/Vague病毒分析/image-20250218160244736.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/02/18/Vague%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20250217132729169.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/02/18/Vague%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20250217145117544.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/02/18/Vague%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20250218150136113.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/02/18/Vague%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20250217150427142.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/02/18/Vague%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20250217151305601.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/02/18/Vague%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20250217151445210.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/02/18/Vague%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20250218154953128.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/02/18/Vague%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20250218160244736.png">
 <meta property="article:published_time" content="2025-02-18T08:23:43.000Z">
-<meta property="article:modified_time" content="2025-02-18T08:29:39.973Z">
+<meta property="article:modified_time" content="2025-02-18T08:41:44.765Z">
 <meta property="article:author" content="Demo">
 <meta property="article:tag" content="Vague">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="c:/Users/wangchen/Desktop/Markdown/Vague病毒分析/image-20250217132729169.png">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2025/02/18/Vague%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20250217132729169.png">
   
   
   
@@ -322,10 +322,10 @@
 <td>Trojan.Win32.Vague.bn</td>
 </tr>
 </tbody></table>
-<img src="C:\Users\wangchen\Desktop\Markdown\Vague病毒分析\image-20250217132729169.png" srcset="/img/loading.gif" lazyload alt="image-20250217132729169" style="zoom: 80%;" />
+<img src="image-20250217132729169.png" srcset="/img/loading.gif" lazyload alt="image-20250217132729169" style="zoom: 80%;" />
 
 <p>使用C++编写，文件图标为文件夹图片，应该属于蠕虫样本。</p>
-<h3 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h3><h4 id="主函数WinMain"><a href="#主函数WinMain" class="headerlink" title="主函数WinMain"></a>主函数WinMain</h4><img src="C:\Users\wangchen\Desktop\Markdown\Vague病毒分析\image-20250217145117544.png" srcset="/img/loading.gif" lazyload alt="image-20250217145117544" style="zoom: 67%;" />
+<h3 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h3><h4 id="主函数WinMain"><a href="#主函数WinMain" class="headerlink" title="主函数WinMain"></a>主函数WinMain</h4><img src="image-20250217145117544.png" srcset="/img/loading.gif" lazyload alt="image-20250217145117544" style="zoom: 67%;" />
 
 <ul>
 <li><p>注册窗口类，其中窗口函数负责处理定时器任务，然后创建窗口并隐藏</p>
@@ -347,13 +347,13 @@
 </li>
 <li><p>解析系统Recent目录下lnk文件，将最近访问过的 .doc、.docx、.pdf、.mvd、 .tif、 .xls、.xlsx文件和<code>%temp%\winword4.doc</code>，使用winrar程序打包进<code>%temp%\WPDNSE\XXXXXXXX.NLS</code></p>
 <p>（定时器一也会执行此方法）</p>
-<img src="C:\Users\wangchen\Desktop\Markdown\Vague病毒分析\image-20250218150136113.png" srcset="/img/loading.gif" lazyload alt="image-20250218150136113" style="zoom:67%;" />
+<img src="image-20250218150136113.png" srcset="/img/loading.gif" lazyload alt="image-20250218150136113" style="zoom:67%;" />
 </li>
 <li><p>创建三个定时器时间间隔分别为1小时、1分钟零1毫秒、10秒零2毫秒</p>
 </li>
 </ul>
 <h4 id="窗口函数"><a href="#窗口函数" class="headerlink" title="窗口函数"></a>窗口函数</h4><p>窗口函数的主要功能是处理三个定时器</p>
-<img src="C:\Users\wangchen\Desktop\Markdown\Vague病毒分析\image-20250217150427142.png" srcset="/img/loading.gif" lazyload alt="image-20250217150427142" style="zoom: 67%;" />
+<img src="image-20250217150427142.png" srcset="/img/loading.gif" lazyload alt="image-20250217150427142" style="zoom: 67%;" />
 
 <ul>
 <li><p><strong>定时器一：</strong>解析系统Recent目录下lnk文件，将最近访问过的 .doc、.docx、.pdf、.mvd、 .tif、 .xls、.xlsx文件和<code>%temp%\winword4.doc</code>，使用winrar程序打包进<code>%temp%\WPDNSE\XXXXXXXX.NLS</code></p>
@@ -364,19 +364,19 @@
 <li><p><strong>定时器三：</strong>遍历系统内的所有驱动器，收集文件，并感染可移动存储介质</p>
 </li>
 </ul>
-<h4 id="感染逻辑（定时器三）"><a href="#感染逻辑（定时器三）" class="headerlink" title="感染逻辑（定时器三）"></a>感染逻辑（定时器三）</h4><img src="C:\Users\wangchen\Desktop\Markdown\Vague病毒分析\image-20250217151305601.png" srcset="/img/loading.gif" lazyload alt="image-20250217151305601" style="zoom:67%;" />
+<h4 id="感染逻辑（定时器三）"><a href="#感染逻辑（定时器三）" class="headerlink" title="感染逻辑（定时器三）"></a>感染逻辑（定时器三）</h4><img src="image-20250217151305601.png" srcset="/img/loading.gif" lazyload alt="image-20250217151305601" style="zoom:67%;" />
 
 <p>如果磁盘是可移动驱动器，执行以下操作：</p>
-<img src="C:\Users\wangchen\Desktop\Markdown\Vague病毒分析\image-20250217151445210.png" srcset="/img/loading.gif" lazyload alt="image-20250217151445210" style="zoom:67%;" />
+<img src="image-20250217151445210.png" srcset="/img/loading.gif" lazyload alt="image-20250217151445210" style="zoom:67%;" />
 
 <ul>
 <li>复制自身到\RECYCLER\Dcfly.exe，若同名文件已经存在，比较两者的文件时间，如果比当前版本新，则执行U盘上的新版本，退出当前进程</li>
 </ul>
-<img src="C:\Users\wangchen\Desktop\Markdown\Vague病毒分析\image-20250218154953128.png" srcset="/img/loading.gif" lazyload alt="image-20250218154953128" style="zoom:67%;" />
+<img src="image-20250218154953128.png" srcset="/img/loading.gif" lazyload alt="image-20250218154953128" style="zoom:67%;" />
 
 <ul>
 <li><p>遍历U盘根目录的文件夹（跳过<code>Recycled,RECYCLER,System Volume Information</code>），隐藏文件夹，将自身拷贝成同名文件，欺骗用户点击</p>
-<img src="C:\Users\wangchen\Desktop\Markdown\Vague病毒分析\image-20250218160244736.png" srcset="/img/loading.gif" lazyload alt="image-20250218160244736" style="zoom:67%;" />
+<img src="image-20250218160244736.png" srcset="/img/loading.gif" lazyload alt="image-20250218160244736" style="zoom:67%;" />
 </li>
 <li><p>将 <code>%temp%\WPDNSE\*.NLS</code>和<code>%temp%\Media\*.ldf</code>拷贝到<code>\RECYCLER\</code>目录下并隐藏，拷贝命令如下</p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">C:\windows\system32\xcopy.exe <span class="hljs-string">/d</span> <span class="hljs-string">/c</span> <span class="hljs-string">/i</span> <span class="hljs-string">/h</span> <span class="hljs-string">/r</span> <span class="hljs-string">/y</span> %temp%\WPDNSE\*<span class="hljs-string">.NLS</span> X:\RECYCLER\<br>C:\windows\system32\xcopy.exe <span class="hljs-string">/d</span> <span class="hljs-string">/c</span> <span class="hljs-string">/i</span> <span class="hljs-string">/h</span> <span class="hljs-string">/r</span> <span class="hljs-string">/y</span> %temp%\Media\*<span class="hljs-string">.ldf</span> X:\RECYCLER\<br></code></pre></td></tr></table></figure>
